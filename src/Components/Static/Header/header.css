@@ -59,13 +59,6 @@
   animation-delay: 0.3s;
 }
 
-.header li:nth-child(2) {
-  animation-delay: 0.6s;
-}
-.header li:nth-child(3) {
-  animation-delay: 0.9s;
-}
-
 .header li {
   transition: all 0.2s ease-in-out;
     display: inline-block;
@@ -90,4 +83,13 @@
   background-color:rgb(224, 224, 224);
   transform: scale(1.1);
   border:1px solid white
+}
+
+.nav2{
+    display: inline;
+    position: absolute;
+}
+
+nav{
+    margin-right: 15rem;
 }
