@@ -1,9 +1,9 @@
 .img_main{
     z-index: -1;
     width:1000px;
-    height: 923px;
+    height: 100%;
     position: absolute;
-    display: inline;
+    display: inline-block;
     left:56.465rem;
     bottom: 0.6rem;
 }
