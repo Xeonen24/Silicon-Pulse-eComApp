@@ -9,19 +9,11 @@
     justify-content: center;
     background-color: rgb(255, 115, 115);
     animation: slide-in 1s ease-in-out;
-    border-top-right-radius: 5rem;
-    border-top-left-radius: 0.4rem;
-    border-bottom-left-radius: 5rem;
-    border-bottom-right-radius: 0.4rem;
 }
 @keyframes slide-in {
     from {
       opacity: 0;
-      transform: translateX(100%);
-      border-top-left-radius: 0rem;
-      border-top-right-radius: 0rem;
-      border-bottom-right-radius: 0rem;
-      border-bottom-left-radius: 0rem;
+      transform: translateX(-100%);
     }
     to {
         opacity: 100;
@@ -33,7 +25,7 @@
   @keyframes slide-in-left {
     from {
       opacity: 0;
-      transform: translateX(1000%);
+      transform: translateX(-1000%);
     }
     to {
       opacity: 1;
