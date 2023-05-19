@@ -35,7 +35,7 @@
 
 .header ul {
     list-style-type: none;
-    margin: 0;
+    margin:0;
     padding: 0;
     animation: slide-in 1.2s ease-in-out;
 }
@@ -77,11 +77,21 @@
   border:1px solid white
 }
 
-.nav2{
+#nav2{
     display: inline;
     position: absolute;
+    right:7rem;
+}
+#nav3{
+    display: inline;
+    position: absolute;
+    left:5rem;
 }
 
 nav{
-    margin-right: 15rem;
+    margin-right:0rem;
+}
+.logoTitle{
+  position: relative;
+  margin-left:20rem;
 }
