@@ -1,0 +1,44 @@
+
+.footer {
+    display: flex;
+    background-color: #f0f0f0;
+    animation: slide-in 1s ease-in-out;
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    width: 97%;
+    text-align: center;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .text {
+    color: #888;
+    font-size: 14px;
+    margin: 5px;
+  }
+  
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0%);
+    }
+  }
+  
+  @keyframes slide-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(-1000%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0%);
+    }
+  }
+  
