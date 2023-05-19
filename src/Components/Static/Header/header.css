@@ -6,8 +6,9 @@
 
 .header {
     display: flex;
+    margin-top: 2.5rem;
     justify-content: center;
-    background-color: rgb(255, 115, 115);
+    background-color: rgb(255, 115, 115,0);
     animation: slide-in 1s ease-in-out;
 }
 @keyframes slide-in {
@@ -85,13 +86,9 @@
 #nav3{
     display: inline;
     position: absolute;
-    left:5rem;
+    left:7rem;
 }
 
 nav{
-    margin-right:0rem;
-}
-.logoTitle{
-  position: relative;
-  margin-left:20rem;
+    margin-right:40rem;
 }
