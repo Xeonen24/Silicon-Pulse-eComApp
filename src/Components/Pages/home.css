@@ -1,6 +1,6 @@
 .img_main{
     z-index: -1;
-    width:53%;
+    width:52.92%;
     height: 100%;
     position: absolute;
     display: inline-block;
@@ -8,6 +8,7 @@
     bottom: 0.6rem;
 }
 .main_name{
+    z-index: -1;
     position: relative;
     margin-left: 8.2rem;
     margin-top: 10rem;

@@ -1,69 +1,65 @@
-
 @import url('https://fonts.googleapis.com/css?family=Google+Sans');
+
 :root {
   font-family: 'Google Sans', sans-serif;
 }
 
 .header {
-    display: flex;
-    margin-top: 2.5rem;
-    justify-content: center;
-    background-color: rgb(255, 115, 115,0);
-    animation: slide-in 1s ease-in-out;
+  display: flex;
+  margin-top: 2.5rem;
+  justify-content: center;
+  background-color: rgb(255, 115, 115, 0);
+  animation: slide-in 1s ease-in-out;
 }
-@keyframes slide-in {
-    from {
-      opacity: 0;
-      transform: translateX(-100%);
-    }
-    to {
-        opacity: 100;
-      transform: translateX(0%);
-      
-    }
-  }
 
-  @keyframes slide-in-left {
-    from {
-      opacity: 0;
-      transform: translateX(-1000%);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0%);
-    }
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
   }
+  to {
+    opacity: 100;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-1000%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
 
 .header ul {
-    list-style-type: none;
-    margin:0;
-    padding: 0;
-    animation: slide-in 1.2s ease-in-out;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  animation: slide-in 1.2s ease-in-out;
 }
 
 .header li {
   opacity: 0;
-  float:left;
+  float: left;
   transform: translateX(100%);
   animation: slide-in-left 1s ease-in-out forwards;
 }
 
-.header li:nth-child(1) {
-  animation-delay: 0.3s;
-}
-
 .header li {
   transition: all 0.2s ease-in-out;
-    display: inline-block;
-    border-radius: 1rem;
-    border: 1px transparent solid;
-    color: #000;
-    text-align: center;
-    text-decoration: none;
-    font-size: 1.1rem;
-    cursor: pointer;
-    margin: 0.5rem 0rem 0.5rem 0.3rem;
-    padding: 0.5rem 1rem 0.5rem 1rem;
+  display: inline-block;
+  border-radius: 1rem;
+  border: 1px transparent solid;
+  color: #000;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin: 0.5rem 0rem 0.5rem 0.3rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
 }
 
 .header li:hover {
@@ -73,22 +69,76 @@
 
 .header li.active {
   transition: 0.4s ease-in-out;
-  background-color:rgb(255, 155, 155);
+  background-color: rgb(255, 155, 155);
   transform: scale(1.1);
-  border:1px solid white
+  border: 1px solid white;
 }
 
-#nav2{
-    display: inline;
-    position: absolute;
-    right:7rem;
-}
-#nav3{
-    display: inline;
-    position: absolute;
-    left:7rem;
+#nav2 {
+  display: inline;
+  position: absolute;
+  right: 7rem;
 }
 
-nav{
-    margin-right:40rem;
+#nav3 {
+  display: inline;
+  position: absolute;
+  left: 7rem;
 }
+
+nav {
+  margin-right: 40rem;
+}
+
+.dropdown-box {
+  margin-top: 1rem;
+  display: inline-block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 200px;
+  background-color: #fff;
+  padding: 5px 5px 5px 0px;
+  box-shadow: 10px 8px 7px 1px rgba(0, 0, 53, 0.25);
+  animation: dropdown-slidedown 0.6s ease-in-out;
+  border: 1px rgba(0, 0, 0, 0.096) solid;
+}
+
+@keyframes dropdown-slidedown {
+  from {
+    opacity: 0;
+    transform: translateY(-200px);
+  }
+  to {
+    opacity: 100;
+    transform: translateY(0px);
+  }
+}
+
+/* Responsive Styles */
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    margin-top: 1.5rem;
+  }
+
+  .header li {
+    display: block;
+    margin: 0.5rem auto;
+    transform: none;
+  }
+
+  #nav2,
+  #nav3 {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .header li {
+    font-size: 0.9rem;
+  }
+}
+
+/* Add more media queries as needed for different screen sizes */
