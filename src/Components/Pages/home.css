@@ -1,11 +1,15 @@
-.img_main{
+/* Default styles for all screens */
+.img_main {
     z-index: -1;
-    width:52.92%;
+    width: 53%;
     height: 100%;
     position: absolute;
     display: inline-block;
-    left:56.465rem;
+    left: 56.465rem;
     bottom: 0.6rem;
+  }
+  
+  .main_name {
 }
 .main_name{
     z-index: -1;
@@ -13,14 +17,16 @@
     margin-left: 8.2rem;
     margin-top: 10rem;
     font-size: 3rem;
-}
-.subhead_name{
+  }
+  
+  .subhead_name {
     margin-left: 8.2rem;
     font-size: 20px;
     margin-bottom: 5rem;
     font-weight: 500;
-}
-.home_btn{
+  }
+  
+  .home_btn {
     position: relative;
     margin-left: 8.2rem;
     font-size: 25px;
@@ -34,10 +40,57 @@
     transition: all 0.4s ease;
     cursor: pointer;
     transform: scale(1);
-}
-.home_btn:hover{
+  }
+  
+  .home_btn:hover {
     transform: scale(1.07);
-}
-.home_btn:active{
+  }
+  
+  .home_btn:active {
     background-color: rgb(109, 109, 109);
-}
+  }
+  
+  /* Media queries for responsive adjustments */
+  
+  /* Styles for screens with a maximum width of 768px */
+  @media (max-width: 768px) {
+    .img_main {
+      width: 100%;
+      left: 0;
+      bottom: 0;
+      margin: 0 auto;
+    }
+  
+    .main_name,
+    .subhead_name,
+    .home_btn {
+      margin-left: 10rem;
+      text-align: center;
+    }
+
+    .img_main {
+        z-index: -1;
+        width: 100%;
+        height: 90%;
+        margin-left: 0rem;
+        margin-bottom: 7rem;
+    }
+    
+    
+    .main_name {
+      font-size: 2rem;
+      margin-top: 1rem;
+      margin-right: 10rem;
+    }
+  
+    .subhead_name {
+      margin-bottom: 3rem;
+      margin-right: 10rem;
+
+    }
+  
+    .home_btn {
+      width: 50%;
+    }
+  }
+  
