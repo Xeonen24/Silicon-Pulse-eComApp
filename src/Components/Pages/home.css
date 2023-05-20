@@ -10,6 +10,9 @@
   }
   
   .main_name {
+}
+.main_name{
+    z-index: -1;
     position: relative;
     margin-left: 8.2rem;
     margin-top: 10rem;
