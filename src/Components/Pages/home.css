@@ -1,0 +1,42 @@
+.img_main{
+    z-index: -1;
+    width:53%;
+    height: 100%;
+    position: absolute;
+    display: inline-block;
+    left:56.465rem;
+    bottom: 0.6rem;
+}
+.main_name{
+    position: relative;
+    margin-left: 8.2rem;
+    margin-top: 10rem;
+    font-size: 3rem;
+}
+.subhead_name{
+    margin-left: 8.2rem;
+    font-size: 20px;
+    margin-bottom: 5rem;
+    font-weight: 500;
+}
+.home_btn{
+    position: relative;
+    margin-left: 8.2rem;
+    font-size: 25px;
+    font-weight: 500;
+    padding: 1rem 1.6rem 1rem 2rem;
+    width: 6.5%;
+    background-color: black;
+    color: white;
+    border-radius: 7%;
+    box-shadow: 10px 8px 7px 1px rgba(0, 0, 53, 0.25);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    transform: scale(1);
+}
+.home_btn:hover{
+    transform: scale(1.07);
+}
+.home_btn:active{
+    background-color: rgb(109, 109, 109);
+}

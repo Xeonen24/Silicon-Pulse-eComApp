@@ -1,19 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Google+Sans');
-:root {
-  font-family: 'Google Sans', sans-serif;
-}
-
-/* Footer.css */
 
 .footer {
     display: flex;
     background-color: #f0f0f0;
     animation: slide-in 1s ease-in-out;
     padding: 20px;
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    left: 0;
-    width: 100%;
+    width: 97%;
     text-align: center;
   }
   .container {
@@ -30,11 +23,7 @@
   @keyframes slide-in {
     from {
       opacity: 0;
-      transform: translateX(-100%);
-      border-top-left-radius: 0rem;
-      border-top-right-radius: 0rem;
-      border-bottom-right-radius: 0rem;
-      border-bottom-left-radius: 0rem;
+      transform: translateX(100%);
     }
     to {
       opacity: 1;

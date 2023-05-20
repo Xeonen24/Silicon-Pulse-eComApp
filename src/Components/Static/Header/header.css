@@ -6,22 +6,15 @@
 
 .header {
     display: flex;
+    margin-top: 2.5rem;
     justify-content: center;
-    background-color: rgb(255, 115, 115);
+    background-color: rgb(255, 115, 115,0);
     animation: slide-in 1s ease-in-out;
-    border-top-right-radius: 5rem;
-    border-top-left-radius: 0.4rem;
-    border-bottom-left-radius: 5rem;
-    border-bottom-right-radius: 0.4rem;
 }
 @keyframes slide-in {
     from {
       opacity: 0;
-      transform: translateX(100%);
-      border-top-left-radius: 0rem;
-      border-top-right-radius: 0rem;
-      border-bottom-right-radius: 0rem;
-      border-bottom-left-radius: 0rem;
+      transform: translateX(-100%);
     }
     to {
         opacity: 100;
@@ -33,7 +26,7 @@
   @keyframes slide-in-left {
     from {
       opacity: 0;
-      transform: translateX(1000%);
+      transform: translateX(-1000%);
     }
     to {
       opacity: 1;
@@ -43,7 +36,7 @@
 
 .header ul {
     list-style-type: none;
-    margin: 0;
+    margin:0;
     padding: 0;
     animation: slide-in 1.2s ease-in-out;
 }
@@ -70,26 +63,32 @@
     font-size: 1.1rem;
     cursor: pointer;
     margin: 0.5rem 0rem 0.5rem 0.3rem;
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
 }
 
 .header li:hover {
-  border: 1px white solid;
+  border: 1px rgb(255, 115, 115) solid;
   transition: 0.34s ease-in-out;
 }
 
 .header li.active {
   transition: 0.4s ease-in-out;
-  background-color:rgb(224, 224, 224);
+  background-color:rgb(255, 155, 155);
   transform: scale(1.1);
   border:1px solid white
 }
 
-.nav2{
+#nav2{
     display: inline;
     position: absolute;
+    right:7rem;
+}
+#nav3{
+    display: inline;
+    position: absolute;
+    left:7rem;
 }
 
 nav{
-    margin-right: 15rem;
+    margin-right:40rem;
 }
