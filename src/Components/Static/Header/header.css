@@ -60,6 +60,7 @@
   cursor: pointer;
   margin: 0.5rem 0rem 0.5rem 0.3rem;
   padding: 0.5rem 1rem 0.5rem 1rem;
+  text-shadow: 2px 2px 8px #00000054;
 }
 
 .header li:hover {
@@ -85,6 +86,10 @@
   position: absolute;
   left: 7rem;
 }
+#nav1{
+  z-index: 1;
+  position: relative;
+}
 
 nav {
   margin-right: 40rem;
@@ -102,6 +107,8 @@ nav {
   box-shadow: 10px 8px 7px 1px rgba(0, 0, 53, 0.25);
   animation: dropdown-slidedown 0.6s ease-in-out;
   border: 1px rgba(0, 0, 0, 0.096) solid;
+  z-index: 2;
+  border-radius: 1rem;
 }
 
 @keyframes dropdown-slidedown {
@@ -123,15 +130,34 @@ nav {
     margin-top: 1.5rem;
   }
 
-  .header li {
-    display: block;
-    margin: 0.5rem auto;
-    transform: none;
+  #nav1{
+    z-index: 1;
+    position: absolute;
+    right: 10rem;
   }
 
+  nav{
+    margin-left: 14rem;
+    }
+  .header li {
+    display: block;
+    margin: 0.5rem;
+    transform: none;
+  }
+  #nav1 li{
+    color: white;
+  }
   #nav2,
   #nav3 {
     display: none;
+  }
+  .dropdown-box{
+    background-color: rgb(255, 155, 155);
+    width: 210px;
+    }
+    .header li:hover {
+      border: 1px rgb(255, 255, 255) solid;
+      transition: 0.34s ease-in-out;
   }
 }
 

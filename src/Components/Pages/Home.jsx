@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
     return (
-        <div>
             <div className="main_div">
                 <h1 className="main_name">Silicon Pulses </h1>
                 <p className="subhead_name">
@@ -18,7 +17,6 @@ const Home = () => {
                     alt=""
                 />
             </div>           
-        </div>
     );
 }
 
