@@ -7,6 +7,7 @@ import "./header.css";
 const Header = () => {
   const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
 
   useEffect(() => {
@@ -15,9 +16,17 @@ const Header = () => {
       setActiveLink(storedActiveLink);
     }
   }, []);
+
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
+
+  const toggleUserDropdown = (e) => {
+    if (!e.target.closest(".userDropdown")) {
+      setIsDropdownVisible(!isDropdownVisible);
+    }
+  };
+  
   useEffect(() => {
     setActiveLink(location.pathname);
     localStorage.setItem("activeLink", location.pathname);
@@ -83,7 +92,7 @@ const Header = () => {
             </Link>
           </ul>
           <ul id="nav2">
-            <Link to='/signup'>
+            <li onClick={toggleUserDropdown}>
               <FontAwesomeIcon
                 icon={faUser}
                 style={{
@@ -93,13 +102,34 @@ const Header = () => {
                   marginRight: "20px",
                 }}
               />
-            </Link>
-            <Link>
-              <FontAwesomeIcon
-                icon={faCartShopping}
-                style={{ color: "white", fontSize: "24px", marginTop: "24px" }}
-              />
-            </Link>
+              {isDropdownVisible && (
+                <div className="userDropdown">
+                  <form className="loginForm">
+                    <label>Username</label>
+                    <input type="text" name="username"></input>
+                    <label>Password</label>
+                    <input type="text" name="password"></input>
+                    <button className="login_btn" type="submit">Login</button>
+                  </form>
+                  <hr className="loginhr"/>
+                  <h5 className="loginh5"><Link to="/signup">Don't have account?<br/>
+                    Click here.</Link>
+                  </h5>
+                </div>
+              )}
+            </li>
+            <li>
+              <Link>
+                <FontAwesomeIcon
+                  icon={faCartShopping}
+                  style={{
+                    color: "white",
+                    fontSize: "24px",
+                    marginTop: "24px",
+                  }}
+                />
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
