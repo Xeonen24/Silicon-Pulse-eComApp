@@ -83,7 +83,7 @@ const Header = () => {
             </Link>
           </ul>
           <ul id="nav2">
-            <Link>
+            <Link to='/signup'>
               <FontAwesomeIcon
                 icon={faUser}
                 style={{
