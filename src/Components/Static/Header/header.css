@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Google+Sans');
 
 :root {
-  font-family: 'Google Sans', sans-serif;
+  --aplared: rgb(255, 155, 155);
 }
 
 .header {
@@ -58,7 +58,7 @@
   text-decoration: none;
   font-size: 1.1rem;
   cursor: pointer;
-  margin: 0.5rem 0rem 0.5rem 0.3rem;
+  margin: 1rem 0rem 0.5rem 0.3rem;
   padding: 0.5rem 1rem 0.5rem 1rem;
   text-shadow: 2px 2px 8px #00000054;
 }
@@ -70,7 +70,7 @@
 
 .header li.active {
   transition: 0.4s ease-in-out;
-  background-color: rgb(255, 155, 155);
+  background-color: var(--aplared);
   transform: scale(1.1);
   border: 1px solid white;
 }
@@ -103,9 +103,9 @@ nav {
   left: 0;
   width: 200px;
   background-color: #fff;
-  padding: 5px 5px 5px 0px;
+  padding: 5px 80px 5px 0px;
   box-shadow: 10px 8px 7px 1px rgba(0, 0, 53, 0.25);
-  animation: dropdown-slidedown 0.6s ease-in-out;
+  animation: dropdown-slidedown 0.4s ease-in-out;
   border: 1px rgba(0, 0, 0, 0.096) solid;
   z-index: 2;
   border-radius: 1rem;
@@ -152,7 +152,7 @@ nav {
     display: none;
   }
   .dropdown-box{
-    background-color: rgb(255, 155, 155);
+    background-color: var(--aplared);
     width: 210px;
     }
     .header li:hover {
