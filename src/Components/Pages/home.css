@@ -9,7 +9,7 @@
     bottom: 0.6rem;
   }
   
-  .main_name {
+.main_name {
 }
 .main_name{
     z-index: -1;
@@ -78,19 +78,26 @@
     
     
     .main_name {
-      font-size: 2rem;
-      margin-top: 1rem;
-      margin-right: 10rem;
+        font-size: 4rem;
+        margin-top: 14rem;
+        margin-right: 10rem;
+        z-index: 0;
+        color: white;
+        text-shadow: 2px 2px 8px #00000054;
     }
   
     .subhead_name {
-      margin-bottom: 3rem;
-      margin-right: 10rem;
-
+        margin-bottom: 3rem;
+        margin-right: 10rem;
+        color: white;
+        text-shadow: 2px 2px 8px #00000054;
     }
   
     .home_btn {
-      width: 50%;
+        width: 20%;
+        margin-left: 18.5rem;
+        padding: 15px 15px 15px 15px;
+        border-radius: 1rem;
+        background-color: rgb(51, 51, 51);
     }
   }
-  
