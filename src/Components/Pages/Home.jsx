@@ -10,7 +10,7 @@ const Home = () => {
                 <p className="subhead_name">
                     The Ultimate Gaming Hardware Empssorium.
                 </p>
-                <Link to='product'><h4 className='home_btn'>Shop Now</h4></Link>
+                <Link to='product'><h4 className='home_btn' spellcheck="false">Shop Now</h4></Link>
                 <img
                     className="img_main"
                     src={image}
