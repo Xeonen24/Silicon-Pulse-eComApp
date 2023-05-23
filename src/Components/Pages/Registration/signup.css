@@ -10,7 +10,6 @@
     box-shadow: 0.5rem 0.5rem 0.5rem rgba(3, 0, 0, 0.2);
 }
 .signup-box:hover{
-    background-color: var(--aplared);
     box-shadow: 0.5rem 0.5rem 1rem rgb(88, 0, 0,0.5);
 }
 .signup-box:hover,.login-box:hover{
