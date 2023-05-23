@@ -1,0 +1,58 @@
+.signup-box{
+    padding: 1rem 1rem 1rem 1rem;
+    background-color: rgb(241, 241, 241);
+    transition: all 0.3s ease-in-out;
+    border-radius: 0.5rem;
+    width: 40%;
+    position: absolute;
+    left: 37rem;
+    top: 8.3rem;
+    box-shadow: 0.5rem 0.5rem 0.5rem rgba(3, 0, 0, 0.2);
+}
+.signup-box:hover{
+    background-color: var(--aplared);
+    box-shadow: 0.5rem 0.5rem 1rem rgb(88, 0, 0,0.5);
+}
+.signup-box:hover,.login-box:hover{
+    border-radius: 2rem;
+}
+.signup-form{
+    margin: 2rem 2rem 2rem 3.2rem;
+}
+
+.signup-form input{
+    transition: all 0.3s ease-in-out;
+    display: block;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border: none;
+    width: 40%;
+    outline: none;
+    border: 1px rgba(0, 255, 255, 0) solid;
+}
+.signup-form input:focus{
+    border: 1px cyan solid;
+    border-radius: 0.5rem;
+    background-color: rgb(160, 160, 160);
+    color: white;
+}
+.login-box{
+    transition: all 0.3s ease-in-out;
+    background-color:var(--aplared);
+    display: block;
+    position: absolute;
+    bottom:0rem;
+    width: 399.5px;
+    height: 457px;
+    left: 25rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+.logintitle{
+    position: absolute;
+    top: 7.5rem;
+    left: 4.4rem;
+    font-size: 22px;
+    font-weight: 400;
+}
