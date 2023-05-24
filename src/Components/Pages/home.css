@@ -56,10 +56,9 @@
     background-color: rgb(109, 109, 109);
 }
 
-/* Media queries for responsive adjustments */
+/* responsiveness */
 
-/* Styles for screens with a maximum width of 768px */
-@media (max-width: 768px) {
+@media (min-width: 768px) and (max-width: 915px) {
 
     /*tablet*/
     .img_main {
@@ -110,76 +109,95 @@
     }
 }
 
-
-@media (max-width: 390px) {
-
-    /**/
-    .main_name {
-        font-size: 2rem;
-        width: 50%;
-        /* Adjust the width to occupy the available space */
-        white-space: nowrap;
-        /* Ensure the text stays on a single line */
-        overflow: hidden;
-        /* Hide any overflowing text */
-        text-overflow: ellipsis;
-        position: relative;
-        right: 4rem;
-        bottom: 4rem;
-    }
-
-    .subhead_name {
-        font-size: 1rem;
-        padding: 0px;
-        width: 100%;
-        /* Adjust the width to occupy the available space */
-        white-space: nowrap;
-        /* Ensure the text stays on a single line */
-        overflow: hidden;
-        /* Hide any overflowing text */
-        text-overflow: ellipsis;
-        position: relative;
-        right: 10rem;
-        bottom: 3rem;
-    }
-
-    .home_btn {
-        width: 30%;
-        margin-left: 7rem;
-        padding: 15px 15px 15px 15px;
-        border-radius: 1rem;
-        background-color: rgb(51, 51, 51);
-        white-space: nowrap;
-        /* Ensure the text stays on a single line */
-        overflow: hidden;
-        /* Hide any overflowing text */
-        text-overflow: ellipsis;
-        /* Show an ellipsis (...) if the text overflows */
-    }
-
-    .img_main {
-        z-index: -1;
-        width: 100%;
-        height: 70%;
-        margin-left: 0rem;
-        margin-bottom: 16rem;
-    }
-}
-
-@media(max-width: 412px) {
+@media(max-width: 414px) {
 
     /*s20 ultra*/
     .main_name {
+        z-index: 1;
         font-size: 2rem;
-        width: 50%;
-        /* Adjust the width to occupy the available space */
+        position: relative;
+        left: -26px;
+        bottom: 0rem;
+        color: white;
+    }
+
+    .subhead_name {
+        font-size: 1rem;
         white-space: nowrap;
-        /* Ensure the text stays on a single line */
+        right: 5.199999999999999rem;
+        bottom: 1rem;
+        color: white;
+        position: relative;
+    }
+
+    .img_main {
+        z-index: -1;
+        width: 100%;
+        height: 186%;
+        position: relative;
+        left: 0rem;
+        bottom: 23.077rem;
+    }
+
+    .home_btn {
+        width: 19%;
+        margin-left: 7.9rem;
+        border-radius: 1rem;
+        background-color: rgb(51, 51, 51);
+        font-size: 1rem;
+        bottom: 3rem;
+    }
+}
+
+@media (min-width: 300px) and (max-width: 380px) {
+    .main_name {
+        font-size: 2.5rem;
+        width: 64%;
+        position: relative;
+        left: -3.5rem;
+        bottom: 2rem;
+    }
+
+    .img_main {
+        z-index: -1;
+        width: 99.9%;
+        height: 50%;
+        bottom: 17.5rem;
+        position: absolute;
+    }
+
+    .subhead_name {
+        font-size: 1rem;
+        padding: 0px;
+        width: auto;
+        position: relative;
+        white-space: nowrap;
+        right: 6.3rem;
+        bottom: 3rem;
+    }
+
+    .home_btn {
+        width: 26%;
+        margin-left: 5rem;
+        font-size: 1.2rem;
+        padding: 10px 0px 10px 10px;
+        position: relative;
+        border-radius: 1rem;
+        background-color: rgb(51, 51, 51);
+        bottom: 5rem;
+        left: 3rem;
+    }
+}
+
+@media (max-width: 280px) {
+    .main_name {
+        font-size: 1.8rem;
+        width: 70%;
+        white-space: nowrap;
         overflow: hidden;
-        /* Hide any overflowing text */
         text-overflow: ellipsis;
         position: relative;
-        right: 3.9rem;
+        left: -4rem;
         bottom: 4rem;
     }
 
@@ -187,127 +205,12 @@
         font-size: 1rem;
         padding: 0px;
         width: 100%;
-        /* Adjust the width to occupy the available space */
-        white-space: nowrap;
-        /* Ensure the text stays on a single line */
+        white-space: break-spaces;
         overflow: hidden;
-        /* Hide any overflowing text */
         text-overflow: ellipsis;
         position: relative;
-        right: 10.2rem;
-        bottom: 3rem;
-    }
-
-    .img_main {
-        z-index: -1;
-        width: 100.3%;
-        height: 70%;
-        margin-left: 0rem;
-        margin-bottom: 18rem;
-    }
-
-    .home_btn {
-        width: 30%;
-        margin-left: 7.5rem;
-        padding: 15px 15px 15px 15px;
-        border-radius: 1rem;
-        background-color: rgb(51, 51, 51);
-        white-space: nowrap;
-        /* Ensure the text stays on a single line */
-        overflow: hidden;
-        /* Hide any overflowing text */
-        text-overflow: ellipsis;
-        /* Show an ellipsis (...) if the text overflows */
-    }
-}
-
-@media (max-width: 320px) {
-
-    /* Styles applied for the specified device resolution */
-    /* Add your styles here */
-    .main_name {
-        font-size: 1.5rem;
-        width: 50%;
-        /* Adjust the width to occupy the available space */
-        white-space: nowrap;
-        /* Ensure the text stays on a single line */
-        overflow: hidden;
-        /* Hide any overflowing text */
-        text-overflow: ellipsis;
-        position: relative;
-        right: 4.5rem;
-        bottom: 7rem;
-    }
-
-    .img_main {
-        z-index: -1;
-        width: 107.3%;
-        height: 70%;
-        margin-left: 0rem;
-        margin-bottom: 10.8rem;
-    }
-
-    .subhead_name {
-        font-size: 0.8rem;
-        padding: 0px;
-        width: 100%;
-        /* Adjust the width to occupy the available space */
-        white-space: nowrap;
-        /* Ensure the text stays on a single line */
-        overflow: hidden;
-        /* Hide any overflowing text */
-        text-overflow: ellipsis;
-        position: relative;
-        right: 9.7rem;
-        bottom: 5rem;
-    }
-
-    .home_btn {
-        width: 40%;
-        margin-left: 5rem;
-        font-size: 1rem;
-        padding: 10px 10px 10px 10px;
-        position: relative;
-        border-radius: 1rem;
-        background-color: rgb(51, 51, 51);
-        white-space: nowrap;
-        /* Ensure the text stays on a single line */
-        overflow: hidden;
-        /* Hide any overflowing text */
-        text-overflow: ellipsis;
-        /* Show an ellipsis (...) if the text overflows */
-        bottom: 5.5rem;
-    }
-}
-
-@media (max-width: 280px){
-    .main_name {
-        font-size: 1.3rem;
-        width: 70%;
-        /* Adjust the width to occupy the available space */
-        white-space: nowrap;
-        /* Ensure the text stays on a single line */
-        overflow: hidden;
-        /* Hide any overflowing text */
-        text-overflow: ellipsis;
-        position: relative;
-        right: 7rem;
-        bottom: 7rem;
-    }
-
-    .subhead_name {
-        font-size: 0.87rem;
-        padding: 0px;
-        width: 100%;
-        /* Adjust the width to occupy the available space */
-        white-space: nowrap;
-        /* Ensure the text stays on a single line */
-        overflow: hidden;
-        /* Hide any overflowing text */
-        text-overflow: ellipsis;
-        position: relative;
-        right: 9.3rem;
-        bottom: 5rem;
+        right: 5.5rem;
+        bottom: 4.3rem;
     }
 
     .img_main {
@@ -316,5 +219,12 @@
         height: 70%;
         margin-left: 0rem;
         margin-bottom: 12.3rem;
+    }
+
+    .home_btn {
+        width: 26%;
+        font-size: 0.9rem;
+        right: 3rem;
+        bottom: 7rem;
     }
 }
