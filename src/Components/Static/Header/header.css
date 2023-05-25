@@ -49,18 +49,16 @@
 }
 
 .header li {
-  transition: all 0.2s ease-in-out;
-  display: inline-block;
+  display: flex;
   border-radius: 1rem;
   border: 1px transparent solid;
   color: #000;
-  text-align: center;
-  text-decoration: none;
   font-size: 1.1rem;
   cursor: pointer;
-  margin: 1rem 0rem 0.5rem 0.3rem;
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  margin: 0rem 0rem 0.5rem 0.2rem;
+  padding: 0.3rem 0.75rem 0.3rem 0.75rem;
   text-shadow: 2px 2px 8px #00000054;
+  position: relative;
 }
 
 .header li:hover {

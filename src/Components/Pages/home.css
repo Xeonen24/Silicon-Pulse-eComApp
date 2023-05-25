@@ -58,7 +58,7 @@
 
 /* responsiveness */
 
-@media (min-width: 768px) and (max-width: 915px) {
+@media (min-width: 580px) and (max-width: 915px) {
 
     /*tablet*/
     .img_main {
@@ -149,10 +149,10 @@
     }
 }
 
-@media (min-width: 300px) and (max-width: 380px) {
+@media (min-width: 321px) and (max-width: 376px) {
     .main_name {
         font-size: 2.5rem;
-        width: 64%;
+        width: 67%;
         position: relative;
         left: -3.5rem;
         bottom: 2rem;
@@ -189,42 +189,36 @@
     }
 }
 
-@media (max-width: 280px) {
+@media (max-width: 320px) {
     .main_name {
-        font-size: 1.8rem;
+        font-size: 2rem;
         width: 70%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        position: relative;
-        left: -4rem;
+        display: block;
+        left: -3rem;
         bottom: 4rem;
     }
 
     .subhead_name {
         font-size: 1rem;
         padding: 0px;
-        width: 100%;
+        width: 70%;
         white-space: break-spaces;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        position: relative;
-        right: 5.5rem;
+        right: 2rem;
         bottom: 4.3rem;
     }
 
     .img_main {
         z-index: -1;
-        width: 108.8%;
+        width: 110%;
         height: 70%;
         margin-left: 0rem;
-        margin-bottom: 12.3rem;
+        bottom: 25rem;
     }
 
     .home_btn {
-        width: 26%;
-        font-size: 0.9rem;
-        right: 3rem;
+        width: 27%;
+        font-size: 1.1rem;
+        right: 1rem;
         bottom: 7rem;
     }
 }
