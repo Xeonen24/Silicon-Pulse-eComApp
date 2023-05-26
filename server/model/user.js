@@ -1,38 +1,48 @@
 const mongoose = require('mongoose');
-const jwt=require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
-const usersSchema =new mongoose.Schema({
-    username:{
-        type:String,
-        required:true,
-    },
-    email:{
-        type:String,
-        require:true,
-    },
-    password:{
-        type:String,
-        require:true,
-    },
-    password2:{
-        type:String,
-        require:true,
+const userSchema = new mongoose.Schema({
+   username: {
+       type: String,
+       trim: true,
+       required : [true, 'Enter your username'],
+       maxlength: 16
+   },
+   email: {
+       type: String,
+       trim: true,
+       required : [true, 'Enter a E-mail'],
+       unique: true,
+   },
+   password: {
+       type: String,
+       trim: true,
+       required : [true, 'Please add a Password'],
+       minlength: [4, 'password must have at least four(4) characters'],
+   },
+   password2: {
+    type: String,
+    trim: true,
+    required : [true, 'Please add a Password'],
+    minlength: [4, 'password must have at least four(4) characters'],
     },
     tokens:[
         {
             token:{
-                type:String,
+                type: String,
+                required:true
             }
         }
     ],
-    admin:{
-        type:Boolean,
-        default:false,
-    }
+   isAdmin:{
+    type: Boolean,
+    required: true,
+    default: false,
+   },
 
-},{timestamps: true});
+}, {timestamps: true});
 
-usersSchema.methods.generateAuthToken = async function () {
+userSchema.methods.generateAuthToken = async function () {
     try{
         let token =  jwt.sign({_id:this._id},process.env.JWT_SECRET)
         this.token = this.tokens.concat({token:token})
@@ -43,5 +53,5 @@ usersSchema.methods.generateAuthToken = async function () {
     }
 }
 
-const User = mongoose.model('USER',usersSchema);
-module.exports = User;
+const User = mongoose.model('USER',userSchema);
+module.exports = User; 
