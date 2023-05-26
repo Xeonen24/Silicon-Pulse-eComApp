@@ -12,15 +12,18 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      // Send the form data to the server
-      const response = await axios.post('/signup', {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      const response = await axios.post('http://localhost:5000/api/signup', {
         username,
         email,
         password,
-        password2,
-      });
+        password2
+      },config);
       console.log(response.data);
-      // Clear form fields after successful submission
       setUsername('');
       setEmail('');
       setPassword('');
@@ -29,7 +32,6 @@ const Signup = () => {
       console.error(error);
     }
     localStorage.setItem("username", username);
-    window.location.href='/login'
   };
 
   return (
