@@ -17,7 +17,6 @@ const Home = () => {
                     alt=""
                 />
             </div>           
-    );
+    )
 }
-
 export default Home;
