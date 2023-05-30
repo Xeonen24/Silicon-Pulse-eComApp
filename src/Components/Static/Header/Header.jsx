@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import Login from "../../Pages/Registration/Login";
+
 import "./header.css";
 
 const Header = () => {
   const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
 
   useEffect(() => {
@@ -19,12 +18,6 @@ const Header = () => {
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
-  };
-
-  const toggleUserDropdown = (e) => {
-    if (!e.target.closest(".userDropdown")) {
-      setIsDropdownVisible(!isDropdownVisible);
-    }
   };
   
   useEffect(() => {
@@ -91,46 +84,7 @@ const Header = () => {
               </li>
             </Link>
           </ul>
-          <ul id="nav2">
-            <li onClick={toggleUserDropdown}>
-              <FontAwesomeIcon
-                icon={faUser}
-                style={{
-                  color: "white",
-                  fontSize: "24px",
-                  marginTop: "24px",
-                  marginRight: "20px",
-                }}
-              />
-              {isDropdownVisible && (
-                <div className="userDropdown">
-                  <form className="loginForm">
-                    <label>Username</label>
-                    <input type="text" name="username"></input>
-                    <label>Password</label>
-                    <input type="text" name="password"></input>
-                    <button className="login_btn" type="submit">Login</button>
-                  </form>
-                  <hr className="loginhr"/>
-                  <h5 className="loginh5"><Link to="/signup">Don't have account?<br/>
-                    Click here.</Link>
-                  </h5>
-                </div>
-              )}
-            </li>
-            <li>
-              <Link>
-                <FontAwesomeIcon
-                  icon={faCartShopping}
-                  style={{
-                    color: "white",
-                    fontSize: "24px",
-                    marginTop: "24px",
-                  }}
-                />
-              </Link>
-            </li>
-          </ul>
+          <Login />
         </nav>
       </div>
     </div>
