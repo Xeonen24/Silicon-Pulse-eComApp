@@ -4,19 +4,21 @@ import "./product.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
+import intelImage from "../../../Images/intel.jpg";
+
 const Product = () => {
   const products = [
     {
       id: 1,
       title: "Intel Core i7 bate",
       price: "400$",
-      image: "../../../Images/intel.jpg"
+      image: intelImage
     },
     {
       id: 2,
       title: "Product 2",
       price: "200$",
-      image: "../../../Images/product2.jpg"
+      image: "../../../Images/product3.jpg"
     },
     {
       id: 3,
