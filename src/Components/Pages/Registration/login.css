@@ -4,6 +4,7 @@
     animation: none;
     left: 74rem;
     bottom: 2.6rem;
+    z-index: 5;
   }
   #nav2 li{
     animation: none;
@@ -24,7 +25,6 @@
     box-shadow: 10px 8px 7px 1px rgba(0, 0, 53, 0.25);
     animation: dropdown-slidedown 0.4s ease-in-out;
     border: 1px rgba(0, 0, 0, 0.096) solid;
-    z-index: 2;
     border-radius: 1rem;
     pointer-events: none;
   }
