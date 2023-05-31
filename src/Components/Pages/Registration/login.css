@@ -1,0 +1,91 @@
+#nav2 {
+    display: inline;
+    position: relative;
+    animation: none;
+    left: 74rem;
+    bottom: 2.6rem;
+    z-index: 5;
+  }
+  #nav2 li{
+    animation: none;
+    opacity: 100;
+    margin-left: 0px;
+    padding-left: 0px;
+  }
+
+  .userDropdown {
+    margin-top: 4rem;
+    display: inline-block;
+    position: absolute;
+    height: 0%;
+    left: 0;
+    width: 135px;
+    background-color: #fff;
+    padding: 20rem 4.5rem 5px 0px;
+    box-shadow: 10px 8px 7px 1px rgba(0, 0, 53, 0.25);
+    animation: dropdown-slidedown 0.4s ease-in-out;
+    border: 1px rgba(0, 0, 0, 0.096) solid;
+    border-radius: 1rem;
+    pointer-events: none;
+  }
+  .userDropdown form {
+    pointer-events: auto;
+  }
+  .loginForm{
+    position: absolute;
+    bottom: 11.7rem;
+  }
+  
+  .loginForm input{
+    transition: all 0.3s ease-in-out;
+    background-color: rgb(231, 231, 231);
+    display: block;
+    padding: 0.4rem;
+    border: none;
+    width: 92%;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    outline: none;
+    border: 1px rgba(0, 255, 255, 0) solid;
+  }
+  .userDropdown h5{
+    pointer-events: auto;
+  }
+  
+  .loginForm input:focus{
+    border: 1px var(--aplared) solid;
+    border-radius: 0.5rem;
+    background-color: rgb(196, 196, 196);
+    color: white;
+  }
+  
+  .login_btn {
+    position: absolute;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 0.2rem 0.4rem 0.4rem 0.2rem;
+    top: 9rem;
+    left:3.5rem;
+    width: 50%;
+    background-color: black;
+    color: white;
+    border-radius: 7%;
+    transition: all 0.4s ease;
+    cursor: pointer;
+  }
+  
+  .login_btn:hover {
+    background-color: rgb(85, 85, 85);
+  }
+  
+  .loginhr{
+    width: 150%;
+    position: relative;
+    bottom: 6.5rem;
+  }
+  
+  .loginh5{
+    position: relative;
+    bottom: 6rem;
+    left: 2.2rem;
+  }

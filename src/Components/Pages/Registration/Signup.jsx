@@ -31,7 +31,6 @@ const Signup = () => {
     } catch (error) {
       console.error(error);
     }
-    localStorage.setItem("username", username);
   };
 
   return (
