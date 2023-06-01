@@ -2,6 +2,7 @@ const express = require("express");
 const asyncHandler = require("express-async-handler");
 const router = express.Router();
 const USER = require("../model/user");
+const Product = require("../model/product");
 const authen = require("../midddleware/auth");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -67,13 +68,16 @@ router.post(
   })
 );
 
-router.get('/api/products', async (req, res) => {
+router.get('/products', async (req, res) => {
   try {
-    const products = await Product.find().populate('category');
+    // Fetch the products from the database
+    const products = await Product.find();
+
+    // Return the products as the response
     res.json(products);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to retrieve products' });
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
-
 module.exports = router;

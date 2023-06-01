@@ -49,5 +49,10 @@
 .item-price{
     margin-top: 5px;
     font-size: 16px;
+    text-decoration:line-through;
     color: white;
+}
+
+.item-dcprice{
+    color:white;
 }

@@ -1,15 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const slug = require("mongoose-slug-updater");
 
-const categorySchema = new mongoose.Schema({
-  type: { type: String, enum: ['Processors', 
-    'RAMs', 
-    'Motherboards', 
-    'Storage Drives', 
-    'Graphic Cards', 
-    'Power supplies', 
-    'Peripherals'], required: true },
+mongoose.plugin(slug);
+
+const categorySchema = Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  slug: {
+    type: String,
+    unique: true,
+    slug: "title",
+  },
 });
 
-const Category = mongoose.model('Category', categorySchema);
-
-module.exports = Category;
+module.exports = mongoose.model("Category", categorySchema);
