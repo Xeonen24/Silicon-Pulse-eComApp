@@ -1,162 +1,76 @@
 @import url('https://fonts.googleapis.com/css?family=Google+Sans');
-
 :root {
   --aplared: rgb(255, 155, 155);
 }
 
-.header {
-  display: flex;
-  margin-top: 2.5rem;
-  justify-content: center;
-  background-color: rgb(255, 115, 115, 0);
-  animation: slide-in 1s ease-in-out;
+.navbar-toggler {
+  transition: transform 0.5s ease;
 }
 
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  to {
-    opacity: 100;
-    transform: translateX(0%);
-  }
+.navbar-toggler.collapsed {
+  transform: rotate(0deg);
 }
 
-@keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-1000%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0%);
-  }
+.collapse.navbar-collapse {
+  transition: max-height 0.8s ease, opacity 0.8s ease;
 }
 
-.header ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  animation: slide-in 1.2s ease-in-out;
-}
-
-.header li {
+.dropdown-menu {
+  max-height: 0;
   opacity: 0;
-  float: left;
-  transform: translateX(100%);
-  animation: slide-in-left 1s ease-in-out forwards;
+  overflow: hidden;
+  transition: max-height 0.8s ease, opacity 0.8s ease;
+  padding: 0 !important; /* Remove padding with !important */
 }
 
-.header li {
-  display: flex;
-  border-radius: 1rem;
-  border: 1px transparent solid;
-  color: #000;
-  font-size: 1.1rem;
-  cursor: pointer;
-  margin: 0rem 0rem 0.5rem 0.2rem;
-  padding: 0.3rem 0.75rem 0.3rem 0.75rem;
-  text-shadow: 2px 2px 8px #00000054;
-  position: relative;
+.dropdown-menu.show {
+  max-height: 500px;
+  opacity: 1;
+  padding: 0 !important; /* Remove padding with !important */
 }
 
-.header li:hover {
-  border: 1px rgb(255, 115, 115) solid;
-  transition: 0.34s ease-in-out;
+.navbar-brand {
+  padding-left: 4rem;
+  margin-right: 5rem;
 }
 
-.header li.active {
-  transition: 0.4s ease-in-out;
-  background-color: var(--aplared);
-  transform: scale(1.1);
-  border: 1px solid white;
+.nav-comp {
+  transition: background-color 0.4s ease-in-out;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-#nav3 {
-  display: inline;
-  position: absolute;
-  left: 7rem;
-}
-#nav1{
-  z-index: 1;
-  position: relative;
+.nav-comp:hover {
+  background-color: rgb(255, 155, 155);
+  border-radius: 10px; /* Set the border radius to 50% for a circular shape */
+  transition: background-color 0.4s ease, border-radius 0.4s ease; /* Apply the same ease transition to both properties */
 }
 
-nav {
-  margin-right: 40rem;
+.nav-bar-all {
+  font-family: 'Google Sans', sans-serif;
+  padding-top: 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 10px;
 }
 
-.dropdown-box {
-  margin-top: 1rem;
-  display: inline-block;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 200px;
-  background-color: #fff;
-  padding: 5px 80px 5px 0px;
-  box-shadow: 10px 8px 7px 1px rgba(0, 0, 53, 0.25);
-  animation: dropdown-slidedown 0.4s ease-in-out;
-  border: 1px rgba(0, 0, 0, 0.096) solid;
-  z-index: 2;
-  border-radius: 1rem;
+.nav-drops {
+  margin-left: 0rem;
 }
 
-@keyframes dropdown-slidedown {
-  from {
-    opacity: 0;
-    transform: translateY(-200px);
-  }
-  to {
-    opacity: 100;
-    transform: translateY(0px);
-  }
+.nav-p {
+  
 }
 
-/* Responsive Styles */
-
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    margin-top: 1.5rem;
-  }
-
-  #nav1{
-    z-index: 1;
-    position: absolute;
-    right: 10rem;
-  }
-
-  nav{
-    margin-left: 14rem;
-    }
-  .header li {
-    display: block;
-    margin: 0.5rem;
-    transform: none;
-  }
-  #nav1 li{
-    color: white;
-  }
-  #nav2,
-  #nav3 {
-    display: none;
-  }
-  .dropdown-box{
-    background-color: var(--aplared);
-    width: 210px;
-    }
-    .header li:hover {
-      border: 1px rgb(255, 255, 255) solid;
-      transition: 0.34s ease-in-out;
-  }
+.nav-homya{
+  padding-right: 1rem;
+  padding-left: 1rem;
 }
 
-@media (max-width: 576px) {
-  .header li {
-    font-size: 0.9rem;
-  }
+.nav-padding{
+  padding-left: 4rem;
+  padding-right: 4rem;
 }
 
-/* Add more media queries as needed for different screen sizes */
+
+

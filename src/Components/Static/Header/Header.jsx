@@ -1,93 +1,63 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import Login from "../../Pages/Registration/Login";
-
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./header.css";
 
-const Header = () => {
-  const location = useLocation();
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [activeLink, setActiveLink] = useState("/");
+function Navbar() {
+  const [expanded, setExpanded] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  useEffect(() => {
-    const storedActiveLink = localStorage.getItem("activeLink");
-    if (storedActiveLink) {
-      setActiveLink(storedActiveLink);
-    }
-  }, []);
+  const toggleNavbar = () => {
+    setExpanded(!expanded);
+  };
 
   const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
+    setDropdownOpen(!dropdownOpen);
   };
-  
-  useEffect(() => {
-    setActiveLink(location.pathname);
-    localStorage.setItem("activeLink", location.pathname);
-  }, [location]);
 
   return (
-    <div>
-      <div className="header">
-        <nav>
-          <ul id="nav3">
-            <Link to="/">
-              <li className="logoTitle">logoplaceholder</li>
-            </Link>
-          </ul>
-          <ul id="nav1">
-            <Link to="/">
-              <li
-                className={activeLink === "/" ? "active" : ""}
-                onClick={() => setActiveLink("/")}
-              >
-                Home
-              </li>
-            </Link>
-            <li
-              className={activeLink === "/product" ? "active" : ""}
-              onClick={() => {
-                setActiveLink("/product");
-                toggleDropdown();
+    <nav className="navbar navbar-expand-lg navbar-white bg-white nav-bar-all">
+      <a className="navbar-brand" href="#">Navbar Placeholder</a>
+      <button
+        className={`navbar-toggler ${expanded ? '' : 'collapsed'}`}
+        type="button"
+        onClick={toggleNavbar}
+        aria-expanded={expanded}
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
+      <div className={`collapse navbar-collapse ${expanded ? 'show' : ''}`}>
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item nav-homya nav-comp">
+            <a className="nav-link  " href="#">Home</a>
+          </li>
+          <li className={`nav-item dropdown nav-comp ${dropdownOpen ? 'show' : ''}`}>
+            <a className="nav-link dropdown-toggle nav-comp nav-drops" href="#" onClick={toggleDropdown}>
+              Products
+            </a>
+            <div
+              className={`dropdown-menu ${dropdownOpen ? 'show' : ''}`}
+              style={{
+                maxHeight: dropdownOpen ? '500px' : '0',
+                opacity: dropdownOpen ? '1' : '0',
+                transition: 'max-height 0.5s ease, opacity 0.5s ease',
               }}
             >
-              Products
-              {showDropdown && (
-                <div className="dropdown-box">
-                  <ul id="dropdownn">
-                    <li>Components</li>
-                    <ol>
-                      <li>Processors</li>
-                      <li>RAMs</li>
-                      <li>Motherboards</li>
-                      <li>Storage Drives</li>
-                      <li>Graphic Cards</li>
-                      <li>Power supplies</li>
-                    </ol>
-                  </ul>
-                </div>
-              )}
-            </li>
-            <Link to="/about">
-              <li
-                className={activeLink === "/about" ? "active" : ""}
-                onClick={() => setActiveLink("/about")}
-              >
-                About
-              </li>
-            </Link>
-            <Link to="/contact">
-              <li
-                className={activeLink === "/contact" ? "active" : ""}
-                onClick={() => setActiveLink("/contact")}
-              >
-                Contact
-              </li>
-            </Link>
-          </ul>
-          <Login />
-        </nav>
+              <a className="dropdown-item" href="#">Action</a>
+              <a className="dropdown-item" href="#">Another action</a>
+              <a className="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          
+          <li className="nav-item nav-comp">
+            <a className="nav-link " href="#">About</a>
+          </li>
+          <li className="nav-item nav-comp nav-p">
+            <a className="nav-link" href="#">Pricing</a>
+          </li>
+        </ul>
       </div>
-    </div>
+    </nav>
   );
-};
-export default Header;
+}
+export default Navbar;
+  
