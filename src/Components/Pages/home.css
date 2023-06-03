@@ -9,9 +9,12 @@
     bottom: 0.6rem;
 }
 
+.link-cls{
+    text-decoration: none;
+}
 
 .main_name {
-    z-index: -1;
+    z-index: 1;
     position: relative;
     margin-left: 8.2rem;
     margin-top: 10rem;
@@ -36,7 +39,8 @@
     font-size: 25px;
     font-weight: 500;
     padding: 1rem 1.6rem 1rem 2rem;
-    width: 6.5%;
+    width: 11rem;
+    margin-left: 8.2rem;
     background-color: black;
     color: white;
     border-radius: 7%;
