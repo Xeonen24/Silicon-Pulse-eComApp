@@ -2,6 +2,8 @@ const express = require("express");
 const asyncHandler = require("express-async-handler");
 const router = express.Router();
 const USER = require("../model/user");
+const Product = require("../model/product");
+const Category = require("../model/category");
 const authen = require("../midddleware/auth");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -66,4 +68,34 @@ router.post(
     }
   })
 );
+
+router.get('/products', async (req, res) => {
+  try {
+    const products = await Product.find();
+
+    res.json(products);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+router.get("/products/:id", async (req, res) => {
+  const productId = req.params.id;
+  try {
+    const product = await Product.findById(productId).populate("category");
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    const categoryName = product.category.title;
+    const productWithCategory = { ...product.toObject(), category: categoryName };
+
+    res.json(productWithCategory);
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 module.exports = router;
