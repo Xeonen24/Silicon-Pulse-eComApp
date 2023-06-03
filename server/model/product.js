@@ -1,5 +1,7 @@
+// product.js
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Category = require("./category"); // Import the Category model
 
 const productSchema = Schema({
   productCode: {
@@ -14,7 +16,7 @@ const productSchema = Schema({
   imagePath: {
     type: String,
     required: true,
-    path:'public/images',
+    path: "public/images",
   },
   description: {
     type: String,
