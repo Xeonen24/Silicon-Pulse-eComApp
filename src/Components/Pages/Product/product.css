@@ -21,7 +21,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #ccc;
+    background-color: var(--aplared);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,6 +32,10 @@
   .cart-icon {
     color: white;
   }
+
+.product-link{
+    text-decoration: none;
+}
 
 .item-image{
     width: 100%;

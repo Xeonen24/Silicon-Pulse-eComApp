@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Google+Sans');
 
+*{
+  font-family: 'Google Sans';
+}
+
 :root {
   --aplared: rgb(255, 155, 155);
 }
