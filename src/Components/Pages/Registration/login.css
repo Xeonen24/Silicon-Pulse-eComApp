@@ -1,25 +1,11 @@
-#nav2 {
-    display: inline;
-    position: relative;
-    animation: none;
-    left: 74rem;
-    bottom: 2.6rem;
-    z-index: 5;
-  }
-  #nav2 li{
-    animation: none;
-    opacity: 100;
-    margin-left: 0px;
-    padding-left: 0px;
-  }
 
   .userDropdown {
     margin-top: 4rem;
     display: inline-block;
     position: absolute;
-    height: 0%;
-    left: 0;
-    width: 135px;
+    height: auto;
+    right: 1;
+    width: auto;
     background-color: #fff;
     padding: 20rem 4.5rem 5px 0px;
     box-shadow: 10px 8px 7px 1px rgba(0, 0, 53, 0.25);
@@ -33,17 +19,21 @@
   }
   .loginForm{
     position: absolute;
-    bottom: 11.7rem;
+    top: 2rem;
   }
   
+  .nav-link:hover {
+    border: 1px solid var(--aplared);
+    border-radius: 10px; 
+  }
+
   .loginForm input{
     transition: all 0.3s ease-in-out;
     background-color: rgb(231, 231, 231);
     display: block;
     padding: 0.4rem;
-    border: none;
-    width: 92%;
-    margin-left: 0.5rem;
+    width: 90%;
+    margin-left: 0.75rem;
     margin-top: 0.5rem;
     outline: none;
     border: 1px rgba(0, 255, 255, 0) solid;
@@ -60,32 +50,39 @@
   }
   
   .login_btn {
-    position: absolute;
+    position: relative;
+    bottom: 0;
+    height: auto;
     font-size: 18px;
     font-weight: 500;
-    padding: 0.2rem 0.4rem 0.4rem 0.2rem;
-    top: 9rem;
-    left:3.5rem;
-    width: 50%;
+    padding: 0.4em 1rem 0.4rem 1rem;
+    left:5.5rem;
+    width: auto;
     background-color: black;
     color: white;
     border-radius: 7%;
-    transition: all 0.4s ease;
+    transition: all 0.4s ease-in-out;
     cursor: pointer;
   }
   
   .login_btn:hover {
     background-color: rgb(85, 85, 85);
+    transform: scale(1.01);
   }
   
   .loginhr{
-    width: 150%;
-    position: relative;
-    bottom: 6.5rem;
+    width: 100%;
+    position: absolute;
+    bottom: 5.5rem;
   }
   
-  .loginh5{
+  .loginLink {
+    text-decoration: none;
+    color: red;
     position: relative;
-    bottom: 6rem;
-    left: 2.2rem;
+    bottom: 1rem;
+    left: 2.3rem;
+    z-index: 1;
+    pointer-events: all;
   }
+  

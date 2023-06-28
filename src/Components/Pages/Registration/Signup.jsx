@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './signup.css';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -68,6 +69,9 @@ const Signup = () => {
       </form>
       <div className='login-box'>
         <h3 className='logintitle'>Already have an account?</h3>
+        <Link to ='/login'>
+        <span className='loginbutton' type='submit'>Login</span>
+        </Link>
       </div>
     </div>
   );

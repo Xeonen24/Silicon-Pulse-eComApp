@@ -9,8 +9,8 @@
     bottom: 0.6rem;
 }
 
-.link-cls{
-    text-decoration: none;
+.main_div{
+    width: 50%;
 }
 
 .main_name {
@@ -19,6 +19,7 @@
     margin-left: 8.2rem;
     margin-top: 10rem;
     font-size: 3rem;
+    width: auto;
 }
 
 .subhead_name {
@@ -34,25 +35,22 @@
 }
 
 .home_btn {
-    position: relative;
-    margin-left: 8.2rem;
-    font-size: 25px;
+    position: absolute;    
+    left: 8rem;
+    font-size: 30px;
+    width: auto;
     font-weight: 500;
     padding: 1rem 1.6rem 1rem 2rem;
-    width: 11rem;
-    margin-left: 8.2rem;
     background-color: black;
     color: white;
-    border-radius: 7%;
-    box-shadow: 10px 8px 7px 1px rgba(0, 0, 53, 0.25);
+    border-radius: 1rem;
+    box-shadow: 7px 7px 15px 1px rgba(0, 0, 53, 0.3);
     transition: all 0.4s ease;
     cursor: pointer;
-    transform: scale(1);
     border-bottom: 0px red transparent;
 }
-
 .home_btn:hover {
-    transform: scale(1.07);
+    transform: scale(1.03);
 }
 
 .home_btn:active {

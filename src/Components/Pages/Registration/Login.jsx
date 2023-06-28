@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./login.css";
 
 const Login = () => {
@@ -11,26 +12,30 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const handleFormSubmit = async (e) => {
-		e.preventDefault();
-		try {
-		  const response = await axios.post('http://localhost:5000/api/login', {
-			username,
-			password
-		  }, {
-			withCredentials: true,
-			headers: {
-			  'Content-Type': 'application/json'
-			}
-		  });
-		  if (response.status === 400) {
-			window.alert('Invalid credentials');
-		  } else {
-			window.alert('Login successful');
-		  }
-		} catch (error) {
-		  console.error(error);
-		}
-	  };
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/login",
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 400) {
+        window.alert("Invalid credentials");
+      } else {
+        window.alert("Login successful");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const toggleUserDropdown = (e) => {
     if (!e.target.closest(".userDropdown")) {
@@ -39,14 +44,15 @@ const Login = () => {
   };
   return (
     <>
-      <ul id="nav2">
-        <li onClick={toggleUserDropdown}>
+      <ul className="navbar-nav ms-auto">
+        <li className="nav-link" onClick={toggleUserDropdown}>
           <FontAwesomeIcon
             icon={faUser}
             style={{
               color: "black",
               fontSize: "24px",
-              paddingLeft: "10px",
+              paddingTop: "5px",
+              paddingLeft: "1px",
             }}
           />
           {isDropdownVisible && (
@@ -71,24 +77,25 @@ const Login = () => {
                 </button>
               </form>
               <hr className="loginhr" />
-              <h5 className="loginh5">
-                <Link to="/signup">
-                  Don't have account?
-                  <br />
-                  Click here.
-                </Link>
-              </h5>
+
+              <Link to="/signup" className="loginLink" as="h5">
+                Don't have an account?
+                <br />
+                Click here.
+              </Link>
             </div>
           )}
         </li>
-        <li>
+        <li className="nav-link">
           <Link>
             <FontAwesomeIcon
               icon={faCartShopping}
               style={{
                 color: "black",
                 fontSize: "24px",
-                paddingLeft: "10px",
+                paddingLeft: "1px",
+                paddingTop: "5px",
+                marginLeft: "1px",
               }}
             />
           </Link>

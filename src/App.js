@@ -6,6 +6,7 @@ import Header from "./Components/Static/Header/Header";
 import Product from "./Components/Pages/Product/Product";
 import Signup from "./Components/Pages/Registration/Signup";
 import ProductPage from "./Components/Pages/Product/ProductPage";
+import Login from "./Components/Pages/Registration/Login";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product" element={<Product />} />
+        <Route path='login' element={<Login />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="signup" element={<Signup />} />
       </Routes>

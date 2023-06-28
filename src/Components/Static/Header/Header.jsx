@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faCartShopping, faAmbulance } from "@fortawesome/free-solid-svg-icons";
+import Login from "../../Pages/Registration/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./header.css";
 
@@ -72,18 +71,7 @@ function Navbar() {
               </a>
             </li>
           </ul>
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <Link to="signup" className="nav-link" style={{ color: "#363636", paddingTop: "6px" }}>
-                <FontAwesomeIcon icon={faUser} style={{ fontSize: "25px" }} />
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="signup" className="nav-link" style={{ color: "#363636", paddingTop: "6px"  }}>
-                <FontAwesomeIcon icon={faCartShopping} style={{ fontSize: "25px" }} />
-              </Link>
-            </li>
-          </ul>
+            <Login />
         </div>
       </div>
     </nav>
