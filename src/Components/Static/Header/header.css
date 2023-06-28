@@ -25,24 +25,23 @@
   opacity: 0;
   overflow: hidden;
   transition: max-height 0.8s ease, opacity 0.8s ease;
-  padding: 0 !important; /* Remove padding with !important */
+  padding: 0 !important;
 }
 
 .dropdown-menu.show {
   max-height: 500px;
   opacity: 1;
-  padding: 0 !important; /* Remove padding with !important */
+  padding: 0 !important;
 }
 
 .navbar-brand {
-  padding-left: 4rem;
-  margin-right: 5rem;
+  margin-right: 3rem;
 }
 
 .nav-comp {
   transition: background-color 0.4s ease-in-out;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 .nav-link{
   border-radius: 10px;
@@ -67,13 +66,10 @@
   margin-left: 0rem;
 }
 
-.nav-p {
-  
-}
-
-.nav-homya{
-  padding-right: 1rem;
-  padding-left: 1rem;
+.pr-5{
+  position: relative;
+  margin-top: 0.5rem;
+  margin-right: 2rem;
 }
 
 .nav-padding{
