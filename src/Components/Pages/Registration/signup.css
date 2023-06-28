@@ -56,8 +56,26 @@
 
 }
 
+.loginbutton{
+    position: relative;
+    top: 15rem;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 1rem 1.5rem 1rem 1.5rem;
+    width: auto;
+    margin-left: 8.2rem;
+    background-color: black;
+    color: white;
+    border-radius: 7%;
+    box-shadow: 3px 4px 7px 1px rgba(0, 0, 53, 0.25);
+    transition: all 0.4s ease;
+    text-decoration: none;
+    cursor: pointer;
+    transform: scale(1);
+}
+
 .logintitle {
-    position: absolute;
+    position: relative;
     top: 7.5rem;
     left: 4.4rem;
     font-size: 22px;
