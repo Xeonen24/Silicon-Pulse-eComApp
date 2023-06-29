@@ -12,6 +12,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(to right, white 50%, rgb(255,115,115) 50%);
+  background-repeat: no-repeat;
 }
 
 code {
