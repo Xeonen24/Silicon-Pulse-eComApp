@@ -18,7 +18,7 @@ function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-white bg-transparent nav-bar-all d-flex">
-        <div className="container">
+      <div className="container">
         <Link className="navbar-brand" to="/">
           Silicon Pulse
         </Link>
@@ -31,12 +31,12 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className={`collapse navbar-collapse ${expanded ? "show" : ""}`}>
-        <ul className="navbar-nav">
-          <li className="nav-item nav-comp">
-            <Link to="/" className="nav-link">
-              Home
-            </Link>
-          </li>
+          <ul className="navbar-nav">
+            <li className="nav-item nav-comp">
+              <Link to="/" className="nav-link">
+                Home
+              </Link>
+            </li>
             <li
               className={`nav-item nav-comp dropdown ${dropdownOpen ? "show" : ""}`}
             >
@@ -54,14 +54,14 @@ function Navbar() {
                   opacity: dropdownOpen ? "1" : "0",
                 }}
               >
-                <a className="dropdown-item" href="#">
-                  Action
+                <a className="dropdown-item categories" href="/product">
+                  <span class="link-text">CPU</span>
                 </a>
-                <a className="dropdown-item" href="#">
-                  Another action
+                <a className="dropdown-item categories" href="/product">
+                  <span class="link-text">GPU</span>
                 </a>
-                <a className="dropdown-item" href="#">
-                  Something else here
+                <a className="dropdown-item categories" href="/product">
+                  <span class="link-text">Case</span>
                 </a>
               </div>
             </li>
@@ -71,7 +71,7 @@ function Navbar() {
               </a>
             </li>
           </ul>
-            <Login />
+          <Login />
         </div>
       </div>
     </nav>
