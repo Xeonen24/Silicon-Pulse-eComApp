@@ -98,4 +98,8 @@ router.get("/products/:id", async (req, res) => {
   }
 });
 
+router.get("/user",async (req, res) => {
+  const user
+})
+
 module.exports = router;
