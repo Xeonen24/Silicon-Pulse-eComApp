@@ -4,7 +4,7 @@ const router = express.Router();
 const USER = require("../model/user");
 const Product = require("../model/product");
 const Category = require("../model/category");
-const authen = require("../midddleware/auth");
+const auth = require("../midddleware/auth");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 router.use(cookieParser());
@@ -56,6 +56,8 @@ router.post(
         res.cookie("jwtoken", token, {
           maxAge: 99999999999,
           httpOnly: false,
+          SameSite: "Lax",
+          secure: false,
         });
         res.status(200).json({ message: "User signed in" });
         console.log("User signed in");
@@ -80,7 +82,7 @@ router.get('/products', async (req, res) => {
   }
 });
 
-router.get("/products/:id", async (req, res) => {
+router.get("/products/:id", asyncHandler(async (req, res) => {
   const productId = req.params.id;
   try {
     const product = await Product.findById(productId).populate("category");
@@ -96,10 +98,39 @@ router.get("/products/:id", async (req, res) => {
     console.error("Error fetching product:", error);
     res.status(500).json({ error: "Internal server error" });
   }
+}));
+
+router.get("/user",auth, async (req, res) => {
+  try {
+    const user = await USER.findById(req.userID).select('-password -password2');
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
-router.get("/user",async (req, res) => {
-  const user
-})
+router.post("/update-password",auth, asyncHandler(async (req, res) => {
+    try {
+      const finduser = await USER.findById(req.userID);
+      if (finduser) {
+        const { password, password2 } = req.body;
+        if (password !== password2) {
+          return res.status(422).json({ error: "Password do not match" });
+        } else {
+          finduser.password = password;
+          finduser.password2 = password2;
+          await finduser.save();
+          res.status(201).send("Password updated successfully");
+          console.log("User updated password");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Failed to update password" });
+    }
+  })
+);
+
 
 module.exports = router;
