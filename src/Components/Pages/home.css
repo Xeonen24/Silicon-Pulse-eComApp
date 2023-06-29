@@ -1,42 +1,65 @@
-.img_main{
-    z-index: -1;
-    width:53%;
-    height: 100%;
-    position: absolute;
-    display: inline-block;
-    left:56.465rem;
-    bottom: 0.6rem;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
-.main_name{
-    position: relative;
-    margin-left: 8.2rem;
-    margin-top: 10rem;
-    font-size: 3rem;
+
+.wrapper{
+    width: 100%;
+    height: 100vh;
+    overflow-y: hidden;
 }
-.subhead_name{
-    margin-left: 8.2rem;
-    font-size: 20px;
-    margin-bottom: 5rem;
-    font-weight: 500;
+
+.main_div{
+    display: flex;
+    flex-direction: column;
+    height: 75%;
+    width: 1280px;
+    margin: auto;
+    margin-top: 5rem;
+    padding-left: 10%;
+    justify-content: center;
+    border: 1px solid black;
+    justify-content: center;
+    border-radius: 10px;
 }
-.home_btn{
-    position: relative;
-    margin-left: 8.2rem;
-    font-size: 25px;
-    font-weight: 500;
-    padding: 1rem 1.6rem 1rem 2rem;
-    width: 6.5%;
-    background-color: black;
-    color: white;
-    border-radius: 7%;
-    box-shadow: 10px 8px 7px 1px rgba(0, 0, 53, 0.25);
-    transition: all 0.4s ease;
-    cursor: pointer;
-    transform: scale(1);
+
+.shop-now-link {
+    text-decoration: none;
+  }
+  
+.button-64 {
+  align-items: center;
+  background-image: linear-gradient(144deg,#d11111, #5B42F3 50%,#00DDEB);
+  border: 0;
+  width: 8rem;
+  height: 4rem;
+  border-radius: 8px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  font-family: Phantomsans, sans-serif;
+  font-size: 20px;
+  justify-content: center;
+  line-height: 1em;
+  max-width: 100%;
+  min-width: 140px;
+  padding: 3px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
-.home_btn:hover{
-    transform: scale(1.07);
+
+.button-64:hover {
+  box-shadow: rgba(151, 65, 252, 0.4) 0 15px 30px -5px;
+  transform: translateY(-2px);
 }
-.home_btn:active{
-    background-color: rgb(109, 109, 109);
+
+
+@media (min-width: 768px) {
+  .button-64 {
+    font-size: 24px;
+    min-width: 196px;
+  }
 }
