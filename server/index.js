@@ -7,7 +7,6 @@ const cors = require("cors");
 const morgan = require("morgan");
 const USER = require("./model/user");
 const cookieParser = require("cookie-parser");
-app.use(cookieParser());
 const Routes = require("./route/routes");
 
 mongoose
@@ -18,6 +17,7 @@ mongoose
   .then(() => console.log("DB connected"))
   .catch((err) => console.log(err));
 
+app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(
@@ -29,20 +29,11 @@ app.use(
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (
-        !origin ||
-        origin === "http://localhost:3000" ||
-        origin === "http://localhost:5000"
-      ) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "*",
     credentials: true,
   })
 );
+
 
 app.use("/api", Routes);
 
