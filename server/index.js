@@ -27,14 +27,10 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-);
-
-
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:5000'],
+  credentials: true
+}));
 app.use("/api", Routes);
 
 const port = process.env.PORT || 5000;

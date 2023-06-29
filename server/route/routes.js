@@ -56,7 +56,7 @@ router.post(
         res.cookie("jwtoken", token, {
           maxAge: 99999999999,
           httpOnly: false,
-          SameSite: "Lax",
+          sameSite: "lax",
           secure: false,
         });
         res.status(200).json({ message: "User signed in" });
@@ -68,6 +68,23 @@ router.post(
       console.log(err);
       res.status(500).json({ error: "Failed to sign in" });
     }
+  })
+);
+
+router.post(
+  "/logout",
+  asyncHandler(async (req, res) => {
+    res.clearCookie("jwtoken", {
+      path: "/",
+      httpOnly: false,
+      secure: false,
+      sameSite: "lax",
+    });
+    res.status(200).json({
+      success: true,
+      message: "Logged out",
+    });
+    console.log("User signed out");
   })
 );
 

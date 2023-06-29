@@ -11,6 +11,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [userDetails, setUserDetails] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // New state to track if user is logged in
 
   const location = useLocation();
 
@@ -18,15 +19,53 @@ const Login = () => {
     fetchUserDetails();
   }, [location]);
 
+  useEffect(() => {
+    const jwtToken = getCookie("jwtoken");
+    if (jwtToken) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  };
+
   const fetchUserDetails = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/user");
+      const response = await axios.get("http://localhost:5000/api/user",{
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       setUserDetails(response.data);
-      console.log(response.data);
+      localStorage.setItem("loggedin", true);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const handleOnClickLogout = async (e) => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/logout",{
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data); // Log the response data
+      localStorage.removeItem("loggedin");
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -49,6 +88,7 @@ const Login = () => {
       } else {
         window.alert("Login successful");
         fetchUserDetails();
+        window.location.href = "/"     
       }
     } catch (error) {
       console.error(error);
@@ -61,35 +101,10 @@ const Login = () => {
     }
   };
 
-  return (
-    <>
-      <ul className="navbar-nav ms-auto">
-        {userDetails ? (
-          <li className="nav-link" onClick={toggleUserDropdown}>
-            <FontAwesomeIcon
-              icon={faUser}
-              style={{
-                color: "black",
-                fontSize: "24px",
-                paddingTop: "5px",
-                paddingLeft: "1px",
-              }}
-            />
-            {isDropdownVisible && (
-              <div className="userDropdown">
-                <div className="userDetails">
-                  Hi, {userDetails.username}
-                </div>
-                <Link to="/profile" className="loginLink">
-                  My Profile
-                </Link>
-                <Link to="/logout" className="loginLink">
-                  Logout
-                </Link>
-              </div>
-            )}
-          </li>
-        ) : (
+  if (!isLoggedIn) {
+    return (
+      <>
+        <ul className="navbar-nav ms-auto">
           <li className="nav-link" onClick={toggleUserDropdown}>
             <FontAwesomeIcon
               icon={faUser}
@@ -112,7 +127,7 @@ const Login = () => {
                   ></input>
                   <label>Password</label>
                   <input
-                    type="text"
+                    type="password" // Change input type to password
                     name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -131,7 +146,49 @@ const Login = () => {
               </div>
             )}
           </li>
-        )}
+          <li className="nav-link">
+            <Link>
+              <FontAwesomeIcon
+                icon={faCartShopping}
+                style={{
+                  color: "black",
+                  fontSize: "24px",
+                  paddingLeft: "1px",
+                  paddingTop: "5px",
+                  marginLeft: "1px",
+                }}
+              />
+            </Link>
+          </li>
+        </ul>
+      </>
+    );
+  }
+  return (
+    <>
+      <ul className="navbar-nav ms-auto">
+        <li className="nav-link" onClick={toggleUserDropdown}>
+          <FontAwesomeIcon
+            icon={faUser}
+            style={{
+              color: "black",
+              fontSize: "24px",
+              paddingTop: "5px",
+              paddingLeft: "1px",
+            }}
+          />
+          {isDropdownVisible && (
+            <div className="userDropdown">
+              <div className="userDetails">Hi, {userDetails.username}</div>
+              <Link to="/profile" className="loginLink">
+                My Profile
+              </Link>
+              <button className="loginLink" onClick={handleOnClickLogout}>
+                Logout
+              </button>
+            </div>
+          )}
+        </li>
         <li className="nav-link">
           <Link>
             <FontAwesomeIcon
