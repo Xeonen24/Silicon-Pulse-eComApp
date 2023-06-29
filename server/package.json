@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "braces": "^3.0.2",
     "chance": "^1.1.11",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -22,8 +21,6 @@
     "mongoose": "^7.2.0",
     "mongoose-slug-updater": "^3.3.0",
     "morgan": "^1.10.0",
-    "nodemon": "^1.14.9",
-    "readdirp": "^3.6.0",
-    "semver": "^7.5.3"
+    "nodemon": "^1.14.9"
   }
 }
