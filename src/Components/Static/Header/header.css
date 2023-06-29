@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css?family=Google+Sans');
 
 *{
@@ -77,5 +78,6 @@
   padding-right: 4rem;
 }
 
-
-
+.categories .link-text {
+  text-decoration: none;
+}
