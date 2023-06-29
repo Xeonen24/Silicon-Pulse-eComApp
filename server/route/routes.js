@@ -132,5 +132,15 @@ router.post("/update-password",auth, asyncHandler(async (req, res) => {
   })
 );
 
+router.get("/categories", (req, res) => {
+  Category.find()
+    .then(categories => {
+      res.json(categories);
+    })
+    .catch(error => {
+      res.status(500).json({ error: "Error fetching categories" });
+    });
+});
+
 
 module.exports = router;

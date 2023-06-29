@@ -7,63 +7,53 @@ import { Link } from "react-router-dom";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/products")
-      .then((response) => {
-        setProducts(response.data);
-        setFilteredProducts(response.data);
-        console.log(response);
-      })
+      .all([
+        axios.get("http://localhost:5000/api/categories"),
+        axios.get("http://localhost:5000/api/products")
+      ])
+      .then(
+        axios.spread((categoriesResponse, productsResponse) => {
+          setCategories(categoriesResponse.data);
+          setProducts(productsResponse.data);
+          console.log(categoriesResponse);
+          console.log(productsResponse);
+        })
+      )
       .catch((error) => {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching categories and products:", error);
       });
   }, []);
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-
-    if (category === "all") {
-      setFilteredProducts(products);
-    } else {
-      const filtered = products.filter(
-        (product) => product.category.toLowerCase() === category
-      );
-      setFilteredProducts(filtered);
-    }
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
   };
+
+  const filteredProducts = selectedCategory
+    ? products.filter((product) => product.category === selectedCategory)
+    : products;
+
+  if (categories.length === 0) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
-      <div className="categories">
-        <button
-          className={selectedCategory === "all" ? "active" : ""}
-          onClick={() => handleCategoryChange("all")}
-        >
-          All
-        </button>
-        <button
-          className={selectedCategory === "Processors" ? "active" : ""}
-          onClick={() => handleCategoryChange("Processors")}
-        >
-          CPU
-        </button>
-        <button
-          className={selectedCategory === "gpu" ? "active" : ""}
-          onClick={() => handleCategoryChange("gpu")}
-        >
-          GPU
-        </button>
-        <button
-          className={selectedCategory === "case" ? "active" : ""}
-          onClick={() => handleCategoryChange("case")}
-        >
-          Case
-        </button>
+      <div>
+        <select value={selectedCategory} onChange={handleCategoryChange}>
+          <option value="">All Categories</option>
+          {categories.map((category) => (
+            <option key={category._id} value={category._id}>
+              {category.title}
+            </option>
+          ))}
+        </select>
       </div>
+
       <div className="grid">
         {filteredProducts.map((product, index) => (
           <div className="grid-item" key={index}>
@@ -78,9 +68,7 @@ const Product = () => {
                 {product.discountprice !== 0 ? `₹ ${product.discountprice}` : ""}
               </p>
               <p className="item-prices">
-                {product.discountprice !== 0
-                  ? `₹ ${product.price}`
-                  : `₹ ${product.price}`}
+                {product.discountprice !== 0 ? `₹ ${product.price}` : `₹ ${product.price}`}
               </p>
             </Link>
             <button className="item-add-to-cart">
