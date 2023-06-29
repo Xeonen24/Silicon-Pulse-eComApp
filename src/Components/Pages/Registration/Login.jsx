@@ -48,11 +48,13 @@ const Login = () => {
         <li className="nav-link" onClick={toggleUserDropdown}>
           <FontAwesomeIcon
             icon={faUser}
+            className="user"
             style={{
               color: "black",
               fontSize: "24px",
               paddingTop: "5px",
               paddingLeft: "1px",
+              
             }}
           />
           {isDropdownVisible && (

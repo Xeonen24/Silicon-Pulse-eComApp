@@ -77,5 +77,35 @@
   padding-right: 4rem;
 }
 
+.container{
+  margin-left: 5rem;
+}
 
+.user{
+  margin-left: 75rem;
+}
 
+.user {
+  margin-left: 75rem;
+}
+
+@media (max-width: 1200px) {
+  .user {
+    margin-left: 50rem !important;
+    /* Adjust the value as per your requirement */
+  }
+}
+
+@media (max-width: 768px) {
+  .user {
+    margin-left: 10% !important;
+    /* Adjust the value as per your requirement */
+  }
+}
+
+@media (max-width: 480px) {
+  .user {
+    margin-left: 5% !important;
+    /* Adjust the value as per your requirement */
+  }
+}
