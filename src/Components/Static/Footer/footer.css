@@ -6,8 +6,9 @@
     padding: 20px;
     position: absolute;
     bottom: 0;
-    width: 97%;
+    width: 97.94%;
     text-align: center;
+    background: linear-gradient(to right, white 50%, red 50%);
   }
   .container {
     max-width: 800px;
@@ -41,4 +42,29 @@
       transform: translateX(0%);
     }
   }
+
+@media (max-width: 768px){
+  .footer{
+    display: flex;
+    background-color: #f0f0f0;
+    animation: slide-in 1s ease-in-out;
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    width: 94.7%;
+    text-align: center;
+  }
+
+  .container{
+    max-width: 800px;
+    margin-bottom: 4.2rem;
+    height: 50px;
+  }
+  
+  .text{
+    color: #888;
+    font-size: 14px;
+    margin-right: 4rem;
+  }
+}  
   

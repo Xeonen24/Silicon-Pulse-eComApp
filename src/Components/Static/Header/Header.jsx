@@ -1,46 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import { Link , useLocation} from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser,faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import Login from "../../Pages/Registration/Login";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./header.css";
 
+function Navbar() {
+  const [expanded, setExpanded] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-const Header = () => {
-    const location = useLocation();
-    const [activeLink, setActiveLink] = useState('/');
-  
-    useEffect(() => {
-      const storedActiveLink = localStorage.getItem('activeLink');
-      if (storedActiveLink) {
-        setActiveLink(storedActiveLink);
-      }
-    }, []);
-  
-    useEffect(() => {
-      setActiveLink(location.pathname);
-      localStorage.setItem('activeLink', location.pathname);
-    }, [location]);
-  
-    return (
-      <div>
-        <div className="header">
-          <nav>
-            <ul id='nav3'>
-              <Link to='/'><li className='logoTitle'>logoplaceholder</li></Link>
-            </ul>
-            <ul id='nav1'>
-              <Link to="/"><li className={activeLink === "/" ? "active" : ""} onClick={() => setActiveLink("/")}>Home</li></Link>
-              <Link to="/product"><li className={activeLink === "/product" ? "active" : ""} onClick={() => setActiveLink("/product")}>Products</li></Link>
-              <Link to="/about"><li className={activeLink === "/about" ? "active" : ""} onClick={() => setActiveLink("/about")}>About</li></Link>
-              <Link to="/contact"><li className={activeLink === "/contact" ? "active" : ""} onClick={() => setActiveLink("/contact")}>Contact</li></Link>
-            </ul>
-            <ul id='nav2'>
-              <Link><FontAwesomeIcon icon={faUser} style={{ color: 'white', fontSize: '24px', marginTop: '24px', marginRight: '20px' }} /></Link>
-              <Link><FontAwesomeIcon icon={faCartShopping} style={{ color: 'white', fontSize: '24px', marginTop: '24px' }} /></Link>
-            </ul>
-          </nav>
+  const toggleNavbar = () => {
+    setExpanded(!expanded);
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  return (
+    <nav className="navbar navbar-expand-lg navbar-white bg-transparent nav-bar-all d-flex">
+      <div className="container">
+        <Link className="navbar-brand" to="/">
+          Silicon Pulse
+        </Link>
+        <button
+          className={`navbar-toggler ${expanded ? "" : "collapsed"}`}
+          type="button"
+          onClick={toggleNavbar}
+          aria-expanded={expanded}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className={`collapse navbar-collapse ${expanded ? "show" : ""}`}>
+          <ul className="navbar-nav">
+            <li className="nav-item nav-comp">
+              <Link to="/" className="nav-link">
+                Home
+              </Link>
+            </li>
+            <li
+              className={`nav-item nav-comp dropdown ${dropdownOpen ? "show" : ""}`}
+            >
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                onClick={toggleDropdown}
+              >
+                Products
+              </a>
+              <div
+                className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}
+                style={{
+                  maxHeight: dropdownOpen ? "500px" : "0",
+                  opacity: dropdownOpen ? "1" : "0",
+                }}
+              >
+                <a className="dropdown-item categories" href="/product">
+                  <span class="link-text">CPU</span>
+                </a>
+                <a className="dropdown-item categories" href="/product">
+                  <span class="link-text">GPU</span>
+                </a>
+                <a className="dropdown-item categories" href="/product">
+                  <span class="link-text">Case</span>
+                </a>
+              </div>
+            </li>
+            <li className="nav-item nav-comp">
+              <a className="nav-link" href="#">
+                About
+              </a>
+            </li>
+          </ul>
+          <Login />
         </div>
       </div>
-    );
-  };
-export default Header;
+    </nav>
+  );
+}
+
+export default Navbar;
