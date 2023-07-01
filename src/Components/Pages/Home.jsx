@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div className="wrapper
+    <div className="wrapper">
       <div className="main_div">
         <h1 className="main_name">Silicon Pulses </h1>
         <p className="subhead_name">The Ultimate Gaming Hardware Empssorium.</p>
