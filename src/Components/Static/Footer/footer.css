@@ -8,6 +8,7 @@
     bottom: 0;
     width: 97.94%;
     text-align: center;
+    background: linear-gradient(to right, white 50%, red 50%);
   }
   .container {
     max-width: 800px;

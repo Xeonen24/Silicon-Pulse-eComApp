@@ -43,8 +43,8 @@ const Product = () => {
 
   return (
     <>
-      <div>
-        <select value={selectedCategory} onChange={handleCategoryChange}>
+      <div className="select-container">
+        <select value={selectedCategory} onChange={handleCategoryChange} class="custom-select">
           <option value="">All Categories</option>
           {categories.map((category) => (
             <option key={category._id} value={category._id}>
@@ -53,7 +53,6 @@ const Product = () => {
           ))}
         </select>
       </div>
-
       <div className="grid">
         {filteredProducts.map((product, index) => (
           <div className="grid-item" key={index}>

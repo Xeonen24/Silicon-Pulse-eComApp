@@ -2,11 +2,18 @@
 @import url('https://fonts.googleapis.com/css?family=Google+Sans');
 
 *{
+  margin: 0;
+  padding: 0; 
+  box-sizing: border-box;
   font-family: 'Google Sans';
 }
 
 :root {
-  --aplared: rgb(255, 155, 155);
+  --aplared: rgb(255,115,115);
+}
+
+.navbar{
+  display: flex;
 }
 
 .navbar-toggler {
@@ -60,7 +67,6 @@
   padding-top: 2rem;
   font-size: 1.2rem;
   font-weight: bold;
-  border-radius: 10px;
 }
 
 .nav-drops {

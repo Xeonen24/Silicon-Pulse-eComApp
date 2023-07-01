@@ -5,18 +5,17 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div className="main_div">
-      <h1 className="main_name">Silicon Pulses </h1>
-      <p className="subhead_name">The Ultimate Gaming Hardware Empssorium.</p>
-      <Link to="product">
-        <a className="product-link">
-          <h4 className="home_btn" spellcheck="false">
-            Shop Now
-          </h4>
-        </a>
-      </Link>
-      <img className="img_main" src={image} alt="" />
-    </div>
+    <div className="wrapper
+      <div className="main_div">
+        <h1 className="main_name">Silicon Pulses </h1>
+        <p className="subhead_name">The Ultimate Gaming Hardware Empssorium.</p>
+        <Link className= "shop-now-link" to="product">
+            <h4 className="home_btn button-64">
+              Shop Now
+            </h4>
+        </Link>
+      </div>
+  </div>
   );
 };
 export default Home;
