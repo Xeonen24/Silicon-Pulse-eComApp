@@ -1,0 +1,100 @@
+.signup-box {
+    padding: 1rem;
+    background-color: rgb(241, 241, 241);
+    transition: all 0.3s ease-in-out;
+    border-radius: 0.5rem;
+    width: 40%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0.5rem 0.5rem 0.5rem rgba(3, 0, 0, 0.2);
+}
+
+.signup-box:hover {
+    box-shadow: 0.5rem 0.5rem 1rem rgb(88, 0, 0, 0.5);
+}
+
+.signup-box:hover, .login-box:hover {
+    border-radius: 2rem;
+}
+
+.signup-form {
+    margin: 2rem;
+}
+
+.signup-form input {
+    transition: all 0.3s ease-in-out;
+    display: block;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border: none;
+    width: 41%;
+    outline: none;
+    border: 1px rgba(0, 255, 255, 0) solid;
+}
+
+.signup-form input:focus {
+    border: 1px cyan solid;
+    border-radius: 0.5rem;
+    background-color: rgb(160, 160, 160);
+    color: white;
+}
+
+.login-box {
+    transition: all 0.3s ease-in-out;
+    background-color: var(--aplared);
+    display: block;
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    max-width: 400px;
+    height: 100%;
+    left:74%;
+    transform: translateX(-50%);
+
+}
+
+.loginbutton{
+    position: relative;
+    top: 15rem;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 1rem 1.5rem 1rem 1.5rem;
+    width: auto;
+    margin-left: 8.2rem;
+    background-color: black;
+    color: white;
+    border-radius: 7%;
+    box-shadow: 3px 4px 7px 1px rgba(0, 0, 53, 0.25);
+    transition: all 0.4s ease;
+    text-decoration: none;
+    cursor: pointer;
+    transform: scale(1);
+}
+
+.logintitle {
+    position: relative;
+    top: 7.5rem;
+    left: 4.4rem;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+@media screen and (max-width: 768px) {
+    /* Styles for screens up to 768px wide */
+    .signup-box, .login-box {
+        width: 80%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    /* Styles for screens up to 480px wide */
+    .signup-form input {
+        width: 100%;
+    }
+}
