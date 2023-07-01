@@ -53,8 +53,6 @@ const Product = () => {
           ))}
         </select>
       </div>
-
-
       <div className="grid">
         {filteredProducts.map((product, index) => (
           <div className="grid-item" key={index}>

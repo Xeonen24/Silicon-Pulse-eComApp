@@ -69,6 +69,20 @@
   font-weight: bold;
 }
 
+.nav-drops {
+  margin-left: 0rem;
+}
+
+.pr-5{
+  position: relative;
+  margin-top: 0.5rem;
+  margin-right: 2rem;
+}
+
+.nav-padding{
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
 
 .categories .link-text {
   text-decoration: none;
