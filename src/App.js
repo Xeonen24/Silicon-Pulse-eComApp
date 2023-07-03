@@ -19,6 +19,7 @@ const App = () => {
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="signup" element={<Signup />} />
       </Routes>
+      <Footer />
     </Router>
   );
 };
