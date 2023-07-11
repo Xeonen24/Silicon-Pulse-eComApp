@@ -72,6 +72,7 @@ const Login = () => {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/logout",
+        {},
         {
           withCredentials: true,
           headers: {
@@ -81,12 +82,11 @@ const Login = () => {
       );
       window.alert("Logged out successfully");
       localStorage.removeItem("userDetails");
-      window.location.href = "/"
-  }catch(error){
-    console.error(error);
-  }
-}
-
+      window.location.href = "/";
+    } catch (error) {
+      console.error(error);
+    }
+  };  
 
   const toggleUserDropdown = (e) => {
     if (!e.target.closest(".userDropdown")) {

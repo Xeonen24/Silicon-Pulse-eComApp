@@ -72,9 +72,12 @@ router.post(
 );
 
 router.post('/logout', async (req, res) => {
-  res.clearCookie("jwtoken");
+  res.clearCookie("jwtoken", {
+    path: '/',
+    domain: 'localhost'
+  });
   res.status(200).json({ message: "User signed out" });
-})
+});
 
 
 
