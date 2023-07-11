@@ -29,11 +29,10 @@ app.use(
 
 app.use(
   cors({
-    origin: "*",
+    origin: ["http://localhost:3000", "http://localhost:5000"],
     credentials: true,
   })
 );
-
 
 app.use("/api", Routes);
 

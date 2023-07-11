@@ -20,13 +20,25 @@ const Login = () => {
 
   const fetchUserDetails = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/user");
+      const response = await axios.get("http://localhost:5000/api/user", {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       setUserDetails(response.data);
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
+  
+  useEffect(() => {
+    if (userDetails) {
+      localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    }
+  }, [userDetails]);
+  
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -49,11 +61,32 @@ const Login = () => {
       } else {
         window.alert("Login successful");
         fetchUserDetails();
+        window.location.href = "/"
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/logout",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      window.alert("Logged out successfully");
+      localStorage.removeItem("userDetails");
+      window.location.href = "/"
+  }catch(error){
+    console.error(error);
+  }
+}
+
 
   const toggleUserDropdown = (e) => {
     if (!e.target.closest(".userDropdown")) {
@@ -83,9 +116,7 @@ const Login = () => {
                 <Link to="/profile" className="loginLink">
                   My Profile
                 </Link>
-                <Link to="/logout" className="loginLink">
-                  Logout
-                </Link>
+                  <button className="loginLink" onClick={handleLogout}>Logout</button>
               </div>
             )}
           </li>
