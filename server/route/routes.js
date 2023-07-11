@@ -71,6 +71,13 @@ router.post(
   })
 );
 
+router.post('/logout', async (req, res) => {
+  res.clearCookie("jwtoken");
+  res.status(200).json({ message: "User signed out" });
+})
+
+
+
 router.get('/products', async (req, res) => {
   try {
     const products = await Product.find();
