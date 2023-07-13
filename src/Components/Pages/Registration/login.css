@@ -1,22 +1,4 @@
 
-  .userDropdown {
-    margin-top: 4rem;
-    display: inline-block;
-    position: absolute;
-    height: auto;
-    right: 1;
-    width: auto;
-    background-color: #fff;
-    padding: 20rem 4.5rem 5px 0px;
-    box-shadow: 10px 8px 7px 1px rgba(0, 0, 53, 0.25);
-    animation: dropdown-slidedown 0.4s ease-in-out;
-    border: 1px rgba(0, 0, 0, 0.096) solid;
-    border-radius: 1rem;
-    pointer-events: none;
-  }
-  .userDropdown form {
-    pointer-events: auto;
-  }
   .loginForm{
     position: absolute;
     top: 2rem;
@@ -37,9 +19,6 @@
     margin-top: 0.5rem;
     outline: none;
     border: 1px rgba(0, 255, 255, 0) solid;
-  }
-  .userDropdown h5{
-    pointer-events: auto;
   }
   
   .loginForm input:focus{
@@ -74,15 +53,5 @@
     width: 100%;
     position: absolute;
     bottom: 5.5rem;
-  }
-  
-  .loginLink {
-    text-decoration: none;
-    color: red;
-    position: relative;
-    bottom: 1rem;
-    left: 2.3rem;
-    z-index: 1;
-    pointer-events: all;
   }
   
