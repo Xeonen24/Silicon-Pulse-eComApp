@@ -9,6 +9,8 @@ const Product = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(15);
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
@@ -21,8 +23,6 @@ const Product = () => {
         axios.spread((categoriesResponse, productsResponse) => {
           setCategories(categoriesResponse.data);
           setProducts(productsResponse.data);
-          console.log(categoriesResponse);
-          console.log(productsResponse);
         })
       )
       .catch((error) => {
@@ -32,32 +32,47 @@ const Product = () => {
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
+    setCurrentPage(1);
   };
 
   const addToCart = (productId) => {
     axios
       .post(
-        "http://localhost:5000/cart/add",
+        "http://localhost:5000/api/cart/add",
         {
           productId: productId,
           quantity: 1
+          
         },
+        
         {
+          withCredentials: true,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwtoken")}`
+            "Content-Type": "application/json",          
           }
         }
       )
       .then((response) => {
         console.log(response.data);
-        setCartItems([...cartItems, response.data.product]);
+        // You can update the UI or show a success message
       })
       .catch((error) => console.log(error));
   };
 
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const filteredProducts = selectedCategory
     ? products.filter((product) => product.category === selectedCategory)
     : products;
+
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   if (categories.length === 0) {
     return <p>Loading...</p>;
@@ -77,7 +92,7 @@ const Product = () => {
       </div>
 
       <div className="grid">
-        {filteredProducts.map((product, index) => (
+        {currentProducts.map((product, index) => (
           <div className="grid-item" key={index}>
             <Link to={`/product/${product._id}`} className="product-link">
               <img
@@ -103,6 +118,14 @@ const Product = () => {
               />
             </button>
           </div>
+        ))}
+      </div>
+
+      <div className="pagination">
+        {Array.from(Array(Math.ceil(filteredProducts.length / productsPerPage)), (item, index) => (
+          <button key={index} onClick={() => paginate(index + 1)}>
+            {index + 1}
+          </button>
         ))}
       </div>
     </>

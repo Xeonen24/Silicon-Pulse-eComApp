@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
+  console.log(cartItems);
 
   useEffect(() => {
     axios
@@ -36,16 +37,20 @@ const Cart = () => {
   return (
     <div>
       <h2>Cart</h2>
-      {cartItems.map((item) => (
-        <div key={item.product._id}>
-          <h3>{item.product.title}</h3>
-          <p>{item.product.available ? "In Stock" : "Out of Stock"}</p>          <p>Quantity: {item.quantity}</p>
-          <p>Price: {item.product.price}</p>
-          <button onClick={() => removeFromCart(item.product._id)}>Remove</button>
-        </div>
-      ))}
-    <button>Order now</button>
-
+      {cartItems.length > 0 ? (
+        cartItems.map((item) => (
+          <div key={item.product._id}>
+            <h3>{item.product.title}</h3>
+            <p>{item.product.available ? 'In Stock' : 'Out of Stock'}</p>
+            <p>Quantity: {item.quantity}</p>
+            <p>Price: {item.product.price}</p>
+            <button onClick={() => removeFromCart(item.product._id)}>Remove</button>
+          </div>
+        ))
+      ) : (
+        <p>Your cart is empty.</p>
+      )}
+      <button>Order now</button>
     </div>
   );
 };
