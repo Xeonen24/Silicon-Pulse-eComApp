@@ -3,7 +3,7 @@ import "./product.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -11,13 +11,13 @@ const Product = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(15);
-  const [cartItems, setCartItems] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     axios
       .all([
         axios.get("http://localhost:5000/api/categories"),
-        axios.get("http://localhost:5000/api/products")
+        axios.get("http://localhost:5000/api/products"),
       ])
       .then(
         axios.spread((categoriesResponse, productsResponse) => {
@@ -30,6 +30,12 @@ const Product = () => {
       });
   }, []);
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const category = searchParams.get("category");
+    setSelectedCategory(category || "");
+  }, [location.search]);
+
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
     setCurrentPage(1);
@@ -41,20 +47,17 @@ const Product = () => {
         "http://localhost:5000/api/cart/add",
         {
           productId: productId,
-          quantity: 1
-          
+          quantity: 1,
         },
-        
         {
           withCredentials: true,
           headers: {
-            "Content-Type": "application/json",          
-          }
+            "Content-Type": "application/json",
+          },
         }
       )
       .then((response) => {
         console.log(response.data);
-        // You can update the UI or show a success message
       })
       .catch((error) => console.log(error));
   };
@@ -94,7 +97,7 @@ const Product = () => {
       <div className="grid">
         {currentProducts.map((product, index) => (
           <div className="grid-item" key={index}>
-            <Link to={`/product/${product._id}`} className="product-link">
+            <a href={`/product/${product._id}`} className="product-link">
               <img
                 src={product.imagePath}
                 alt={product.title}
@@ -107,7 +110,7 @@ const Product = () => {
               <p className="item-prices">
                 {product.discountprice !== 0 ? `₹ ${product.price}` : `₹ ${product.price}`}
               </p>
-            </Link>
+            </a>
             <button
               className="item-add-to-cart"
               onClick={() => addToCart(product._id)}
@@ -122,11 +125,14 @@ const Product = () => {
       </div>
 
       <div className="pagination">
-        {Array.from(Array(Math.ceil(filteredProducts.length / productsPerPage)), (item, index) => (
-          <button key={index} onClick={() => paginate(index + 1)}>
-            {index + 1}
-          </button>
-        ))}
+        {Array.from(
+          Array(Math.ceil(filteredProducts.length / productsPerPage)),
+          (item, index) => (
+            <button key={index} onClick={() => paginate(index + 1)}>
+              {index + 1}
+            </button>
+          )
+        )}
       </div>
     </>
   );

@@ -12,10 +12,6 @@ function Navbar() {
     setExpanded(!expanded);
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
   return (
     <nav className="navbar navbar-expand-lg navbar-white bg-transparent nav-bar-all d-flex">
       <div className="container">
@@ -40,30 +36,9 @@ function Navbar() {
             <li
               className={`nav-item nav-comp dropdown ${dropdownOpen ? "show" : ""}`}
             >
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                onClick={toggleDropdown}
-              >
+              <Link className="nav-link" to='/product'>
                 Products
-              </a>
-              <div
-                className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}
-                style={{
-                  maxHeight: dropdownOpen ? "500px" : "0",
-                  opacity: dropdownOpen ? "1" : "0",
-                }}
-              >
-                <a className="dropdown-item categories" href="/product">
-                  <span class="link-text">CPU</span>
-                </a>
-                <a className="dropdown-item categories" href="/product">
-                  <span class="link-text">GPU</span>
-                </a>
-                <a className="dropdown-item categories" href="/product">
-                  <span class="link-text">Case</span>
-                </a>
-              </div>
+              </Link>
             </li>
             <li className="nav-item nav-comp">
               <a className="nav-link" href="#">

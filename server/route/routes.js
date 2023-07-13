@@ -147,8 +147,6 @@ router.post("/update-profile", auth, asyncHandler(async (req, res) => {
   }
 }));
 
-
-
 router.get("/categories", (req, res) => {
   Category.find()
     .then(categories => {
