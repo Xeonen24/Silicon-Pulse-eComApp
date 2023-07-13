@@ -39,10 +39,13 @@ const Cart = () => {
       {cartItems.map((item) => (
         <div key={item.product._id}>
           <h3>{item.product.title}</h3>
-          <p>Quantity: {item.quantity}</p>
+          <p>{item.product.available ? "In Stock" : "Out of Stock"}</p>          <p>Quantity: {item.quantity}</p>
+          <p>Price: {item.product.price}</p>
           <button onClick={() => removeFromCart(item.product._id)}>Remove</button>
         </div>
       ))}
+    <button>Order now</button>
+
     </div>
   );
 };
