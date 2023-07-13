@@ -9,6 +9,7 @@ const Product = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     axios
@@ -31,6 +32,27 @@ const Product = () => {
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
+  };
+
+  const addToCart = (productId) => {
+    axios
+      .post(
+        "http://localhost:5000/cart/add",
+        {
+          productId: productId,
+          quantity: 1
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtoken")}`
+          }
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setCartItems([...cartItems, response.data.product]);
+      })
+      .catch((error) => console.log(error));
   };
 
   const filteredProducts = selectedCategory
@@ -71,7 +93,10 @@ const Product = () => {
                 {product.discountprice !== 0 ? `₹ ${product.price}` : `₹ ${product.price}`}
               </p>
             </Link>
-            <button className="item-add-to-cart">
+            <button
+              className="item-add-to-cart"
+              onClick={() => addToCart(product._id)}
+            >
               <FontAwesomeIcon
                 icon={faCartPlus}
                 style={{ fontSize: "23px", paddingLeft: "0px" }}
