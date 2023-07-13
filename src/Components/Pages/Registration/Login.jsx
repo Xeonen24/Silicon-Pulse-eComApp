@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import AccountDropdown from "../Profile/AccountDropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./login.css";
 
@@ -12,11 +13,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [userDetails, setUserDetails] = useState(null);
 
-  const location = useLocation();
-
-  useEffect(() => {
-    fetchUserDetails();
-  }, [location]);
+  const toggleUserDropdown = (e) => {
+    if (!e.target.closest(".userDropdown")) {
+      setIsDropdownVisible(!isDropdownVisible);
+    }
+  };
 
   const fetchUserDetails = async () => {
     try {
@@ -32,13 +33,10 @@ const Login = () => {
       console.error(error);
     }
   };
-  
+
   useEffect(() => {
-    if (userDetails) {
-      localStorage.setItem("userDetails", JSON.stringify(userDetails));
-    }
-  }, [userDetails]);
-  
+    fetchUserDetails();
+  }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -61,36 +59,10 @@ const Login = () => {
       } else {
         window.alert("Login successful");
         fetchUserDetails();
-        window.location.href = "/"
+        window.location.href = "/";
       }
     } catch (error) {
       console.error(error);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/logout",
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      window.alert("Logged out successfully");
-      localStorage.removeItem("userDetails");
-      window.location.href = "/";
-    } catch (error) {
-      console.error(error);
-    }
-  };  
-
-  const toggleUserDropdown = (e) => {
-    if (!e.target.closest(".userDropdown")) {
-      setIsDropdownVisible(!isDropdownVisible);
     }
   };
 
@@ -98,28 +70,7 @@ const Login = () => {
     <>
       <ul className="navbar-nav ms-auto">
         {userDetails ? (
-          <li className="nav-link" onClick={toggleUserDropdown}>
-            <FontAwesomeIcon
-              icon={faUser}
-              style={{
-                color: "black",
-                fontSize: "24px",
-                paddingTop: "5px",
-                paddingLeft: "1px",
-              }}
-            />
-            {isDropdownVisible && (
-              <div className="userDropdown">
-                <div className="userDetails">
-                  Hi, {userDetails.username}
-                </div>
-                <Link to="/profile" className="loginLink">
-                  My Profile
-                </Link>
-                  <button className="loginLink" onClick={handleLogout}>Logout</button>
-              </div>
-            )}
-          </li>
+          <AccountDropdown userDetails={userDetails} />
         ) : (
           <li className="nav-link" onClick={toggleUserDropdown}>
             <FontAwesomeIcon
@@ -143,7 +94,7 @@ const Login = () => {
                   ></input>
                   <label>Password</label>
                   <input
-                    type="text"
+                    type="password"
                     name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -164,7 +115,7 @@ const Login = () => {
           </li>
         )}
         <li className="nav-link">
-          <Link>
+          <Link to='/cart'>
             <FontAwesomeIcon
               icon={faCartShopping}
               style={{
