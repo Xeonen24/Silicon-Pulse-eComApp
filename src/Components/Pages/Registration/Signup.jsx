@@ -29,12 +29,16 @@ const Signup = () => {
       setEmail('');
       setPassword('');
       setPassword2('');
-    } catch (error) {
-      console.error(error);
+    } catch(error) {
+      if (error.response && error.response.data && error.response.data.error) {
+        window.alert(error.response.data.error);
+      } else {
+        console.error('Error updating profile:', error);
+      }
     }
   };
 
-  return (
+  return ( 
     <div className='signup-box'>
       <form className='signup-form' onSubmit={handleFormSubmit}>
         <label>Username</label>

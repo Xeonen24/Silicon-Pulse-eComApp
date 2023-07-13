@@ -18,6 +18,30 @@ const ProductPage = () => {
       });
   }, [id]);
 
+  const addToCart = (productId) => {
+    axios
+      .post(
+        "http://localhost:5000/api/cart/add",
+        {
+          productId: productId,
+          quantity: 1
+          
+        },
+        
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",          
+          }
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        // You can update the UI or show a success message
+      })
+      .catch((error) => console.log(error));
+  };
+
   if (!product) {
     return <p>Loading...</p>;
   }
@@ -33,7 +57,7 @@ const ProductPage = () => {
           <p>Product ID: {product.productCode}</p>
           <h4>Manufacturer: {product.manufacturer}</h4>
           <h4>
-            Category: <Link>{product.category}</Link>
+            Category: <Link to={`/category/${product.category}`}>{product.category}</Link>
           </h4>
           <p>{product.description}</p>
           <h2 className="item-dcprices">
@@ -47,7 +71,7 @@ const ProductPage = () => {
           <h4>{product.available ? "In Stock" : "Out of Stock"}</h4>
           {product.available ? (
             <>
-              <button type="button">Add to Cart</button>
+              <button type="button" onClick={() => addToCart(product._id)}>Add to Cart</button>
             </>
           ) : (
             <></>

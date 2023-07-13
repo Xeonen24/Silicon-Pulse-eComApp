@@ -73,6 +73,10 @@ async function seedDB() {
     await seedProducts(["Product 13", "Product 14"], "Cooling Solutions");
     await seedProducts(["Product 15", "Product 16"], "Cases/Cabinets");
     await seedProducts(["Product 17", "Product 18"], "Peripherals");
+    await seedProducts(["Product 19", "Product 20"], "Peripherals");
+    await seedProducts(["Product 21", "Product 22"], "Peripherals");
+    await seedProducts(["Product 23", "Product 24"], "Peripherals");
+
 
     await closeDB();
 }
