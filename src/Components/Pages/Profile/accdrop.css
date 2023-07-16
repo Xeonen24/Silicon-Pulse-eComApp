@@ -1,4 +1,5 @@
 .userDropdown {
+    z-index: 2;
     margin-top: 4rem;
     display: inline-block;
     position: absolute;
@@ -11,8 +12,21 @@
     animation: dropdown-slidedown 0.4s ease-in-out;
     border: 1px rgba(0, 0, 0, 0.096) solid;
     border-radius: 1rem;
-    pointer-events: none;
+    pointer-events: painted;
   }
+
+  @keyframes dropdown-slidedown {
+    0% {
+      opacity: 0;
+      transform: translateY(-5rem);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+
   .userDropdown form {
     pointer-events: auto;
   }
