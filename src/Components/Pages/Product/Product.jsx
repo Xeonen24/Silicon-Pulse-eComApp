@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -55,6 +57,10 @@ const Product = () => {
       .then((response) => {
         console.log(response.data);
         // You can update the UI or show a success message
+        toast.success("Item Added to cart", {
+          autoClose: 2000,
+          position: "top-right",
+        });
       })
       .catch((error) => console.log(error));
   };

@@ -66,7 +66,7 @@ function Navbar(){
                   data-category="cpu"
                   onClick={(e) => handleDropdownItemClick(e.target.getAttribute("data-category"))}
                 >
-                  <span class="link-text">GPU</span>
+                  <span class="link-text">CPU</span>
                 </a>
                 <a className="dropdown-item categories" href="/product">
                   <span class="link-text">GPU</span>
