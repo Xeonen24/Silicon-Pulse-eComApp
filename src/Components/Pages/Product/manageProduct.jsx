@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './manageProduct.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ManageProduct = () => {
   const [data, setData] = useState({
@@ -15,15 +17,49 @@ const ManageProduct = () => {
     discountprice: '',
     price: '',
   });
+  const [roleDetails, setRoleDetails] = useState("");
 
   const postData = async () => {
+    const toastId = toast.loading("Loading...");
+
     try {
       const response = await axios.post('http://localhost:5000/api/add-product' , data);
       console.log(response);
-    } catch (error) {
+      setData({})
+      toast.success("Product Added Successfully", {
+        autoClose: 2000,
+        position: "top-right",
+      });
+      toast.dismiss(toastId);
+    }
+    catch (error) {
+      toast.dismiss(toastId);
+      toast.error("Failed To Add Product", {
+        autoClose: 2000,
+        position: "top-right",
+      });
       console.error('Error fetching categories and products:', error);
     }
   };
+
+  const fetchRoleDetails = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/user-role", {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setRoleDetails(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRoleDetails();
+  }, []);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -32,6 +68,7 @@ const ManageProduct = () => {
 
   return (
     <div>
+      {roleDetails.role ==="admin"?(
       <div className='add-product-box'>
         <form className='add-product-form' onSubmit={handleFormSubmit}>
           <label>Product Code</label>
@@ -100,6 +137,9 @@ const ManageProduct = () => {
           <button className='signupbutton' type='submit'>Register</button>
         </form>
       </div>
+      ) :(<div>
+        <p>You are Not Aurthorized</p>
+      </div>)}
     </div>
   );
 };

@@ -10,12 +10,15 @@ const AccountDropdown = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [roleDetails, setRoleDetails] = useState("");
+
 
   const location = useLocation();
-
   useEffect(() => {
     fetchUserDetails();
+    fetchRoleDetails();
   }, [location]);
+  
 
   const fetchUserDetails = async () => {
     try {
@@ -60,6 +63,23 @@ const AccountDropdown = () => {
     }
   };
 
+  const fetchRoleDetails = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/user-role", {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setRoleDetails(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  
+
   const toggleUserDropdown = (e) => {
     if (!e.target.closest(".userDropdown")) {
       setIsDropdownVisible(!isDropdownVisible);
@@ -97,6 +117,13 @@ const AccountDropdown = () => {
                   My Orders
                 </Link>
               </li>
+              {roleDetails.role ==="admin"?(
+                <li>
+                <Link to="/add-product" className="listofform">
+                  Admin Panel
+                </Link>
+              </li>
+              ) :(null)}
             </ul>
             <hr className="loginhr2" />
             <a className="Buttonss" onClick={handleLogout}>

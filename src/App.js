@@ -9,7 +9,7 @@ import Signup from "./Components/Pages/Registration/Signup";
 import ProductPage from "./Components/Pages/Product/ProductPage";
 import Login from "./Components/Pages/Registration/Login";
 import Cart from "./Components/Pages/Cart/Cart";
-import ManageProduct from "./Components/Pages/Product/manageProduct"
+import ManageProduct from "./Components/Pages/Product/manageProduct";
 import { ToastContainer } from 'react-toastify';
 
 
@@ -18,16 +18,14 @@ const App = () => {
     <Router>
       <Header />
       <ToastContainer />
-
-      
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/add-product" element={<ManageProduct />} />
         <Route path="/product" element={<Product />} />
         <Route path='login' element={<Login />} />
         <Route path="/profile/" element={<Profile />} />
         <Route path='/cart' element={<Cart />} />
         <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/manageproduct" element={<ManageProduct />} />
         <Route path="signup" element={<Signup />} />
       </Routes>
     </Router>

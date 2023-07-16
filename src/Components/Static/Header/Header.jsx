@@ -47,7 +47,7 @@ function Navbar(){
             >
               <Link className="nav-link" to='/product'>
                 Products
-              </a>
+              
               <div
                 className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}
                 style={{

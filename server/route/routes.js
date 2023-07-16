@@ -236,4 +236,43 @@ router.post('/add-product', asyncHandler(async (req, res) => {
   }
 }));
 
+router.post('/add-product', asyncHandler(async (req, res) => {
+  try {
+    const { title , description , price , available , 
+      category , manufacturer , discountprice , productCode , imagePath ,  } = req.body;
+
+    // const image = req.files.image;
+
+    if( !title || !description || !price || !available || !category || !manufacturer 
+      || !discountprice || !productCode || !imagePath){
+        return res.status(422).json({ error: 'Please add all the fields' });
+      }
+
+    const newproduct = new Product({
+      title , description , price , available ,
+      category , manufacturer , discountprice , productCode , imagePath
+    });
+
+    const product = await newproduct.save();
+
+    return res.status(201).json({ message: 'Product added successfully' , product });
+
+
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error in add cart' });
+  }
+}));
+
+router.get('/user-role', auth, (req, res) => {
+  try {
+    const userRole = req.rootUser.role;
+    res.status(200).json({ role: userRole });
+  } catch (err) {
+    res.status(500).json({ error: 'Unable to fetch user role' });
+    console.log(err);
+  }
+});
+
 module.exports = router;
