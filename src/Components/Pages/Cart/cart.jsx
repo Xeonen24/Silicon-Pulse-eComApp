@@ -1,35 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './cart.css';
 
-export const ShopContext = createContext(null);
+const Cart = () => {
+  const [cartItems, setCartItems] = useState([]);
 
-const defaultCart = () => {
-  let cart = {}; // initializing empty object for storing the items in the shopping cart
-  for (let i = 1; ; i++) {
-    cart[i] = 0;
-  }
-  return cart;
-};
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/cart', {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwtoken')}`,
+          },
+        });
+        setCartItems(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-useEffect(() => {
-    // Fetch the product data from your database
-    fetch("http://localhost:5000/api/products")
-      .then((response) => response.json())
-      .then((data) => {
-        // Count the total number of products
-        const count = data.length;
-        setTotalProducts(count);
-      })
-      .catch((error) => {
-        console.error("Error fetching product data:", error);
+    fetchCartItems();
+  }, []);
+
+  const removeFromCart = async (productId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/cart/remove/${productId}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtoken')}`,
+        },
       });
-  },[]);
 
-const ShopContextProvider = (props) => {
-  const [cartItems, setCartItems] = useState(defaultCart());
-  const [totalProducts, setTotalProducts] = useState(0);
+      setCartItems((prevCartItems) =>
+        prevCartItems.filter((item) => item.product._id !== productId)
+      );
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <ShopContext.Provider value={{ cartItems, totalProducts }}>
-      {props.children}
-    </ShopContext.Provider>
+    <div className="cart-container">
+      <h2>Cart</h2>
+      {cartItems.length > 0 ? (
+        cartItems.map((item) => (
+          <div className="cart-item" key={item.product._id}>
+            <img
+                src={item.product.imagePath}
+                alt={item.product.title}
+                className="item-image"
+              />
+            <h3 className="cart-item-title">{item.product.title}</h3>
+            <p className="cart-item-stock">
+              {item.product.available ? 'In Stock' : 'Out of Stock'}
+            </p>
+            <p className="cart-item-quantity">Quantity: {item.quantity}</p>
+            <p className="cart-item-price">Price: {item.product.price}</p>
+            <button
+              className="cart-item-remove"
+              onClick={() => removeFromCart(item.product._id)}
+            >
+              Remove
+            </button>
+          </div>
+        ))
+      ) : (
+        <p className="cart-empty">Your cart is empty.</p>
+      )}
+      <button className="order-button">Order now</button>
+    </div>
   );
 };
+
+export default Cart;

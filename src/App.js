@@ -8,7 +8,8 @@ import Product from "./Components/Pages/Product/Product";
 import Signup from "./Components/Pages/Registration/Signup";
 import ProductPage from "./Components/Pages/Product/ProductPage";
 import Login from "./Components/Pages/Registration/Login";
-import Cart from "./Components/Pages/Product/Cart";
+import Cart from "./Components/Pages/Cart/Cart";
+import addProduct from "./Components/Pages/Profile/addProduct"
 import { ToastContainer } from 'react-toastify';
 
 
