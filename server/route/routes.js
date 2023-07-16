@@ -9,8 +9,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 router.use(cookieParser());
 
-router.post(
-  "/signup",
+router.post("/signup",
   asyncHandler(async (req, res) => {
     const { username, email, password, password2 } = req.body;
     if (!username || !email || !password || !password2) {
@@ -39,8 +38,7 @@ router.post(
   })
 );
 
-router.post(
-  "/login",
+router.post("/login",
   asyncHandler(async (req, res) => {
     try {
       let token;
@@ -209,5 +207,33 @@ router.delete('/cart/remove/:productId', auth, asyncHandler(async (req, res) => 
   }
 }));
 
+router.post('/add-product', asyncHandler(async (req, res) => {
+  try {
+    const { title , description , price , available , 
+      category , manufacturer , discountprice , productCode , imagePath ,  } = req.body;
+
+    // const image = req.files.image;
+
+    if( !title || !description || !price || !available || !category || !manufacturer 
+      || !discountprice || !productCode || !imagePath){
+        return res.status(422).json({ error: 'Please add all the fields' });
+      }
+
+    const newproduct = new Product({
+      title , description , price , available ,
+      category , manufacturer , discountprice , productCode , imagePath
+    });
+
+    const product = await newproduct.save();
+
+    return res.status(201).json({ message: 'Product added successfully' , product });
+
+
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error in add cart' });
+  }
+}));
 
 module.exports = router;
