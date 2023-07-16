@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import "./productpg.css";
 
@@ -25,23 +27,26 @@ const ProductPage = () => {
         {
           productId: productId,
           quantity: 1
-          
         },
-        
         {
           withCredentials: true,
           headers: {
-            "Content-Type": "application/json",          
-          }
+            "Content-Type": "application/json",
+          },
         }
       )
       .then((response) => {
         console.log(response.data);
-        // You can update the UI or show a success message
+  
+        // Show a toast notification
+        toast.success("Item Added to cart", {
+          autoClose: 2000,
+          position: "top-right",
+        });
       })
       .catch((error) => console.log(error));
   };
-
+  
   if (!product) {
     return <p>Loading...</p>;
   }

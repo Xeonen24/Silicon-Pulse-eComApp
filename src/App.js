@@ -9,11 +9,16 @@ import Signup from "./Components/Pages/Registration/Signup";
 import ProductPage from "./Components/Pages/Product/ProductPage";
 import Login from "./Components/Pages/Registration/Login";
 import Cart from "./Components/Pages/Product/Cart";
+import { ToastContainer } from 'react-toastify';
+
 
 const App = () => {
   return (
     <Router>
       <Header />
+      <ToastContainer />
+
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product" element={<Product />} />

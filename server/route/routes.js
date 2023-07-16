@@ -189,23 +189,25 @@ router.get('/cart',auth , asyncHandler(async (req, res) => {
   }
 }));
 
-router.delete('/cart/remove/:productId', auth, asyncHandler( async (req, res) => {
+router.delete('/cart/remove/:productId', auth, asyncHandler(async (req, res) => {
   try {
-     const { productId } = req.params;
-     const user = await USER.findById(req.userID);
-     const productIndex = user.cart.findIndex(item => item.product.toString() === productId);
-     if (productIndex === -1) {
-        return res.status(404).json({ error: 'Product not found in cart' });
-     }
+    const { productId } = req.params;
+    const user = await USER.findById(req.userID);
+    const productIndex = user.cart.findIndex(item => item.product._id.toString() === productId);
 
-     user.cart.splice(productIndex, 1);
-     await user.save();
+    if (productIndex === -1) {
+      return res.status(404).json({ error: 'Product not found in cart' });
+    }
 
-     res.json({ message: 'Product removed from cart' });
+    user.cart.splice(productIndex, 1);
+    await user.save();
+
+    res.json({ message: 'Product removed from cart' });
   } catch (error) {
-     console.log(error);
-     res.status(500).json({ error: 'Server error' });
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
   }
 }));
+
 
 module.exports = router;
