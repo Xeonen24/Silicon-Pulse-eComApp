@@ -4,7 +4,7 @@ import Login from "../../Pages/Registration/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./header.css";
 
-function Navbar() {
+function Navbar(){
   const [expanded, setExpanded] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -14,6 +14,12 @@ function Navbar() {
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleDropdownItemClick = (category) => {
+    console.log("Clicked category:", category);
+    const url = `/product?category=${category}`;
+    window.location.href = url;
   };
 
   return (
@@ -54,7 +60,12 @@ function Navbar() {
                   opacity: dropdownOpen ? "1" : "0",
                 }}
               >
-                <a className="dropdown-item categories" href="/product">
+                <a
+                  className="dropdown-item categories"
+                  href="/product"
+                  data-category="cpu"
+                  onClick={(e) => handleDropdownItemClick(e.target.getAttribute("data-category"))}
+                >
                   <span class="link-text">CPU</span>
                 </a>
                 <a className="dropdown-item categories" href="/product">
