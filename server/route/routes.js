@@ -7,36 +7,45 @@ const Category = require("../model/category");
 const auth = require("../midddleware/auth");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const validator = require('validator');
 router.use(cookieParser());
 
-router.post("/signup",
-  asyncHandler(async (req, res) => {
-    const { username, email, password, password2 } = req.body;
-    if (!username || !email || !password || !password2) {
-      return res.status(403).json({ error: "Fill in fields missing" });
-    }
-    try {
-      const userExists = await USER.findOne({ username: username });
-      const emailExists = await USER.findOne({ email: email });
-      if (userExists || emailExists) {
-        return res.status(422).json({ error: "User already exists" });
-      } else if (password !== password2) {
-        return res.status(422).json({ error: "Password do not match" });
-      } else {
-        const user = new USER({
-          username,
-          email,
-          password,
-          password2,
-        });
-        await user.save();
-      }
+router.post("/signup", asyncHandler(async (req, res) => {
+  const { username, email, password, password2 } = req.body;
+  if (!username || !email || !password || !password2) {
+    return res.status(403).json({ error: "Please fill in all details" });
+  }
+  try {
+    const userExists = await USER.findOne({ username: username });
+    const emailExists = await USER.findOne({ email: email });
+    if (userExists || emailExists) {
+      return res.status(422).json({ error: "User already exists" });
+    } else if (password !== password2) {
+      return res.status(422).json({ error: "Passwords do not match" });
+    } else if (!email || validator.isEmail.email){
+      return res.status(422).json({ error: "Email address is not valid" });
+    } else {
+      const user = new USER({
+        username,
+        email,
+        password,
+        password2,
+      });
+      await user.save();
       res.status(201).json({ message: "User registered" });
-    } catch (err) {
-      console.log(err);
     }
-  })
-);
+  } catch (err) {
+    const errors = {};
+    if (err.errors) {
+      Object.keys(err.errors).forEach((key) => {
+        errors[key] = err.errors[key].message;
+      });
+    }
+    console.log(errors);
+    res.status(422).json({ errors });
+  }
+}));
+
 
 router.post("/login",
   asyncHandler(async (req, res) => {
@@ -212,8 +221,6 @@ router.post('/add-product', asyncHandler(async (req, res) => {
     const { title , description , price , available , 
       category , manufacturer , discountprice , productCode , imagePath ,  } = req.body;
 
-    // const image = req.files.image;
-
     if( !title || !description || !price || !available || !category || !manufacturer 
       || !discountprice || !productCode || !imagePath){
         return res.status(422).json({ error: 'Please add all the fields' });
@@ -240,8 +247,6 @@ router.post('/add-product', asyncHandler(async (req, res) => {
   try {
     const { title , description , price , available , 
       category , manufacturer , discountprice , productCode , imagePath ,  } = req.body;
-
-    // const image = req.files.image;
 
     if( !title || !description || !price || !available || !category || !manufacturer 
       || !discountprice || !productCode || !imagePath){
