@@ -63,7 +63,7 @@ const Product = () => {
         console.log(response.data);
         toast.success("Item Added to cart", {
           autoClose: 2000,
-          position: "top-right",
+          position: "bottom-right",
         });
       })
       .catch((error) => console.log(error));

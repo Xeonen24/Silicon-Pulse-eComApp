@@ -168,13 +168,11 @@ router.post('/cart/add',auth ,asyncHandler(async (req, res) => {
   try {
      const { productId, quantity } = req.body;
      const user = await USER.findById(req.userID);
-     console.log(req.userID)
-
      const product = await Product.findById(productId);
+
      if (!product) {
         return res.status(404).json({ error: 'Product not found' });
      }
-
      user.cart.push({ product: productId, quantity });
      await user.save();
 
@@ -243,33 +241,6 @@ router.post('/add-product', asyncHandler(async (req, res) => {
   }
 }));
 
-router.post('/add-product', asyncHandler(async (req, res) => {
-  try {
-    const { title , description , price , available , 
-      category , manufacturer , discountprice , productCode , imagePath ,  } = req.body;
-
-    if( !title || !description || !price || !available || !category || !manufacturer 
-      || !discountprice || !productCode || !imagePath){
-        return res.status(422).json({ error: 'Please add all the fields' });
-      }
-
-    const newproduct = new Product({
-      title , description , price , available ,
-      category , manufacturer , discountprice , productCode , imagePath
-    });
-
-    const product = await newproduct.save();
-
-    return res.status(201).json({ message: 'Product added successfully' , product });
-
-
-  }
-  catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Server error in add cart' });
-  }
-}));
-
 router.get('/user-role', auth, (req, res) => {
   try {
     const userRole = req.rootUser.role;
@@ -279,5 +250,34 @@ router.get('/user-role', auth, (req, res) => {
     console.log(err);
   }
 });
+
+router.get('/get-users', auth, asyncHandler(async (req, res) => {
+  try {
+    const users = await USER.find();
+
+    res.json(users);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'Unable to fetch users' });
+  }
+}))
+
+router.delete('/cart/remove-all', auth, asyncHandler(async (req, res) => {
+  try {
+    const user = await USER.findById(req.userID);
+
+    if (user.cart.length === 0) {
+      return res.status(404).json({ error: 'Cart is already empty' });
+    }
+
+    user.cart = [];
+    await user.save();
+
+    res.json({ message: 'Cart cleared' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
 
 module.exports = router;

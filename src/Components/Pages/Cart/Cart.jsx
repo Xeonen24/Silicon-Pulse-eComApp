@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './cart.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./cart.css";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -8,10 +8,10 @@ const Cart = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/cart', {
+        const response = await axios.get("http://localhost:5000/api/cart", {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwtoken')}`,
+            Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
           },
         });
         setCartItems(response.data);
@@ -28,7 +28,7 @@ const Cart = () => {
       await axios.delete(`http://localhost:5000/api/cart/remove/${productId}`, {
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtoken')}`,
+          Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
         },
       });
 
@@ -40,36 +40,54 @@ const Cart = () => {
       console.log(error);
     }
   };
+  
+  const clearCart = async () => {
+    try {
+      await axios.delete("http://localhost:5000/api/cart/remove-all", {
+        withCredentials: true,
+      });
+      setCartItems([]);
+
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="cart-container">
       <h2>Cart</h2>
       {cartItems.length > 0 ? (
-        cartItems.map((item) => (
-          <div className="cart-item" key={item.product._id}>
-            <img
+        <>
+          {cartItems.map((item) => (
+            <div className="cart-item" key={item.product._id}>
+              <img
                 src={item.product.imagePath}
                 alt={item.product.title}
                 className="item-image"
               />
-            <h3 className="cart-item-title">{item.product.title}</h3>
-            <p className="cart-item-stock">
-              {item.product.available ? 'In Stock' : 'Out of Stock'}
-            </p>
-            <p className="cart-item-quantity">Quantity: {item.quantity}</p>
-            <p className="cart-item-price">Price: {item.product.price}</p>
-            <button
-              className="cart-item-remove"
-              onClick={() => removeFromCart(item.product._id)}
-            >
-              Remove
-            </button>
-          </div>
-        ))
+              <h3 className="cart-item-title">{item.product.title}</h3>
+              <p className="cart-item-stock">
+                {item.product.available ? "In Stock" : "Out of Stock"}
+              </p>
+              <p className="cart-item-quantity">Quantity: {item.quantity}</p>
+              <p className="cart-item-price">Price: {item.product.price}</p>
+              <button
+                className="cart-item-remove"
+                onClick={() => removeFromCart(item.product._id)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button className="cart-clear" onClick={() => clearCart()}>
+            Clear Cart
+          </button>
+          <button className="order-button">Order now</button>
+        </>
       ) : (
         <p className="cart-empty">Your cart is empty.</p>
       )}
-      <button className="order-button">Order now</button>
     </div>
   );
 };
