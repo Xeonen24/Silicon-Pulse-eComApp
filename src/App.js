@@ -8,7 +8,8 @@ import Product from "./Components/Pages/Product/Product";
 import Signup from "./Components/Pages/Registration/Signup";
 import ProductPage from "./Components/Pages/Product/ProductPage";
 import Login from "./Components/Pages/Registration/Login";
-import Cart from "./Components/Pages/Product/Cart";
+import Cart from "./Components/Pages/Cart/Cart";
+import ManageProduct from "./Components/Pages/Product/manageProduct";
 import { ToastContainer } from 'react-toastify';
 
 
@@ -17,10 +18,9 @@ const App = () => {
     <Router>
       <Header />
       <ToastContainer />
-
-      
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/add-product" element={<ManageProduct />} />
         <Route path="/product" element={<Product />} />
         <Route path='login' element={<Login />} />
         <Route path="/profile/" element={<Profile />} />
