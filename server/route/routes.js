@@ -207,6 +207,24 @@ router.delete('/cart/remove/:productId', auth, asyncHandler(async (req, res) => 
   }
 }));
 
+router.delete('/cart/remove-all', auth, asyncHandler(async (req, res) => {
+  try {
+    const user = await USER.findById(req.userID);
+
+    if (user.cart.length === 0) {
+      return res.status(404).json({ error: 'Cart is already empty' });
+    }
+
+    user.cart = [];
+    await user.save();
+
+    res.json({ message: 'Cart cleared' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
+
 router.post('/add-product', asyncHandler(async (req, res) => {
   try {
     const { title , description , price , available , 

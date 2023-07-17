@@ -6,6 +6,8 @@ import { faUser, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import AccountDropdown from "../Profile/AccountDropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./login.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -64,6 +66,11 @@ const Login = () => {
       }
     } catch (error) {
       console.error(error);
+      console.log("Wrong");
+      toast.error("Invalid Credentials", {
+        autoClose: 2000,
+        position: "top-right",
+      });
     }
   };
 

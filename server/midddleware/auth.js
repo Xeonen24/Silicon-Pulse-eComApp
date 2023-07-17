@@ -14,9 +14,15 @@ const auth = async (req, res, next) => {
       _id: verifyToken._id,
       'tokens.token': token
     });
+
     if (!rootUser) {
       throw new Error('User does not exist');
     }
+
+    if (rootUser.role !== 'admin') {
+      throw new Error('User is not authorized as an admin');
+    }
+
     req.token = token;
     req.rootUser = rootUser;
     req.userID = rootUser._id;
