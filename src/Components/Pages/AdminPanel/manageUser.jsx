@@ -34,9 +34,30 @@ const ManageUser = () => {
     setSelectedUser(null);
   }
 
-  const deleteUser = (user) => {
-    // Make an API call to delete the user using user._id
-  };
+  const deleteUser = async(user) => {
+    try {
+        const response = await axios.delete(
+          `http://localhost:5000/api/delete-user/${user._id}`,
+          user,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(response.data);
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user._id === response.data._id ? response.data : user
+          )
+        );
+        setSelectedUser(null);
+        window.location.reload();
+      } catch (error) {
+        console.error("Error updating user:", error);
+      }  
+};
 
   const updateUser = async (updatedUser) => {
     try {
@@ -76,29 +97,14 @@ const ManageUser = () => {
           <td className="userCreatedAtx">
             <label type="text">{formatDate(selectedUser.createdAt)}</label>
           </td>
+          <td className="userCreatedAtx">
+            <label type="text">{formatDate(selectedUser.updatedAt)}</label>
+          </td>
           <td className="userNamex">
-            <input
-              type="text"
-              value={selectedUser.username}
-              onChange={(e) =>
-                setSelectedUser((prevUser) => ({
-                  ...prevUser,
-                  username: e.target.value,
-                }))
-              }
-            />
+            <label>{selectedUser.username}</label>
           </td>
           <td className="userEmailx">
-            <input
-              type="text"
-              value={selectedUser.email}
-              onChange={(e) =>
-                setSelectedUser((prevUser) => ({
-                  ...prevUser,
-                  email: e.target.value,
-                }))
-              }
-            />
+          <label>{selectedUser.email}</label>
           </td>
           <td className="userRolex">
             <select
@@ -114,23 +120,6 @@ const ManageUser = () => {
               <option value="user">user</option>
             </select>
           </td>
-
-          {selectedUser && (
-            <>
-              <td className="userCartx">
-                <input
-                  type="text"
-                  value={selectedUser.cart}
-                  onChange={(e) =>
-                    setSelectedUser((prevUser) => ({
-                      ...prevUser,
-                      cart: e.target.value,
-                    }))
-                  }
-                />
-              </td>
-            </>
-          )}
           <td className="userEditx" onClick={() => updateUser(selectedUser)}>
             <FontAwesomeIcon icon={faPenToSquare} />
           </td>
@@ -145,6 +134,9 @@ const ManageUser = () => {
           <td className="userIdx">{user._id}</td>
           <td className="userCreatedAtx">
             <label type="text">{formatDate(user.createdAt)}</label>
+          </td>
+          <td className="userCreatedAtx">
+            <label type="text">{formatDate(user.updatedAt)}</label>
           </td>
           <td className="userNamex">{user.username}</td>
           <td className="userEmailx">{user.email}</td>
@@ -167,14 +159,10 @@ const ManageUser = () => {
           <tr>
             <th>UID</th>
             <th>Created At</th>
+            <th>Updated At</th>
             <th>Username</th>
             <th>Email</th>
             <th>Role</th>
-            {selectedUser && (
-              <>
-                <th>Cart</th>
-              </>
-            )}
             <th>Edit User</th>
             <th>Delete User</th>
           </tr>

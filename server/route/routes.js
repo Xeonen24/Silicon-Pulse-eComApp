@@ -170,6 +170,19 @@ router.put("/update-user/:id", async (req, res) => {
   }
 });
 
+router.delete("/delete-user/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await USER.findByIdAndRemove(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({ error: "Failed to delete user" });
+  }
+});
 
 router.get("/categories", (req, res) => {
   Category.find()
