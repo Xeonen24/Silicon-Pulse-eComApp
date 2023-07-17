@@ -17,7 +17,6 @@ function Navbar(){
   };
 
   const handleDropdownItemClick = (category) => {
-    console.log("Clicked category:", category);
     const url = `/product?category=${category}`;
     window.location.href = url;
   };
@@ -46,13 +45,9 @@ function Navbar(){
             <li
               className={`nav-item nav-comp dropdown ${dropdownOpen ? "show" : ""}`}
             >
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                onClick={toggleDropdown}
-              >
+              <Link className="nav-link" to='/product'>
                 Products
-              </a>
+              
               <div
                 className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}
                 style={{
@@ -75,6 +70,7 @@ function Navbar(){
                   <span class="link-text">Case</span>
                 </a>
               </div>
+              </Link>
             </li>
             <li className="nav-item nav-comp">
               <a className="nav-link" href="#">

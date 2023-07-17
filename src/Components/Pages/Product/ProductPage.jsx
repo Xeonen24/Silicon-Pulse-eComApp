@@ -38,7 +38,6 @@ const ProductPage = () => {
       .then((response) => {
         console.log(response.data);
   
-        // Show a toast notification
         toast.success("Item Added to cart", {
           autoClose: 2000,
           position: "top-right",
@@ -73,8 +72,8 @@ const ProductPage = () => {
               ? `₹ ${product.price}`
               : `₹ ${product.price}`}
           </h2>
-          <h4>{product.available ? "In Stock" : "Out of Stock"}</h4>
-          {product.available ? (
+          <h4>{product.quantity > 0 ? "In Stock" : "Out of Stock"}</h4>
+          {product.quantity > 0 ? (
             <>
               <button type="button" onClick={() => addToCart(product._id)}>Add to Cart</button>
             </>

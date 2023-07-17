@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useLocation } from "react-router-dom";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -13,13 +14,13 @@ const Product = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(15);
-  const [cartItems, setCartItems] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     axios
       .all([
         axios.get("http://localhost:5000/api/categories"),
-        axios.get("http://localhost:5000/api/products")
+        axios.get("http://localhost:5000/api/products"),
       ])
       .then(
         axios.spread((categoriesResponse, productsResponse) => {
@@ -32,6 +33,12 @@ const Product = () => {
       });
   }, []);
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const category = searchParams.get("category");
+    setSelectedCategory(category || "");
+  }, [location.search]);
+
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
     setCurrentPage(1);
@@ -43,20 +50,17 @@ const Product = () => {
         "http://localhost:5000/api/cart/add",
         {
           productId: productId,
-          quantity: 1
-          
+          quantity: 1,
         },
-        
         {
           withCredentials: true,
           headers: {
-            "Content-Type": "application/json",          
-          }
+            "Content-Type": "application/json",
+          },
         }
       )
       .then((response) => {
         console.log(response.data);
-        // You can update the UI or show a success message
         toast.success("Item Added to cart", {
           autoClose: 2000,
           position: "top-right",
@@ -108,15 +112,26 @@ const Product = () => {
               />
               <h3 className="item-title">{product.title}</h3>
               <p className="item-dcprices">
-                {product.discountprice !== 0 ? `₹ ${product.discountprice}` : ""}
+                {product.discountprice !== 0
+                  ? `₹ ${product.discountprice}`
+                  : ""}
               </p>
               <p className="item-prices">
-                {product.discountprice !== 0 ? `₹ ${product.price}` : `₹ ${product.price}`}
+                {product.discountprice !== 0
+                  ? `₹ ${product.price}`
+                  : `₹ ${product.price}`}
               </p>
+              <h4 style={{ color: product.quantity > 0 ? "green" : "red" }}>
+                {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+              </h4>
             </Link>
             <button
-              className="item-add-to-cart"
+              className={product.quantity > 0? "item-add-to-cart":"item-out-of-stock"}
+              disabled={!product.quantity}
               onClick={() => addToCart(product._id)}
+              style={{
+                backgroundColor: product.quantity ? "" : "#a6a6a6",
+              }}
             >
               <FontAwesomeIcon
                 icon={faCartPlus}
@@ -128,11 +143,14 @@ const Product = () => {
       </div>
 
       <div className="pagination">
-        {Array.from(Array(Math.ceil(filteredProducts.length / productsPerPage)), (item, index) => (
-          <button key={index} onClick={() => paginate(index + 1)}>
-            {index + 1}
-          </button>
-        ))}
+        {Array.from(
+          Array(Math.ceil(filteredProducts.length / productsPerPage)),
+          (item, index) => (
+            <button key={index} onClick={() => paginate(index + 1)}>
+              {index + 1}
+            </button>
+          )
+        )}
       </div>
     </>
   );
