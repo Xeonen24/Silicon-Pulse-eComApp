@@ -4,6 +4,8 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import AccountDropdown from "../Profile/AccountDropdown";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./login.css";
 import { toast } from "react-toastify";
@@ -35,8 +37,6 @@ const Login = () => {
     }
   };
 
-
-
   useEffect(() => {
     fetchUserDetails();
   }, []);
@@ -58,14 +58,26 @@ const Login = () => {
         }
       );
       if (response.status === 400) {
-        window.alert("Invalid credentials");
+        toast.error("Invalid credentials, please try again.", {
+          autoClose: 1500,
+          position: "top-right",
+        });
       } else {
-        window.alert("Login successful");
+        toast.success("Login successful", {
+          autoClose: 1500,
+          position: "top-right",
+        });
         fetchUserDetails();
-        window.location.href = "/";
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1500);
       }
     } catch (error) {
-      console.error(error);
+      toast.error("Invalid credentials", {
+        autoClose: 1500,
+        position: "top-right",
+      });
+      console.log(error);
       console.log("Wrong");
       toast.error("Invalid Credentials", {
         autoClose: 2000,
@@ -123,7 +135,7 @@ const Login = () => {
           </li>
         )}
         <li className="nav-link">
-          <Link to='/cart'>
+          <Link to="/cart">
             <FontAwesomeIcon
               icon={faCartShopping}
               style={{
