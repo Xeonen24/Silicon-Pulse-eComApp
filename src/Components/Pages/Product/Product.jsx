@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 import React, { useState, useEffect } from "react";
 import "./product.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,26 +7,56 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
-=======
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './cart.css';
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
->>>>>>> Stashed changes
 
-const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
+const Product = () => {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(15);
+  const location = useLocation();
 
   useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/cart', {
+    axios
+      .all([
+        axios.get("http://localhost:5000/api/categories"),
+        axios.get("http://localhost:5000/api/products"),
+      ])
+      .then(
+        axios.spread((categoriesResponse, productsResponse) => {
+          setCategories(categoriesResponse.data);
+          setProducts(productsResponse.data);
+        })
+      )
+      .catch((error) => {
+        console.error("Error fetching categories and products:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const category = searchParams.get("category");
+    setSelectedCategory(category || "");
+  }, [location.search]);
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+    setCurrentPage(1);
+  };
+
+  const addToCart = (productId) => {
+    axios
+      .post(
+        "http://localhost:5000/api/cart/add",
+        {
+          productId: productId,
+          quantity: 1,
+        },
+        {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwtoken')}`,
+            "Content-Type": "application/json",
           },
-<<<<<<< Updated upstream
         }
       )
       .then((response) => {
@@ -38,54 +67,28 @@ const Cart = () => {
         });
       })
       .catch((error) => console.log(error));
-=======
-        });
-        setCartItems(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchCartItems();
-  }, []);
-
-  const removeFromCart = async (productId) => {
-    try {
-      await axios.delete(`http://localhost:5000/api/cart/remove/${productId}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtoken')}`,
-        },
-      });
-
-      setCartItems((prevCartItems) =>
-        prevCartItems.filter((item) => item.product._id !== productId)
-      );
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
->>>>>>> Stashed changes
   };
 
-  const clearCart = async () => {
-    try {
-      await axios.delete(`http://localhost:5000/api/cart/remove-all`,{
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtoken')}`,
-        },
-      });
-      setCartItems([]);
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const filteredProducts = selectedCategory
+    ? products.filter((product) => product.category === selectedCategory)
+    : products;
 
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
-  
+
+  if (categories.length === 0) {
+    return <p>Loading...</p>;
+  }
 
   return (
-<<<<<<< Updated upstream
     <>
       <div>
         <select value={selectedCategory} onChange={handleCategoryChange}>
@@ -102,20 +105,11 @@ const Cart = () => {
         {currentProducts.map((product, index) => (
           <div className="grid-item" key={index}>
             <Link to={`/product/${product._id}`} className="product-link">
-=======
-    <div className="cart-container">
-      <h2>Cart</h2>
-      {cartItems.length > 0 ? (
-        <>
-          {cartItems.map((item) => (
-            <div className="cart-item" key={item.product._id}>
->>>>>>> Stashed changes
               <img
-                src={item.product.imagePath}
-                alt={item.product.title}
+                src={product.imagePath}
+                alt={product.title}
                 className="item-image"
               />
-<<<<<<< Updated upstream
               <h3 className="item-title">{product.title}</h3>
               <p className="item-dcprices">
                 {product.discountprice !== 0
@@ -159,32 +153,7 @@ const Cart = () => {
         )}
       </div>
     </>
-=======
-              <h3 className="cart-item-title">{item.product.title}</h3>
-              <p className="cart-item-stock">
-                {item.product.available ? 'In Stock' : 'Out of Stock'}
-              </p>
-              <p className="cart-item-quantity">Quantity: {item.quantity}</p>
-              <p className="cart-item-price">Price: {item.product.price}</p>
-              <button
-                className="cart-item-remove"
-                onClick={() => removeFromCart(item.product._id)}
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button className="cart-clear" onClick={() => clearCart()}>
-            Clear Cart
-          </button>
-          <button className="order-button">Order now</button>
-        </>
-      ) : (
-        <p className="cart-empty">Your cart is empty.</p>
-      )}
-    </div>
->>>>>>> Stashed changes
   );
 };
 
-export default Cart;
+export default Product;
