@@ -154,6 +154,23 @@ router.post("/update-profile", auth, asyncHandler(async (req, res) => {
   }
 }));
 
+router.put("/update-user/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updatedUser = req.body;
+
+    const user = await USER.findByIdAndUpdate(userId, updatedUser, {
+      new: true,
+    });
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ error: "Failed to update user" });
+  }
+});
+
+
 router.get("/categories", (req, res) => {
   Category.find()
     .then(categories => {
