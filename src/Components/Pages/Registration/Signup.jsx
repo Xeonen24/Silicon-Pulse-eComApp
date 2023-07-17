@@ -23,7 +23,7 @@ const Signup = () => {
         email,
         password,
         password2
-      },config);
+      },config) ;
       console.log(response.data);
       setUsername('');
       setEmail('');

@@ -41,3 +41,36 @@
 .add-product-form button.signupbutton {
   background-color: #2196f3;
 }
+
+.custom-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-dropdown-select {
+  width: 100%; 
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  appearance: none; 
+}
+
+.custom-dropdown-select::-ms-expand {
+  display: none; 
+}
+
+.custom-dropdown-select option {
+  padding: 8px;
+}
+
+.custom-dropdown-select:focus {
+  outline: none;
+  border-color: #888;
+  box-shadow: 0 0 5px #888;
+}
+
+.custom-dropdown-select option:hover {
+  background-color: #f5f5f5;
+}

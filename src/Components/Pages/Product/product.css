@@ -19,15 +19,32 @@
 }
 
 .item-add-to-cart {
-    width: 50px;
+    width:80%;
     height: 50px;
-    border-radius: 50%;
     background-color: var(--aplared);
     display: flex;
     justify-content: center;
     align-items: center;
     border: none;
     cursor: pointer;
+    margin-left: 2rem;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .item-add-to-cart:hover{
+    background-color: rgb(207, 126, 126);
+  }
+
+  .item-out-of-stock {
+    width:80%;
+    height: 50px;
+    background-color: var(--aplared);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    pointer-events: none;
+    margin-left: 2rem;
   }
   
   .cart-icon {

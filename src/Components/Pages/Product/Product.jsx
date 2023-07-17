@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 
 const Product = () => {
@@ -104,7 +104,7 @@ const Product = () => {
       <div className="grid">
         {currentProducts.map((product, index) => (
           <div className="grid-item" key={index}>
-            <a href={`/product/${product._id}`} className="product-link">
+            <Link to={`/product/${product._id}`} className="product-link">
               <img
                 src={product.imagePath}
                 alt={product.title}
@@ -112,15 +112,26 @@ const Product = () => {
               />
               <h3 className="item-title">{product.title}</h3>
               <p className="item-dcprices">
-                {product.discountprice !== 0 ? `₹ ${product.discountprice}` : ""}
+                {product.discountprice !== 0
+                  ? `₹ ${product.discountprice}`
+                  : ""}
               </p>
               <p className="item-prices">
-                {product.discountprice !== 0 ? `₹ ${product.price}` : `₹ ${product.price}`}
+                {product.discountprice !== 0
+                  ? `₹ ${product.price}`
+                  : `₹ ${product.price}`}
               </p>
-            </a>
+              <h4 style={{ color: product.quantity > 0 ? "green" : "red" }}>
+                {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+              </h4>
+            </Link>
             <button
-              className="item-add-to-cart"
+              className={product.quantity > 0? "item-add-to-cart":"item-out-of-stock"}
+              disabled={!product.quantity}
               onClick={() => addToCart(product._id)}
+              style={{
+                backgroundColor: product.quantity ? "" : "#a6a6a6",
+              }}
             >
               <FontAwesomeIcon
                 icon={faCartPlus}
