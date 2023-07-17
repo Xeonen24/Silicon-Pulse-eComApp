@@ -37,7 +37,7 @@ async function seedDB() {
                     manufacturer: chanceInstance.company(),
                     imagePath: 'example_image_path', // Provide a valid image path here
                     discountprice: chanceInstance.integer({ min: 0, max: 250 }), // Provide a valid discount price
-                    available: true, // Set availability
+                    quantity: chanceInstance.integer({ min: 0, max:1}),
                     category: categ._id,
                     createdAt: Date.now(),
                 });

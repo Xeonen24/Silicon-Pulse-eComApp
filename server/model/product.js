@@ -37,9 +37,10 @@ const productSchema = Schema({
   manufacturer: {
     type: String,
   },
-  available: {
-    type: Boolean,
+  quantity: {
+    type: Number,
     required: true,
+    defaultValue:1,
   },
   createdAt: {
     type: Date,
