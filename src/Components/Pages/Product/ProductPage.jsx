@@ -37,7 +37,7 @@ const ProductPage = () => {
       )
       .then((response) => {
         console.log(response.data);
-  
+
         toast.success("Item Added to cart", {
           autoClose: 2000,
           position: "top-right",
