@@ -1,0 +1,41 @@
+.user-List {
+  margin-top: 2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+}
+
+thead {
+  background-color: rgba(0, 0, 0, 0.116);
+}
+
+th {
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #00000011;
+}
+
+.userDeletex,.userEditx{
+  background-color: var(--aplared);
+  width: AUTO;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.userDeletex:hover,.userEditx:hover{
+background-color: rgba(255, 0, 0, 0.6) !important;
+}
