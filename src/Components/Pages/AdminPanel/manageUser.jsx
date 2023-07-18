@@ -3,10 +3,37 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash,faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import "./manageUser.css";
+import {toast} from 'react-toastify'
 
 const ManageUser = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [roleDetails, setRoleDetails] = useState('');
+
+  const fetchRoleDetails = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/user-role", {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setRoleDetails(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    console.log(roleDetails)
+    if (roleDetails.role === "admin") {
+        toast.info("Authorization check complete.", {
+        autoClose: 1000,
+        position: "top-right",
+        toastId: "admin-toast",
+      });
+    }
+  }, [roleDetails.role]);
 
   const fetchUsers = async () => {
     try {
@@ -24,6 +51,7 @@ const ManageUser = () => {
   };
 
   useEffect(() => {
+    fetchRoleDetails(); 
     fetchUsers();
   }, []);
 

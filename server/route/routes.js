@@ -199,19 +199,14 @@ router.post('/cart/add', auth, asyncHandler(async (req, res) => {
   try {
 
     const { productId , quantity} = req.body;
-
     const user = await USER.findById(req.userID);
-
     const product = await Product.findById(productId);
+
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
-
     const myid = new mongoose.Types.ObjectId(productId);
-
     const existingCartItem = user.cart.find((item) => item.product.equals(myid));
-
-    console.log("yolo", existingCartItem);
 
     if (existingCartItem) {
       await USER.findByIdAndUpdate(req.userID, {
@@ -425,6 +420,24 @@ router.post('/add-product', asyncHandler(async (req, res) => {
     res.status(500).json({ error: 'Server error in add cart' });
   }
 }));
+
+router.put('/update-product/:productId', async (req, res) => {
+  const { productId } = req.params;
+  const updates = req.body;
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(productId, updates, { new: true });
+
+    if (updatedProduct) {
+      res.status(200).json(updatedProduct);
+    } else {
+      res.status(404).json({ error: 'Product not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 router.get('/user-role', auth, (req, res) => {
   try {

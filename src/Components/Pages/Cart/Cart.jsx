@@ -87,19 +87,6 @@ const Cart = () => {
       console.log(error);
     }
   };
-  
-  const clearCart = async () => {
-    try {
-      await axios.delete("http://localhost:5000/api/cart/remove-all", {
-        withCredentials: true,
-      });
-      setCartItems([]);
-
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const decreaseQuantity = async (productId) => {
     try {
