@@ -9,10 +9,11 @@ import Signup from "./Components/Pages/Registration/Signup";
 import ProductPage from "./Components/Pages/Product/ProductPage";
 import Login from "./Components/Pages/Registration/Login";
 import Cart from "./Components/Pages/Cart/Cart";
-import ManageProduct from "./Components/Pages/AdminPanel/manageProduct";
+import ManageProduct from "./Components/Pages/AdminPanel/ManageProduct/manageProduct";
 import ManageUser from "./Components/Pages/AdminPanel/manageUser";
 import { ToastContainer } from 'react-toastify';
-
+import AddProduct from "./Components/Pages/AdminPanel/ManageProduct/addProduct";
+import EditProduct from "./Components/Pages/AdminPanel/ManageProduct/editProduct";
 
 const App = () => {
   return (
@@ -22,6 +23,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/manage-product" element={<ManageProduct />} />
+        <Route path="/add-product/" element={<AddProduct />} />
+        <Route path="/edit-product/:id" element={<EditProduct />} />
         <Route path="/manage-users" element={<ManageUser />} />
         <Route path="/product" element={<Product />} />
         <Route path='login' element={<Login />} />

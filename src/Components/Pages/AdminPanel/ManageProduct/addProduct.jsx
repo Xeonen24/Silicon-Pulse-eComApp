@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import "./manageProduct.css";
+import "./addProduct.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ManageProduct = () => {
+const AddProduct = () => {
   const [categories, setCategories] = useState([]);
   const [data, setData] = useState({
     productCode: "",
@@ -70,6 +69,16 @@ const ManageProduct = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (roleDetails.role === "admin") {
+        toast.info("Authorization check complete.", {
+        autoClose: 1000,
+        position: "top-right",
+        toastId: "admin-toast",
+      });
+    }
+  }, [roleDetails.role]);
 
   useEffect(() => {
     getCategories();
@@ -178,4 +187,4 @@ const ManageProduct = () => {
   );
 };
 
-export default ManageProduct;
+export default AddProduct;
