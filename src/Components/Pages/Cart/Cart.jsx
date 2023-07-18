@@ -4,6 +4,7 @@ import './cart.css';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -11,10 +12,10 @@ const Cart = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/cart', {
+        const response = await axios.get("http://localhost:5000/api/cart", {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwtoken')}`,
+            Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
           },
         });
         setCartItems(response.data);
@@ -51,7 +52,7 @@ const Cart = () => {
       await axios.delete(`http://localhost:5000/api/cart/remove/${productId}`, {
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtoken')}`,
+          Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
         },
       });
 
@@ -81,6 +82,19 @@ const Cart = () => {
         autoClose: 2000,
         position: "top-right",
       });
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  const clearCart = async () => {
+    try {
+      await axios.delete("http://localhost:5000/api/cart/remove-all", {
+        withCredentials: true,
+      });
+      setCartItems([]);
+
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -208,7 +222,6 @@ const Cart = () => {
             </button>
             <button className="order-button">Order now</button>
           </div>
-          
         </>
       ) : (
         <p className="cart-empty">Your cart is empty.</p>

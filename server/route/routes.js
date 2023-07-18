@@ -155,6 +155,36 @@ router.post("/update-profile", auth, asyncHandler(async (req, res) => {
   }
 }));
 
+router.put("/update-user/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updatedUser = req.body;
+
+    const user = await USER.findByIdAndUpdate(userId, updatedUser, {
+      new: true,
+    });
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ error: "Failed to update user" });
+  }
+});
+
+router.delete("/delete-user/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await USER.findByIdAndRemove(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({ error: "Failed to delete user" });
+  }
+});
+
 router.get("/categories", (req, res) => {
   Category.find()
     .then(categories => {
@@ -249,6 +279,7 @@ router.post('/cart/dec', auth, asyncHandler(async (req, res) => {
     }
 
     const myid = new mongoose.Types.ObjectId(productId);
+
 
     const existingCartItem = user.cart.find((item) => item.product.equals(myid));
 
@@ -395,33 +426,6 @@ router.post('/add-product', asyncHandler(async (req, res) => {
   }
 }));
 
-router.post('/add-product', asyncHandler(async (req, res) => {
-  try {
-    const { title , description , price , available , 
-      category , manufacturer , discountprice , productCode , imagePath ,  } = req.body;
-
-    if( !title || !description || !price || !available || !category || !manufacturer 
-      || !discountprice || !productCode || !imagePath){
-        return res.status(422).json({ error: 'Please add all the fields' });
-      }
-
-    const newproduct = new Product({
-      title , description , price , available ,
-      category , manufacturer , discountprice , productCode , imagePath
-    });
-
-    const product = await newproduct.save();
-
-    return res.status(201).json({ message: 'Product added successfully' , product });
-
-
-  }
-  catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Server error in add cart' });
-  }
-}));
-
 router.get('/user-role', auth, (req, res) => {
   try {
     const userRole = req.rootUser.role;
@@ -431,5 +435,34 @@ router.get('/user-role', auth, (req, res) => {
     console.log(err);
   }
 });
+
+router.get('/get-users', auth, asyncHandler(async (req, res) => {
+  try {
+    const users = await USER.find();
+
+    res.json(users);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'Unable to fetch users' });
+  }
+}))
+
+router.delete('/cart/remove-all', auth, asyncHandler(async (req, res) => {
+  try {
+    const user = await USER.findById(req.userID);
+
+    if (user.cart.length === 0) {
+      return res.status(404).json({ error: 'Cart is already empty' });
+    }
+
+    user.cart = [];
+    await user.save();
+
+    res.json({ message: 'Cart cleared' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
 
 module.exports = router;
