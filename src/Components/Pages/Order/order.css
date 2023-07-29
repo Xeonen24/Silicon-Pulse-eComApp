@@ -1,0 +1,84 @@
+.progress-container {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    justify-content: center;
+    position: relative;
+    width: auto;
+}
+
+.progress-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #fff;
+    font-size: 16px;
+    margin: auto;
+    z-index: 2;
+    transition: all 0.7s ease-in-out;
+}
+
+.progress-circle.active {
+    background-color: #005fc4;
+}
+
+.progress-line {
+    position: absolute;
+    top: 50%;
+    left: 15rem;
+    right: 0;
+    height: 2px;
+    background-color: #007bff;
+    z-index: 1;
+    transition: all 0.5s ease-in-out;
+}
+
+.amazon-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #ff9900;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+button:last-child {
+    background-color: #007bff;
+}
+
+button:hover {
+    opacity: 0.9;
+}
