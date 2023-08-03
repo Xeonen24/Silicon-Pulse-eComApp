@@ -5,9 +5,11 @@
     justify-content: center;
     position: relative;
     width: auto;
+    top: 4rem;
 }
 
 .progress-circle {
+    cursor: pointer;
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -20,11 +22,16 @@
     font-size: 16px;
     margin: auto;
     z-index: 2;
-    transition: all 0.7s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+
+.progress-circle:hover {
+    background-color: #005fc488;
 }
 
 .progress-circle.active {
     background-color: #005fc4;
+    transform: scale(1.1);
 }
 
 .progress-line {
@@ -64,21 +71,67 @@ input[type="text"] {
     font-size: 16px;
 }
 
-button {
+.buttonsoforder  {
+    position: absolute;
+    left:33rem;
     padding: 10px 15px;
     background-color: #ff9900;
     color: #fff;
-    font-size: 16px;
+    font-size: 20px;
+    width: 10%;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-right: 10px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: #0049976e 6px 6px 10px 0px;
 }
 
-button:last-child {
+.buttonsoforder:last-child {
     background-color: #007bff;
 }
-
-button:hover {
-    opacity: 0.9;
+.buttonsoforders:last-child{
+    background-color: #ff9900;
 }
+
+.buttonsoforder:hover {
+    background-color: #004997;
+    transform: scale(1.05);
+    box-shadow: #004997 6px 6px 10px 0px;
+}
+
+.buttonsoforders:hover {
+    background-color: #ff9900;
+    transform: scale(1.05);
+    box-shadow: #b97001 6px 6px 10px 0px;
+}
+
+.stage-container{
+    width: 50%;
+    position: relative;
+    align-items: center;
+    left: 30.1rem;
+    top: 10rem;
+}
+
+.buttonsoforders{
+    position: absolute;
+    left:21rem;
+    padding: 10px 15px;
+    background-color: #ff9900;
+    color: #fff;
+    font-size: 20px;
+    width: 10%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: #0049976e 6px 6px 10px 0px;
+}
+
+.dropdownState {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    transition: all 0.2s ease-in-out;
+    border-radius: 0.2rem;
+  }
+  

@@ -45,6 +45,7 @@ const Product = () => {
   };
 
   const addToCart = (productId) => {
+    console.log(productId);
     axios
       .post(
         "http://localhost:5000/api/cart/add",
