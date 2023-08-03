@@ -26,7 +26,6 @@ const Cart = () => {
     };
     fetchCartItems();
   }, []);
-
   useEffect(() => {
     const calculateTotalPrice = () => {
       const total = cartItems.reduce(
