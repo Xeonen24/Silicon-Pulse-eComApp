@@ -127,9 +127,9 @@ const AccountDropdown = () => {
               ) : null}
             </ul>
             <hr className="loginhr2" />
-            <a className="Buttonss" onClick={handleLogout}>
+            <Link className="Buttonss" onClick={handleLogout}>
               {isLoggingOut ? "Logging out..." : "Logout"}
-            </a>
+            </Link>
             <span className="closeIcon" onClick={closeDropdown}>
               <FontAwesomeIcon
                 icon={faTimesCircle}

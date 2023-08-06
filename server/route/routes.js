@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const mongoose=require("mongoose");
 const cookieParser = require("cookie-parser");
 const validator = require('validator');
+const UploadToCloudinary = require("../seed/imageUpload");
 router.use(cookieParser());
 
 router.post("/signup", asyncHandler(async (req, res) => {
@@ -46,7 +47,6 @@ router.post("/signup", asyncHandler(async (req, res) => {
     res.status(422).json({ errors });
   }
 }));
-
 
 router.post("/login",
   asyncHandler(async (req, res) => {
@@ -396,17 +396,22 @@ router.post('/cart/add', auth, asyncHandler(async (req, res) => {
 
 router.post('/add-product', asyncHandler(async (req, res) => {
   try {
-    const { title , description , price , available , 
-      category , manufacturer , discountprice , productCode , imagePath ,  } = req.body;
+    const { title , description , price , quantity ,
+      category , manufacturer , discountprice , productCode } = req.body;
 
-    if( !title || !description || !price || !available || !category || !manufacturer 
-      || !discountprice || !productCode || !imagePath){
+      const image = req.files.image;
+
+    if( !title || !description || !price || !quantity || !category || !manufacturer 
+      || !discountprice || !productCode || !image){
         return res.status(422).json({ error: 'Please add all the fields' });
       }
 
+
+      const imageUpload = await UploadToCloudinary(image , 'SiliconPulse');
+
     const newproduct = new Product({
-      title , description , price , available ,
-      category , manufacturer , discountprice , productCode , imagePath
+      title , description , price , quantity ,
+      category , manufacturer , discountprice , productCode , imagePath : imageUpload.secure_url ,
     });
 
     const product = await newproduct.save();

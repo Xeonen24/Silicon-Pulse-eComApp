@@ -14,8 +14,11 @@ const ManageProduct = () => {
   const [roleDetails, setRoleDetails] = useState({});
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null); // Initialize with null
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(5); // Number of products to display per page
 
+  // Fetch products from the API
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/products", {
@@ -30,6 +33,7 @@ const ManageProduct = () => {
     }
   };
 
+  // Fetch categories from the API
   const fetchCategory = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/categories", {
@@ -44,6 +48,7 @@ const ManageProduct = () => {
     }
   };
 
+  // Fetch role details from the API
   const fetchRoleDetails = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/user-role", {
@@ -59,19 +64,26 @@ const ManageProduct = () => {
   };
 
   useEffect(() => {
-    if (roleDetails.role === "admin") {
-      toast.info("Authorization check complete.", {
-        autoClose: 1000,
-        position: "top-right",
-        toastId: "admin-toast",
-      });
-    }
-  }, [roleDetails.role]);
+    fetchCategory();
+    fetchProducts();
+    fetchRoleDetails();
+  }, []);
+
+  // Handle pagination - Get the current products to display
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  // Change page
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const updateProduct = (selectedProduct) => {};
 
   const deleteProduct = (selectedProduct) => {};
 
+  // Render a single product row
   const renderProductRow = (product) => {
     const formatDate = (dateString) => {
       const date = new Date(dateString);
@@ -90,10 +102,10 @@ const ManageProduct = () => {
             <label>{selectedProduct.title}</label>
           </td>
           <td className="productEditx">
-          <Link to={`/edit-product/${product._id}`}>
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </Link>
-        </td>
+            <Link to={`/edit-product/${product._id}`}> {/* Add backticks */}
+              <FontAwesomeIcon icon={faPenToSquare} />
+            </Link>
+          </td>
           <td className="productDeletex" onClick={closeeditProduct}>
             <FontAwesomeIcon icon={faTimesCircle} />
           </td>
@@ -123,15 +135,10 @@ const ManageProduct = () => {
   const editProduct = (product) => {
     setSelectedProduct(product);
   };
+
   const closeeditProduct = () => {
     setSelectedProduct(null);
   };
-
-  useEffect(() => {
-    fetchCategory();
-    fetchProducts();
-    fetchRoleDetails();
-  }, []);
 
   return (
     <>
@@ -143,7 +150,7 @@ const ManageProduct = () => {
             </Link>
           </div>
           <div className="product-List">
-            <table>
+            <table className="table-List">
               <thead>
                 <tr>
                   <th>PID</th>
@@ -156,9 +163,17 @@ const ManageProduct = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => renderProductRow(product))}
+                {currentProducts.map((product) => renderProductRow(product))}
               </tbody>
             </table>
+          </div>
+          <div className="pagination">
+            {/* Generate pagination links */}
+            {Array.from({ length: Math.ceil(products.length / productsPerPage) }).map((_, index) => (
+              <button key={index} onClick={() => paginate(index + 1)}>
+                {index + 1}
+              </button>
+            ))}
           </div>
         </div>
       ) : (
