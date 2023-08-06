@@ -6,7 +6,7 @@ const Order = () => {
   const location = useLocation();
   const { cartItems, totalPrice } = location.state;
   const [stage, setStage] = useState(1);
-  const progressWidths = [0, 25, 50, 75];
+  const progressWidths = [12, 37, 62, 100];
   const [address, setAddress] = useState({
     name: "",
     street: "",
@@ -116,8 +116,10 @@ const Order = () => {
   };
 
   const renderStageOne = () => (
-    <div className="stage-container">
-      <h2 style={{ marginLeft: "23rem", marginBottom: "2rem" }}>
+    <div className="stage-container" style={{ width: "30%", left: "35%" }}>
+      <h2
+        style={{ textAlign: "center", fontSize: "28px", marginBottom: "1rem" }}
+      >
         Confirm Your Items
       </h2>
       <table className="item-table">
@@ -138,21 +140,28 @@ const Order = () => {
           ))}
         </tbody>
       </table>
-      <h3 style={{ marginLeft: "51rem", marginTop: "1rem" }}>
+      <h3 style={{ textAlign: "right", marginTop: "1rem" }}>
         Total: ₹{totalPrice}
       </h3>
-      <button className="buttonsoforders" disabled onClick={handleBackStage}>
-        Back
-      </button>
-      <button className="buttonsoforder" onClick={handleNextStage}>
-        Next
-      </button>
+      <div
+        className="buttoncontainer"
+        style={{ position: "absolute", width: "100%" }}
+      >
+        <button className="buttonsoforders" disabled onClick={handleBackStage}>
+          Back
+        </button>
+        <button className="buttonsoforder" onClick={handleNextStage}>
+          Next
+        </button>
+      </div>
     </div>
   );
 
   const renderStageTwo = () => (
     <div className="stage-container">
-      <h2 style={{ marginLeft: "23rem" }}>Enter Your Address</h2>
+      <h2 style={{ textAlign: "center", fontSize: "28px" }}>
+        Enter Your Address
+      </h2>
       <form className="amazon-form">
         <div className="form-group">
           <label htmlFor="name">Name:</label>
@@ -191,7 +200,7 @@ const Order = () => {
           <label htmlFor="state">State:</label>
           <select
             className="dropdownState"
-            style={{ width:'100%'}}
+            style={{ width: "100%" }}
             id="state"
             name="state"
             value={address.state}
@@ -243,36 +252,51 @@ const Order = () => {
 
   const renderStageThree = () => (
     <div className="stage-container">
-      <h2 style={{ marginLeft: "23rem" }}>Select Payment Method</h2>
-      <div className="payment-options">
-        <label>
+      <h2
+        style={{ textAlign: "center", fontSize: "28px", marginBottom: "1rem" }}
+      >
+        Select Payment Method
+      </h2>
+      <div class="payment-options">
+        <label class="pure-material-radio">
           <input
             type="radio"
+            name="group"
             value="Credit Card"
+            class="payment-option-input"
             checked={paymentMethod === "Credit Card"}
             onChange={handlePaymentChange}
           />
-          Credit Card
+          <span class="payment-option-label">Credit Card</span>
         </label>
-        <label>
+        <br/>
+        <br/>
+        <label class="pure-material-radio">
           <input
             type="radio"
-            value="PayPal"
-            checked={paymentMethod === "PayPal"}
+            name="group"
+            value="UPI"
+            class="payment-option-input"
+            checked={paymentMethod === "UPI"}
             onChange={handlePaymentChange}
           />
-          PayPal
+          <span class="payment-option-label">UPI</span>
         </label>
-        <label>
+        <br/>
+        <br/>
+        <label class="pure-material-radio">
           <input
             type="radio"
+            name="group"
             value="Cash on Delivery"
+            class="payment-option-input"
             checked={paymentMethod === "Cash on Delivery"}
             onChange={handlePaymentChange}
           />
-          Cash on Delivery
+          <span class="payment-option-label">Cash on Delivery</span>
         </label>
       </div>
+
       <button className="buttonsoforders" onClick={handleBackStage}>
         Back
       </button>
@@ -283,12 +307,13 @@ const Order = () => {
   );
 
   const renderStageFour = () => (
-    <div className="stage-container">
-      <h2 style={{ marginLeft: "24rem" }}>Confirm Order</h2>
+    <div className="stage-container" style={{ left: "26.5%" }}>
+      <h2 style={{ textAlign: "center", fontSize: "28px" }}>Confirm Order</h2>
       <div className="order-summary">
         <h3
           style={{
-            marginLeft: "23rem",
+            textAlign: "center",
+            fontSize: "28px",
             marginTop: "1rem",
             marginBottom: "1rem",
           }}
@@ -329,10 +354,10 @@ const Order = () => {
         <p>Zip Code: {address.zip}</p>
         <p>Country: {address.country}</p>
       </div>
-      <button className="buttonsoforder">Pay Now</button>
       <button className="buttonsoforders" onClick={handleBackStage}>
         Back
       </button>
+      <button className="buttonsoforder">Pay Now</button>
     </div>
   );
 
