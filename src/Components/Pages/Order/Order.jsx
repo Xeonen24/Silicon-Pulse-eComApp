@@ -307,7 +307,7 @@ const Order = () => {
   );
 
   const renderStageFour = () => (
-    <div className="stage-container" style={{ left: "26.5%" }}>
+    <div className="stage-container" style={{ left: "30%",width:'40%'}}>
       <h2 style={{ textAlign: "center", fontSize: "28px" }}>Confirm Order</h2>
       <div className="order-summary">
         <h3
@@ -338,7 +338,7 @@ const Order = () => {
             ))}
           </tbody>
         </table>
-        <h4 style={{ marginLeft: "50rem", marginTop: "1rem" }}>
+        <h4 style={{ textAlign: "right" }}>
           Total Price: ₹ {totalPrice}
         </h4>
       </div>
