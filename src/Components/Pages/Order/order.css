@@ -1,11 +1,10 @@
 .progress-container {
     display: flex;
     align-items: center;
-    height: 50px;
     justify-content: center;
     position: relative;
     width: auto;
-    top: 4rem;
+    margin-top:3%;
 }
 
 .progress-circle {
@@ -21,7 +20,7 @@
     color: #fff;
     font-size: 16px;
     margin: auto;
-    z-index: 2;
+    z-index: 1;
     transition: all 0.4s ease-in-out;
 }
 
@@ -36,12 +35,10 @@
 
 .progress-line {
     position: absolute;
-    top: 50%;
-    left: 15rem;
-    right: 0;
+    left: 0;
     height: 2px;
     background-color: #007bff;
-    z-index: 1;
+    z-index: 0;
     transition: all 0.5s ease-in-out;
 }
 
@@ -71,21 +68,6 @@ input[type="text"] {
     font-size: 16px;
 }
 
-.buttonsoforder  {
-    position: absolute;
-    left:33rem;
-    padding: 10px 15px;
-    background-color: #ff9900;
-    color: #fff;
-    font-size: 20px;
-    width: 10%;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    box-shadow: #0049976e 6px 6px 10px 0px;
-}
-
 .buttonsoforder:last-child {
     background-color: #007bff;
 }
@@ -106,22 +88,34 @@ input[type="text"] {
 }
 
 .stage-container{
-    width: 50%;
-    position: relative;
+    width: auto;
+    margin: auto;
+    position: absolute;
+    left: 42%;
+    top:30%;
+    justify-content: center;
     align-items: center;
-    left: 30.1rem;
-    top: 10rem;
 }
 
 .buttonsoforders{
-    position: absolute;
-    left:21rem;
-    padding: 10px 15px;
     background-color: #ff9900;
     color: #fff;
     font-size: 20px;
-    width: 10%;
     border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    left:40%;
+    margin-right: 2rem;
+    transition: all 0.2s ease-in-out;
+    box-shadow: #0049976e 6px 6px 10px 0px;
+}
+
+.buttonsoforder  {
+    background-color: #ff9900;
+    color: #fff;
+    font-size: 20px;
+    border: none;
+    left:52%;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -135,3 +129,130 @@ input[type="text"] {
     border-radius: 0.2rem;
   }
   
+  .order-container{
+    width: 100%;
+  }
+
+  /* materialui from codepen */
+  .pure-material-radio > input {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    z-index: -1;
+    position: absolute;
+    left: -10px;
+    top: -6px;
+    display: block;
+    margin: 0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);
+    outline: none;
+    opacity: 0;
+    transform: scale(1);
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.2s;
+}
+
+/* Span */
+.pure-material-radio > span {
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+}
+
+/* Circle */
+.pure-material-radio > span::before {
+    content: "";
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 2px 10px 2px 0;
+    border: solid 2px; /* Safari */
+    border-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    vertical-align: top;
+    transition: border-color 0.2s;
+}
+
+/* Check */
+.pure-material-radio > span::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 4px;
+    left: 0;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    background-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
+    transform: translate(5px, 5px) scale(0);
+    transition: transform 0.2s;
+}
+
+/* Checked */
+.pure-material-radio > input:checked {
+    background-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
+}
+
+.pure-material-radio > input:checked + span::before {
+    border-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
+}
+
+.pure-material-radio > input:checked + span::after {
+    transform: translate(5px, 5px) scale(1);
+}
+
+/* Hover, Focus */
+.pure-material-radio:hover > input {
+    opacity: 0.04;
+}
+
+.pure-material-radio > input:focus {
+    opacity: 0.12;
+}
+
+.pure-material-radio:hover > input:focus {
+    opacity: 0.16;
+}
+
+/* Active */
+.pure-material-radio > input:active {
+    opacity: 1;
+    transform: scale(0);
+    transition: transform 0s, opacity 0s;
+}
+
+.pure-material-radio > input:active + span::before {
+    border-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
+}
+
+/* Disabled */
+.pure-material-radio > input:disabled {
+    opacity: 0;
+}
+
+.pure-material-radio > input:disabled + span {
+    color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38);
+    cursor: initial;
+}
+
+.pure-material-radio > input:disabled + span::before {
+    border-color: currentColor;
+}
+
+.pure-material-radio > input:disabled + span::after {
+    background-color: currentColor;
+}
+
+.pure-material-radio {
+    z-index: 0;
+    position: relative;
+    display: inline-block;
+    color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.87);
+    font-family: var(--pure-material-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);
+    font-size: 20px;
+    line-height: 1.3;
+}

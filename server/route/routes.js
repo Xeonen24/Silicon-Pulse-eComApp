@@ -48,7 +48,6 @@ router.post("/signup", asyncHandler(async (req, res) => {
   }
 }));
 
-
 router.post("/login",
   asyncHandler(async (req, res) => {
     try {
