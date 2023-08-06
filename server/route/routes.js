@@ -6,6 +6,7 @@ const Product = require("../model/product");
 const Category = require("../model/category");
 const auth = require("../midddleware/auth");
 const bodyParser = require("body-parser");
+const mongoose=require("mongoose");
 const cookieParser = require("cookie-parser");
 const validator = require('validator');
 const mongoose = require('mongoose');
@@ -156,6 +157,36 @@ router.post("/update-profile", auth, asyncHandler(async (req, res) => {
   }
 }));
 
+router.put("/update-user/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updatedUser = req.body;
+
+    const user = await USER.findByIdAndUpdate(userId, updatedUser, {
+      new: true,
+    });
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ error: "Failed to update user" });
+  }
+});
+
+router.delete("/delete-user/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await USER.findByIdAndRemove(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({ error: "Failed to delete user" });
+  }
+});
+
 router.get("/categories", (req, res) => {
   Category.find()
     .then(categories => {
@@ -165,6 +196,169 @@ router.get("/categories", (req, res) => {
       res.status(500).json({ error: "Error fetching categories" });
     });
 });
+
+router.post('/cart/add', auth, asyncHandler(async (req, res) => {
+  try {
+
+    const { productId , quantity} = req.body;
+    const user = await USER.findById(req.userID);
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+    const myid = new mongoose.Types.ObjectId(productId);
+    const existingCartItem = user.cart.find((item) => item.product.equals(myid));
+
+    if (existingCartItem) {
+      await USER.findByIdAndUpdate(req.userID, {
+        $inc: { "cart.$[elem].quantity": quantity }
+      }, { arrayFilters: [{ "elem.product": existingCartItem.product }] });
+    } else {
+      user.cart.push({ product: productId, quantity });
+      await user.save();
+    }
+
+    const updatedUser = await USER.findById(req.userID);
+
+    res.json({ message: 'Product added to cart', updatedUser });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
+
+router.post('/cart/inc', auth, asyncHandler(async (req, res) => {
+  try {
+
+    const { productId , quantity} = req.body;
+
+    const user = await USER.findById(req.userID);
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    const myid = new mongoose.Types.ObjectId(productId);
+
+    const existingCartItem = user.cart.find((item) => item.product.equals(myid));
+
+    console.log("yolo", existingCartItem);
+
+    if (existingCartItem) {
+      await USER.findByIdAndUpdate(req.userID, {
+        $inc: { "cart.$[elem].quantity": quantity }
+      }, { arrayFilters: [{ "elem.product": existingCartItem.product }] });
+    } else {
+      user.cart.push({ product: productId, quantity });
+      await user.save();
+    }
+
+    const updatedUser = await USER.findById(req.userID);
+
+    res.json({ message: 'Product added to cart', updatedUser });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
+
+router.post('/cart/dec', auth, asyncHandler(async (req, res) => {
+  try {
+    const { productId, quantity } = req.body;
+
+    const user = await USER.findById(req.userID);
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    const myid = new mongoose.Types.ObjectId(productId);
+
+
+    const existingCartItem = user.cart.find((item) => item.product.equals(myid));
+
+    console.log("yolo", existingCartItem);
+
+    if (existingCartItem) {
+      const newQuantity = existingCartItem.quantity - 1;
+      if (newQuantity <= 0) {
+        // Remove the item from the cart if the new quantity is zero or negative
+        await USER.findByIdAndUpdate(req.userID, {
+          $pull: { cart: { product: existingCartItem.product } }
+        });
+      } else {
+        // Update the quantity of the existing item
+        await USER.findByIdAndUpdate(req.userID, {
+          $set: { "cart.$[elem].quantity": newQuantity }
+        }, { arrayFilters: [{ "elem.product": existingCartItem.product }] });
+      }
+    } else {
+      // Add the item to the cart
+      user.cart.push({ product: productId, quantity: 1 });
+      await user.save();
+    }
+
+    const updatedUser = await USER.findById(req.userID);
+
+    res.json({ message: 'Product added to cart', updatedUser });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
+
+
+router.get('/cart',auth , asyncHandler(async (req, res) => {
+  try {
+    const user = await USER.findById(req.userID).populate('cart.product');
+
+    res.json(user.cart);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
+
+router.delete('/cart/remove/:productId', auth, asyncHandler(async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const user = await USER.findById(req.userID);
+    const productIndex = user.cart.findIndex(item => item.product._id.toString() === productId);
+
+    if (productIndex === -1) {
+      return res.status(404).json({ error: 'Product not found in cart' });
+    }
+
+    user.cart.splice(productIndex, 1);
+    await user.save();
+
+    res.json({ message: 'Product removed from cart' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
+
+router.delete('/cart/remove-all', auth, asyncHandler(async (req, res) => {
+  try {
+    const user = await USER.findById(req.userID);
+
+    if (user.cart.length === 0) {
+      return res.status(404).json({ error: 'Cart is already empty' });
+    }
+
+    user.cart = [];
+    await user.save();
+
+    res.json({ message: 'Cart cleared' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
 
 router.post('/cart/add', auth, asyncHandler(async (req, res) => {
   try {
@@ -202,90 +396,50 @@ router.post('/cart/add', auth, asyncHandler(async (req, res) => {
   }
 }));
 
-router.get('/cart',auth , asyncHandler(async (req, res) => {
+router.post('/add-product', asyncHandler(async (req, res) => {
   try {
-    const user = await USER.findById(req.userID).populate('cart.product');
+    const { title , description , price , available , 
+      category , manufacturer , discountprice , productCode , imagePath ,  } = req.body;
 
-    res.json(user.cart);
-  } catch (error) {
+    if( !title || !description || !price || !available || !category || !manufacturer 
+      || !discountprice || !productCode || !imagePath){
+        return res.status(422).json({ error: 'Please add all the fields' });
+      }
+
+    const newproduct = new Product({
+      title , description , price , available ,
+      category , manufacturer , discountprice , productCode , imagePath
+    });
+
+    const product = await newproduct.save();
+
+    return res.status(201).json({ message: 'Product added successfully' , product });
+
+
+  }
+  catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Server error in add cart' });
   }
 }));
 
-router.delete('/cart/remove/:productId', auth, asyncHandler(async (req, res) => {
-  try {
-    const { productId } = req.params;
-    const user = await USER.findById(req.userID);
-    const productIndex = user.cart.findIndex(item => item.product._id.toString() === productId);
+router.put('/update-product/:productId', async (req, res) => {
+  const { productId } = req.params;
+  const updates = req.body;
 
-    if (productIndex === -1) {
-      return res.status(404).json({ error: 'Product not found in cart' });
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(productId, updates, { new: true });
+
+    if (updatedProduct) {
+      res.status(200).json(updatedProduct);
+    } else {
+      res.status(404).json({ error: 'Product not found' });
     }
-
-    user.cart.splice(productIndex, 1);
-    await user.save();
-
-    res.json({ message: 'Product removed from cart' });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Internal server error' });
   }
-}));
+});
 
-router.post('/add-product', asyncHandler(async (req, res) => {
-  try {
-    const { title , description , price , available , 
-      category , manufacturer , discountprice , productCode , imagePath ,  } = req.body;
-
-    if( !title || !description || !price || !available || !category || !manufacturer 
-      || !discountprice || !productCode || !imagePath){
-        return res.status(422).json({ error: 'Please add all the fields' });
-      }
-
-    const newproduct = new Product({
-      title , description , price , available ,
-      category , manufacturer , discountprice , productCode , imagePath
-    });
-
-    const product = await newproduct.save();
-
-    return res.status(201).json({ message: 'Product added successfully' , product });
-
-
-  }
-  catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Server error in add cart' });
-  }
-}));
-
-router.post('/add-product', asyncHandler(async (req, res) => {
-  try {
-    const { title , description , price , available , 
-      category , manufacturer , discountprice , productCode , imagePath ,  } = req.body;
-
-    if( !title || !description || !price || !available || !category || !manufacturer 
-      || !discountprice || !productCode || !imagePath){
-        return res.status(422).json({ error: 'Please add all the fields' });
-      }
-
-    const newproduct = new Product({
-      title , description , price , available ,
-      category , manufacturer , discountprice , productCode , imagePath
-    });
-
-    const product = await newproduct.save();
-
-    return res.status(201).json({ message: 'Product added successfully' , product });
-
-
-  }
-  catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Server error in add cart' });
-  }
-}));
 
 router.get('/user-role', auth, (req, res) => {
   try {
@@ -296,5 +450,34 @@ router.get('/user-role', auth, (req, res) => {
     console.log(err);
   }
 });
+
+router.get('/get-users', auth, asyncHandler(async (req, res) => {
+  try {
+    const users = await USER.find();
+
+    res.json(users);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'Unable to fetch users' });
+  }
+}))
+
+router.delete('/cart/remove-all', auth, asyncHandler(async (req, res) => {
+  try {
+    const user = await USER.findById(req.userID);
+
+    if (user.cart.length === 0) {
+      return res.status(404).json({ error: 'Cart is already empty' });
+    }
+
+    user.cart = [];
+    await user.save();
+
+    res.json({ message: 'Cart cleared' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
 
 module.exports = router;

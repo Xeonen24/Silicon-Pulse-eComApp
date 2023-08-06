@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./login.css";
 
+
 const Login = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [username, setUsername] = useState("");
@@ -76,6 +77,11 @@ const Login = () => {
         position: "top-right",
       });
       console.log(error);
+      console.log("Wrong");
+      toast.error("Invalid Credentials", {
+        autoClose: 2000,
+        position: "top-right",
+      });
     }
   };
 
@@ -100,7 +106,7 @@ const Login = () => {
                 <form className="loginForm" onSubmit={handleFormSubmit}>
                   <label>Username</label>
                   <input
-                    type="text"
+                    type="password"
                     name="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}

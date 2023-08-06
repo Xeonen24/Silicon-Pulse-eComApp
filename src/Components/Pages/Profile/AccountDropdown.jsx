@@ -12,13 +12,11 @@ const AccountDropdown = () => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [roleDetails, setRoleDetails] = useState("");
 
-
   const location = useLocation();
   useEffect(() => {
     fetchUserDetails();
     fetchRoleDetails();
   }, [location]);
-  
 
   const fetchUserDetails = async () => {
     try {
@@ -76,8 +74,6 @@ const AccountDropdown = () => {
     }
   };
 
-  
-
   const toggleUserDropdown = (e) => {
     if (!e.target.closest(".userDropdown")) {
       setIsDropdownVisible(!isDropdownVisible);
@@ -115,13 +111,20 @@ const AccountDropdown = () => {
                   My Orders
                 </Link>
               </li>
-              {roleDetails.role ==="admin"?(
-                <li>
-                <Link to="/add-product" className="listofform">
-                  Admin Panel
-                </Link>
-              </li>
-              ) :(null)}
+              {roleDetails.role === "admin" ? (
+                <>
+                  <li>
+                    <Link to="/manage-product" className="listofform">
+                      Manage Products
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/manage-users" className="listofform">
+                      Manage Users
+                    </Link>
+                  </li>
+                </>
+              ) : null}
             </ul>
             <hr className="loginhr2" />
             <a className="Buttonss" onClick={handleLogout}>
@@ -136,7 +139,7 @@ const AccountDropdown = () => {
                   position: "absolute",
                   top: "15px",
                   right: "20px",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
               />
             </span>
