@@ -9,7 +9,6 @@ const bodyParser = require("body-parser");
 const mongoose=require("mongoose");
 const cookieParser = require("cookie-parser");
 const validator = require('validator');
-const mongoose = require('mongoose');
 
 
 router.use(cookieParser());
