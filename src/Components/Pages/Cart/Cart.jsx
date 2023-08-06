@@ -3,11 +3,12 @@ import axios from 'axios';
 import './cart.css';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -25,7 +26,6 @@ const Cart = () => {
     };
     fetchCartItems();
   }, []);
-
   useEffect(() => {
     const calculateTotalPrice = () => {
       const total = cartItems.reduce(
@@ -59,7 +59,6 @@ const Cart = () => {
       setCartItems((prevCartItems) =>
         prevCartItems.filter((item) => item.product._id !== productId)
       );
-      //window.location.reload();
       toast.error("item Removed from Cart Successfully", {
         autoClose: 2000,
         position: "top-right",
@@ -82,7 +81,6 @@ const Cart = () => {
         autoClose: 2000,
         position: "top-right",
       });
-      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -112,11 +110,11 @@ const Cart = () => {
 
       const updatedItem = cartItems.find((item) => item.product._id === productId);
       if (updatedItem.quantity === 1) {
-        removeFromCart(productId); // Call the removeFromCart function
+        removeFromCart(productId);
         window.location.reload();
       }
 
-      toast.error("Item Removed from cart", {
+      toast.info("Updated quantity.", {
         autoClose: 2000,
         position: "top-right",
       });
@@ -146,13 +144,22 @@ const Cart = () => {
           item.product._id === productId ? { ...item, quantity: item.quantity + 1 } : item
         )
       );
-      toast.success("Item Added to cart", {
+      toast.success("Updated quantity.", {
         autoClose: 2000,
         position: "top-right",
       });
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const placeOrder = () => {
+    navigate('/order', {
+      state: {
+        cartItems,
+        totalPrice,
+      },
+    });
   };
 
   return (
@@ -207,7 +214,9 @@ const Cart = () => {
             <button className="cart-clear" onClick={() => clearCart()}>
               Clear Cart
             </button>
-            <button className="order-button">Order now</button>
+            <button className="order-button" onClick={() => placeOrder()}>
+              Order now
+            </button>
           </div>
         </>
       ) : (

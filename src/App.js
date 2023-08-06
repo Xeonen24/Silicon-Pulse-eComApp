@@ -14,6 +14,7 @@ import ManageUser from "./Components/Pages/AdminPanel/ManageUser/manageUser";
 import { ToastContainer } from 'react-toastify';
 import AddProduct from "./Components/Pages/AdminPanel/ManageProduct/addProduct";
 import EditProduct from "./Components/Pages/AdminPanel/ManageProduct/editProduct";
+import Order from "./Components/Pages/Order/Order";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path='/cart' element={<Cart />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="signup" element={<Signup />} />
+        <Route path="/order" element={<Order />} />
       </Routes>
     </Router>
   );
