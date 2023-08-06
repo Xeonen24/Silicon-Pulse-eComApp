@@ -106,7 +106,7 @@ const Login = () => {
                 <form className="loginForm" onSubmit={handleFormSubmit}>
                   <label>Username</label>
                   <input
-                    type="text"
+                    type="password"
                     name="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
