@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const Category = require('../model/category');
 const Product = require('../model/product');
 
+
+
 // Connect to MongoDB
 mongoose.connect("mongodb+srv://CSD:csd@cluster0.pqiynzk.mongodb.net/", {
     useNewUrlParser: true,

@@ -10,7 +10,7 @@ import ProductPage from "./Components/Pages/Product/ProductPage";
 import Login from "./Components/Pages/Registration/Login";
 import Cart from "./Components/Pages/Cart/Cart";
 import ManageProduct from "./Components/Pages/AdminPanel/ManageProduct/manageProduct";
-import ManageUser from "./Components/Pages/AdminPanel/manageUser";
+import ManageUser from "./Components/Pages/AdminPanel/ManageUser/manageUser";
 import { ToastContainer } from 'react-toastify';
 import AddProduct from "./Components/Pages/AdminPanel/ManageProduct/addProduct";
 import EditProduct from "./Components/Pages/AdminPanel/ManageProduct/editProduct";

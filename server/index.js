@@ -5,9 +5,10 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
-const USER = require("./model/user");
 const cookieParser = require("cookie-parser");
 const Routes = require("./route/routes");
+const fileUpload = require("express-fileupload");
+const cloudinary = require("cloudinary").v2;
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -16,6 +17,27 @@ mongoose
   })
   .then(() => console.log("DB connected"))
   .catch((err) => console.log(err));
+
+  
+  const cloudinaryConnect = () => {
+    try {
+      cloudinary.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.API_KEY,
+        api_secret: process.env.API_SECRET,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  cloudinaryConnect();
+
+
+  app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp",
+  }));
 
 app.use(cookieParser());
 app.use(morgan("dev"));

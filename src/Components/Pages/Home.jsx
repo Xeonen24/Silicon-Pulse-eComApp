@@ -9,11 +9,11 @@ const Home = () => {
       <h1 className="main_name">Silicon Pulses </h1>
       <p className="subhead_name">The Ultimate Gaming Hardware Empssorium.</p>
       <Link to="product">
-        <a className="product-link">
-          <h4 className="home_btn" spellcheck="false">
+        <Link className="product-link">
+          <h4 className="home_btn" spellCheck="false">
             Shop Now
           </h4>
-        </a>
+        </Link>
       </Link>
       <img className="img_main" src={image} alt="" />
     </div>
