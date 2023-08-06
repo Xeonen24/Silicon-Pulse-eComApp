@@ -39,3 +39,7 @@ tr:nth-child(even) {
 .userDeletex:hover,.userEditx:hover{
 background-color: rgba(255, 0, 0, 0.6) !important;
 }
+
+.table-List {
+  margin-bottom: 20px;
+}
