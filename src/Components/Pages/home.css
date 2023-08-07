@@ -57,6 +57,18 @@
     background-color: rgb(109, 109, 109);
 }
 
+.slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .slider-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
 /* responsiveness */
 
