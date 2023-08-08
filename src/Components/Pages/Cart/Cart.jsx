@@ -164,7 +164,7 @@ const Cart = () => {
 
   return (
     <div className="cart-container">
-      <h2>Cart</h2>
+      <h2  className='cart-head'>Cart</h2>
       {cartItems.length > 0 ? (
         <>
           {cartItems.reduce((updatedItems, item) => {
@@ -184,29 +184,32 @@ const Cart = () => {
                 alt={item.product.title}
                 className="item-image"
               />
-              <h3 className="cart-item-title">{item.product.title}</h3>
-              <div className="cart-item-quantity">
+              <div className='att-con'>
+
+                <h3 className="cart-item-title">{item.product.title}</h3>
+                <div className="cart-item-quantity">
+                  <button
+                    className="quantity-button"
+                    onClick={() => decreaseQuantity(item.product._id)}
+                  >
+                    -
+                  </button>
+                  <p>{item.quantity}</p>
+                  <button
+                    className="quantity-button"
+                    onClick={() => increaseQuantity(item.product._id)}
+                  >
+                    +
+                  </button>
+                </div>
+                <p className="cart-item-price">Price: {item.product.price * item.quantity}</p>
                 <button
-                  className="quantity-button"
-                  onClick={() => decreaseQuantity(item.product._id)}
+                  className="cart-item-remove"
+                  onClick={() => removeFromCart(item.product._id)}
                 >
-                  -
-                </button>
-                <p>{item.quantity}</p>
-                <button
-                  className="quantity-button"
-                  onClick={() => increaseQuantity(item.product._id)}
-                >
-                  +
+                  Remove
                 </button>
               </div>
-              <p className="cart-item-price">Price: {item.product.price * item.quantity}</p>
-              <button
-                className="cart-item-remove"
-                onClick={() => removeFromCart(item.product._id)}
-              >
-                Remove
-              </button>
             </div>
           ))}
           <h4 className="cart-total-price">Total Price: {totalPrice}</h4>
