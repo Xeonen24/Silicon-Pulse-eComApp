@@ -54,6 +54,7 @@ const AccountDropdown = () => {
       window.alert("Logged out successfully");
       await new Promise((resolve) => setTimeout(resolve, 1500));
       localStorage.removeItem("userDetails");
+      localStorage.setItem("loggedIn?",false);
       window.location.href = "/";
     } catch (error) {
       console.error(error);

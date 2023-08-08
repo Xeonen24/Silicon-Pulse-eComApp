@@ -4,6 +4,7 @@ import "./home.css";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+
   return (
     <div className="main_div">
       <h1 className="main_name">Silicon Pulses </h1>

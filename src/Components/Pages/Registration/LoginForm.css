@@ -1,0 +1,72 @@
+/* LoginForm.css */
+
+.fbLoginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    width: 100%;
+  }
+  
+  .fbLoginFormContainer {
+    width: 400px;
+    padding: 2rem;
+    margin-top: 4rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .fbLoginFormTitle {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #1877f2;
+  }
+  
+  .fbLoginFormLabel {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .fbLoginFormInput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #e4e6eb;
+    border-radius: 5px;
+  }
+  
+  .fbLoginBtn {
+    background-color: #1877f2;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .fbLoginBtn:hover {
+    background-color: #166fe5;
+  }
+  
+  .fbLoginDivider {
+    width: 100%;
+    margin: 15px 0;
+    border: none;
+    border-top: 1px solid #e4e6eb;
+  }
+  
+  .fbLoginLink {
+    text-align: center;
+    text-decoration: none;
+    color: #1877f2;
+    font-size: 14px;
+    margin-top: 15px;
+  }
+  

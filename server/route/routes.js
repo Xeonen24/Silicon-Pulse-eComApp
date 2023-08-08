@@ -131,9 +131,9 @@ router.post("/update-profile", auth, asyncHandler(async (req, res) => {
   try {
     const finduser = await USER.findById(req.userID);
     if (finduser) {
-      const { newusername, previousPassword, newPassword } = req.body;
+      const { username, previousPassword, newPassword } = req.body;
 
-      const existingUser = await USER.findOne({ username: newusername });
+      const existingUser = await USER.findOne({ username: username });
       if (existingUser) {
         return res.status(422).json({ error: "Username already exists" });
       }
@@ -141,9 +141,8 @@ router.post("/update-profile", auth, asyncHandler(async (req, res) => {
       if (previousPassword !== finduser.password) {
         return res.status(422).json({ error: "Incorrect previous password" });
       } else {
-        finduser.username = newusername;
+        finduser.username = username;
         finduser.password = newPassword;
-        finduser.password2 = newPassword;
         await finduser.save();
         res.status(201).send("Profile updated successfully");
         console.log("User profile updated");

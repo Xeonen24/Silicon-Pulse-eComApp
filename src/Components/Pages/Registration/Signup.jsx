@@ -54,8 +54,10 @@ const Signup = () => {
   return (
     <div className="signup-box">
       <form className="signup-form" onSubmit={handleFormSubmit}>
+      <h2 className="fbLoginFormTitle">Register</h2>
         <label>Username</label>
         <input
+          className="signup-input"
           type="text"
           name="username"
           value={username}
@@ -63,6 +65,7 @@ const Signup = () => {
         />
         <label>Email</label>
         <input
+          className="signup-input"
           type="text"
           name="email"
           value={email}
@@ -70,30 +73,28 @@ const Signup = () => {
         />
         <label>Password</label>
         <input
-          type="text"
+          className="signup-input"
+          type="password"
           name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <label>Re-enter Password</label>
         <input
-          type="text"
+          className="signup-input"
+          type="password"
           name="password2"
           value={password2}
           onChange={(e) => setPassword2(e.target.value)}
         />
-        <button className="signupbutton" type="submit">
+        <button className="signup-button" type="submit">
           Register
         </button>
-      </form>
-      <div className="login-box">
-        <h3 className="logintitle">Already have an account?</h3>
-        <Link to="/login">
-          <span className="loginbutton" type="submit">
-            Login
-          </span>
+        <hr className="fbLoginDivider" />
+        <Link to="/login" className="fbLoginLink">
+          Don't have an account? Click here.
         </Link>
-      </div>
+      </form>
     </div>
   );
 };

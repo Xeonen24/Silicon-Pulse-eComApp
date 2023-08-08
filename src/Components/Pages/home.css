@@ -9,7 +9,7 @@
     bottom: 0.6rem;
 }
 
-.main_div{
+.main_div {
     width: 50%;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .home_btn {
-    position: absolute;    
+    position: absolute;
     left: 8rem;
     font-size: 30px;
     width: auto;
@@ -49,6 +49,7 @@
     cursor: pointer;
     border-bottom: 0px red transparent;
 }
+
 .home_btn:hover {
     transform: scale(1.03);
 }
@@ -62,19 +63,18 @@
     align-items: center;
     justify-content: center;
     margin-top: 20px;
-  }
-  
-  .slider-center {
+}
+
+.slider-center {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+}
 
 /* responsiveness */
 
 @media (min-width: 580px) and (max-width: 915px) {
 
-    /*tablet*/
     .img_main {
         width: 100%;
         left: 0;
@@ -125,7 +125,6 @@
 
 @media(max-width: 414px) {
 
-    /*s20 ultra*/
     .main_name {
         z-index: 1;
         font-size: 2rem;
@@ -234,5 +233,161 @@
         font-size: 1.1rem;
         right: 1rem;
         bottom: 7rem;
+    }
+}
+
+@media screen and (max-width: 917px) {
+    .main_name {
+        font-size: 3rem;
+        color: black;
+        width: 70%;
+        display: block;
+        left: 7.5rem;
+        bottom: 8rem;
+    }
+
+    .subhead_name {
+        font-size: 1.2rem;
+        display: block;
+        width: 70%;
+        white-space: break-spaces;
+        color: black;
+        position: relative;
+        left: 8rem;
+        bottom: 4rem;
+    }
+
+
+    .home_btn {
+        position: absolute;
+        left: 3rem;
+        font-size: 25px;
+        width: auto;
+        font-weight: 500;
+        padding: 1rem 1.6rem 1rem 2rem;
+        background-color: black;
+        color: white;
+        border-radius: 1rem;
+        box-shadow: 7px 7px 15px 1px rgba(0, 0, 53, 0.3);
+        transition: all 0.4s ease;
+        cursor: pointer;
+        border-bottom: 0px red transparent;
+    }
+}
+
+@media screen and (max-width: 823px) {
+    .main_name {
+        font-size: 2.5rem;
+        color: black;
+        width: 70%;
+        display: block;
+        left: 5rem;
+        bottom: 8rem;
+    }
+
+    .subhead_name {
+        font-size: 1.2rem;
+        display: block;
+        width: 70%;
+        white-space: break-spaces;
+        color: black;
+        position: relative;
+        left: 5rem;
+        bottom: 4rem;
+    }
+
+
+    .home_btn {
+        position: absolute;
+        left: -2rem;
+        font-size: 20px;
+        width: auto;
+        font-weight: 500;
+        padding: 1rem 1.6rem 1rem 2rem;
+        background-color: black;
+        color: white;
+        border-radius: 1rem;
+        box-shadow: 7px 7px 15px 1px rgba(0, 0, 53, 0.3);
+        transition: all 0.4s ease;
+        cursor: pointer;
+        border-bottom: 0px red transparent;
+    }
+}
+
+@media screen and (max-width: 685px) {
+    .main_name {
+        font-size: 2rem;
+        color: black;
+        width: 70%;
+        display: block;
+        left: 5rem;
+        bottom: 8rem;
+    }
+
+    .subhead_name {
+        font-size: 1.2rem;
+        display: block;
+        width: 70%;
+        white-space: break-spaces;
+        color: black;
+        position: relative;
+        left: 5rem;
+        bottom: 4rem;
+    }
+
+
+    .home_btn {
+        position: absolute;
+        left: -2rem;
+        font-size: 20px;
+        width: auto;
+        font-weight: 500;
+        padding: 1rem 1.6rem 1rem 2rem;
+        background-color: black;
+        color: white;
+        border-radius: 1rem;
+        box-shadow: 7px 7px 15px 1px rgba(0, 0, 53, 0.3);
+        transition: all 0.4s ease;
+        cursor: pointer;
+        border-bottom: 0px red transparent;
+    }
+}
+
+@media screen and (max-width: 657px) {
+    .main_name {
+        font-size: 2rem;
+        color: black;
+        width: 70%;
+        display: block;
+        left: 3rem;
+        bottom: 8rem;
+    }
+
+    .subhead_name {
+        font-size: 1.2rem;
+        display: block;
+        width: 70%;
+        white-space: break-spaces;
+        color: black;
+        position: relative;
+        left: 4rem;
+        bottom: 4rem;
+    }
+
+
+    .home_btn {
+        position: absolute;
+        left: -4rem;
+        font-size: 20px;
+        width: auto;
+        font-weight: 500;
+        padding: 1rem 1.6rem 1rem 2rem;
+        background-color: black;
+        color: white;
+        border-radius: 1rem;
+        box-shadow: 7px 7px 15px 1px rgba(0, 0, 53, 0.3);
+        transition: all 0.4s ease;
+        cursor: pointer;
+        border-bottom: 0px red transparent;
     }
 }
