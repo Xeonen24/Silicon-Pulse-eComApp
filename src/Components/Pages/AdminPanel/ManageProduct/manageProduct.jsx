@@ -14,11 +14,10 @@ const ManageProduct = () => {
   const [roleDetails, setRoleDetails] = useState({});
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null); // Initialize with null
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(5); // Number of products to display per page
+  const [productsPerPage] = useState(5);
 
-  // Fetch products from the API
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/products", {
@@ -72,7 +71,10 @@ const ManageProduct = () => {
   // Handle pagination - Get the current products to display
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   // Change page
   const paginate = (pageNumber) => {
@@ -102,7 +104,9 @@ const ManageProduct = () => {
             <label>{selectedProduct.title}</label>
           </td>
           <td className="productEditx">
-            <Link to={`/edit-product/${product._id}`}> {/* Add backticks */}
+            <Link to={`/edit-product/${product._id}`}>
+              {" "}
+              {/* Add backticks */}
               <FontAwesomeIcon icon={faPenToSquare} />
             </Link>
           </td>
@@ -169,7 +173,9 @@ const ManageProduct = () => {
           </div>
           <div className="pagination">
             {/* Generate pagination links */}
-            {Array.from({ length: Math.ceil(products.length / productsPerPage) }).map((_, index) => (
+            {Array.from({
+              length: Math.ceil(products.length / productsPerPage),
+            }).map((_, index) => (
               <button key={index} onClick={() => paginate(index + 1)}>
                 {index + 1}
               </button>
@@ -177,7 +183,14 @@ const ManageProduct = () => {
           </div>
         </div>
       ) : (
-        <div>You're not authorized.</div>
+        <p
+          style={{ textAlign: "center", marginTop: "16rem", fontSize: "2rem" }}
+        >
+          Oh no! Something went wrong! Could not find the page you're looking
+          for.
+          <br />
+          <Link to="/">Click here to return to homepage.</Link>
+        </p>
       )}
     </>
   );

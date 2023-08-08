@@ -12,50 +12,30 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [userDetails, setUserDetails] = useState(null);
-  const [isLogin,setIsLogin] = useState(false);
-
-  const isLoggedIn = localStorage.getItem("loggedIn?");
-
-
+  const [isLoggedIn,setIsLoggedIn] = useState(false);
+  
   useEffect(() => {
-    const loginChck = () => {
-      if (isLoggedIn === "true") {
-        console.log(isLoggedIn);
-        setIsLogin(true)
-      } else {
-        setIsLogin(false)
-      }
-    };
-  }, []);
-
-  console.log(isLogin)
-
-  useEffect(() => {
-    fetchUserDetails();
+    IsLoggedIn();
   },[])
+
+  const IsLoggedIn = () => {
+    const chckLogin = localStorage.getItem('loggedIn?');
+    if (chckLogin === 'true') {
+      setIsLoggedIn(true);
+    }else{
+      setIsLoggedIn(false)
+      localStorage.setItem("userDetails","")
+    }
+  };
 
   const goTologin = (e) => {
     window.location.href='/login'
   };
 
-  const fetchUserDetails = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/user", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setUserDetails(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <>
       <ul className="navbar-nav ms-auto">
-        {isLogin ? (
+        {isLoggedIn ? (
           <AccountDropdown userDetails={userDetails} />
         ):(
           <>

@@ -3,6 +3,7 @@ import axios from "axios";
 import "./addProduct.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 const AddProduct = () => {
   const [categories, setCategories] = useState([]);
@@ -72,7 +73,7 @@ const AddProduct = () => {
 
   useEffect(() => {
     if (roleDetails.role === "admin") {
-        toast.info("Authorization check complete.", {
+      toast.info("Authorization check complete.", {
         autoClose: 1000,
         position: "top-right",
         toastId: "admin-toast",
@@ -180,7 +181,18 @@ const AddProduct = () => {
         </div>
       ) : (
         <div>
-          <p>You are Not Aurthorized</p>
+          <p
+            style={{
+              textAlign: "center",
+              marginTop: "16rem",
+              fontSize: "2rem",
+            }}
+          >
+            Oh no! Something went wrong! Could not find the page you're looking
+            for.
+            <br />
+            <Link to="/">Click here to return to homepage.</Link>
+          </p>{" "}
         </div>
       )}
     </div>

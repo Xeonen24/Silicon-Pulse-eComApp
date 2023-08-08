@@ -1,118 +1,106 @@
-import React,{ useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import userLogo from "../../../Images/user.png";
 import { Link } from "react-router-dom";
 import "./profile.css";
-import { faEdit,faPaperPlane,faClose} from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faPaperPlane,
+  faClose,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function ProfileContent() {
+const ProfileContent = () => {
+  const [user, setUser] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [settingsEditMode, setSettingsEditMode] = useState(false);
+  const [newusername, setNewUsername] = useState("");
+  const [newAddress, setNewAddress] = useState("");
+  const [newMobile, setNewMobile] = useState("");
+  const [newCountry, setNewCountry] = useState("");
+  const [previousPassword, setPreviousPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
-    const [user, setUser] = useState(null);
-    const [editMode, setEditMode] = useState(false);
-    const [settingsEditMode, setSettingsEditMode] = useState(false); // New state variable
-    const [newusername, setNewUsername] = useState("");
-    const [newEmail, setNewEmail] = useState("");
-    const [newAddress, setNewAddress] = useState("");
-    const [newMobile, setNewMobile] = useState("");
-    const [newCountry, setNewCountry] = useState("");
-    const [previousPassword, setPreviousPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  
-    useEffect(() => {
-      const userData = localStorage.getItem("userDetails");
-  
-      if (userData) {
-        const parsedUserData = JSON.parse(userData);
-        setUser(parsedUserData);
-  
-        setNewUsername(parsedUserData.username);
-        setNewEmail(parsedUserData.email);
-        setNewAddress(parsedUserData.address || "");
-        setNewMobile(parsedUserData.mobile || "");
-        setNewCountry(parsedUserData.country || "");
-      }
-    }, []);
-  
-    const handleEditProfile = () => {
-      setEditMode(true);
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userDetails"));
+    if (userData && userData.username) {
+      setUser(userData);
+      setNewUsername(userData.username);
+      setNewAddress(userData.address);
+      setNewMobile(userData.mobile);
+      setNewCountry(userData.country);
+    }
+  }, []);
+
+  const handleEditProfile = () => {
+    setEditMode(true);
+    setSettingsEditMode(true);
+    setNewUsername(user.username);
+    setNewAddress(user.address || "");
+    setNewMobile(user.mobile || "");
+    setNewCountry(user.country || "");
+  };
+
+  const handleSaveProfile = () => {
+    const updatedProfile = {
+      username: newusername,
+      //   address: newAddress,
+      //   mobile: newMobile,
+      //   country: newCountry,
+      previousPassword,
+      newPassword,
     };
-  
-    const handleSaveProfile = () => {
-      const updatedProfile = {
-        username: newusername,
-        email: newEmail,
-        // address: newAddress,
-        // mobile: newMobile,
-        // country: newCountry,
-        previousPassword,
-        newPassword,
-      };
-  
-      axios
-        .post("http://localhost:5000/api/update-profile", updatedProfile, {
+    try {
+      axios.post("http://localhost:5000/api/update-profile", updatedProfile, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setEditMode(false);
+      setSettingsEditMode(false);
+      setPreviousPassword("");
+      setNewPassword("");
+
+      toast.success("Logged out, redirecting...", {
+        autoClose: 1500,
+        position: "top-right",
+      });
+      setTimeout(() => {
+        logoutUser();
+      },2000)
+    } catch (error) {
+      console.error(error);
+      if (error.response && error.response.data && error.response.data.error) {
+        window.alert(error.response.data.error);
+      } else {
+        console.error("Error updating profile:", error);
+      }
+    }
+  };
+
+  const logoutUser = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5000/api/logout",
+        {},
+        {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
-        })
-        .then((response) => {
-          setUser(response.data.user);
-          setEditMode(false);
-          setPreviousPassword("");
-          setNewPassword("");
-  
-          window.alert("Profile updated successfully. Please re-login.");
-          setTimeout(() => {
-            logoutUser();
-          }, 3000);
-        })
-        .catch((error) => {
-          if (
-            error.response &&
-            error.response.data &&
-            error.response.data.error
-          ) {
-            window.alert(error.response.data.error);
-          } else {
-            console.error("Error updating profile:", error);
-          }
-        });
-    };
-  
-    const logoutUser = async () => {
-      try {
-        const response = await axios.post(
-          "http://localhost:5000/api/logout",
-          {},
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        localStorage.removeItem("userDetails");
-        window.location.href = "/";
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  
-    const handleCancelEdit = () => {
-      setEditMode(false);
-      setNewUsername(user.newusername);
-      setPreviousPassword("");
-      setNewPassword("");
-    };
-  
-    const toggleUserDropdown = (e) => {
-      if (!e.target.closest(".userDropdown")) {
-        setIsDropdownVisible(!isDropdownVisible);
-      }
-    };
-  
+        }
+      );
+      localStorage.removeItem("userDetails");
+      localStorage.setItem("loggedIn?", false);
+      window.location.href = "/login";
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <div className="profile">
@@ -129,7 +117,7 @@ function ProfileContent() {
                 </Link>
               </div>
               <div className="url">
-                <Link className="url">Logout</Link>
+                <Link onClick={logoutUser}>Logout</Link>
               </div>
             </div>
           </div>
@@ -154,10 +142,7 @@ function ProfileContent() {
                   onClick={handleEditProfile}
                 ></i>
               ) : (
-                <div className="edit-buttons">
-                  <button onClick={handleSaveProfile}>Save</button>
-                  <button onClick={handleCancelEdit}>Cancel</button>
-                </div>
+                <></>
               )}
               <table>
                 <tbody>
@@ -180,15 +165,7 @@ function ProfileContent() {
                     <td>Email</td>
                     <td>:</td>
                     <td>
-                      {settingsEditMode ? (
-                        <input
-                          type="text"
-                          value={newEmail}
-                          onChange={(e) => setNewEmail(e.target.value)}
-                        />
-                      ) : (
-                        <input type="text" value={user.email} disabled />
-                      )}
+                      <input type="text" value={user.email} disabled />
                     </td>
                   </tr>
                   <tr>
@@ -202,7 +179,7 @@ function ProfileContent() {
                           onChange={(e) => setNewAddress(e.target.value)}
                         />
                       ) : (
-                        <input type="text" value={newAddress || "."} disabled />
+                        <input type="text" value={newAddress || ""} disabled />
                       )}
                     </td>
                   </tr>
@@ -217,7 +194,7 @@ function ProfileContent() {
                           onChange={(e) => setNewMobile(e.target.value)}
                         />
                       ) : (
-                        <input type="text" value={newMobile || "."} disabled />
+                        <input type="text" value={newMobile || ""} disabled />
                       )}
                     </td>
                   </tr>
@@ -232,7 +209,7 @@ function ProfileContent() {
                           onChange={(e) => setNewCountry(e.target.value)}
                         />
                       ) : (
-                        <input type="text" value={newCountry || "."} disabled />
+                        <input type="text" value={newCountry || ""} disabled />
                       )}
                     </td>
                   </tr>
@@ -295,6 +272,6 @@ function ProfileContent() {
       </div>
     </div>
   );
-}
+};
 
 export default ProfileContent;

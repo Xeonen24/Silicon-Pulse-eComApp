@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -7,19 +7,19 @@ import "./LoginForm.css";
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     IsLoggedIn();
-  })
+  }, []);
 
   const IsLoggedIn = () => {
-    const chckLogin = localStorage.getItem('loggedIn?');
-    if (chckLogin === 'true') {
-      toast.error("Redirecting..." , {
-        autoClose: 1500,
-        position: "top-right",
-      });
-        window.location.href='/'
+    const chckLogin = localStorage.getItem("loggedIn?");
+    if (chckLogin === "true") {
+      setIsLoggedIn(true);
+      window.location.href = "/";
+    } else {
+      setIsLoggedIn(false);
     }
   };
 
@@ -63,36 +63,52 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="fbLoginForm">
-      <div className="fbLoginFormContainer">
-        <h2 className="fbLoginFormTitle">Login</h2>
-        <form className="fbLoginForm" onSubmit={handleFormSubmit}>
-          <label className="fbLoginFormLabel">Username</label>
-          <input
-            className="fbLoginFormInput"
-            type="text"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <label className="fbLoginFormLabel">Password</label>
-          <input
-            className="fbLoginFormInput"
-            type="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button className="fbLoginBtn" type="submit">
-            Login
-          </button>
-        </form>
-        <hr className="fbLoginDivider" />
-        <Link to="/signup" className="fbLoginLink">
-          Don't have an account? Click here.
-        </Link>
-      </div>
-    </div>
+    <>
+      {isLoggedIn ? (
+        <>
+          <p
+            style={{
+              textAlign: "center",
+              marginTop: "16rem",
+              fontSize: "2rem",
+            }}
+          >
+            Already logged in, redirecting....
+          </p>
+        </>
+      ) : (
+        <div className="fbLoginForm">
+          <div className="fbLoginFormContainer">
+            <h2 className="fbLoginFormTitle">Login</h2>
+            <form className="fbLoginForm" onSubmit={handleFormSubmit}>
+              <label className="fbLoginFormLabel">Username</label>
+              <input
+                className="fbLoginFormInput"
+                type="text"
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <label className="fbLoginFormLabel">Password</label>
+              <input
+                className="fbLoginFormInput"
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button className="fbLoginBtn" type="submit">
+                Login
+              </button>
+            </form>
+            <hr className="fbLoginDivider" />
+            <Link to="/signup" className="fbLoginLink">
+              Don't have an account? Click here.
+            </Link>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

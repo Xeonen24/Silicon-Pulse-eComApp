@@ -4,94 +4,100 @@ import "./addProduct.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const EditProduct = ({ match }) => {
-    const [categories, setCategories] = useState([]);
-    const { id: productId } = useParams();
-    const [data, setData] = useState({
-      productCode: "",
-      title: "",
-      description: "",
-      category: "",
-      quantity: "",
-      imagePath: "",
-      manufacturer: "",
-      discountprice: "",
-      price: "",
-    });
-    const [roleDetails, setRoleDetails] = useState("");
-  
-    const getProduct = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/api/products/${productId}`);
-        setData(response.data);
-      } catch (error) {
-        toast.error("Failed to fetch product", {
-          autoClose: 1500,
-          position: "top-right",
-        });
-        console.error("Error fetching product:", error);
-      }
-    };
-  
-    const getCategories = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/categories");
-        setCategories(response.data);
-      } catch (error) {
-        toast.error("Failed to fetch categories", {
-          autoClose: 1500,
-          position: "top-right",
-        });
-        console.error("Error fetching categories:", error);
-      }
-    };
-  
-    const updateProduct = async () => {
-      try {
-        await axios.put(`http://localhost:5000/api/update-product/${productId}`, data);
-        toast.success("Product updated successfully", {
-          autoClose: 2000,
-          position: "top-right",
-        });
-      } catch (error) {
-        toast.error("Failed to update product", {
-          autoClose: 2000,
-          position: "top-right",
-        });
-        console.error("Error updating product:", error);
-      }
-    };
-  
-    const fetchRoleDetails = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/user-role", {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        setRoleDetails(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  
-    useEffect(() => {
-      getProduct();
-      getCategories();
-      fetchRoleDetails();
-    }, []);
-  
-    const handleFormSubmit = (e) => {
-      e.preventDefault();
-      updateProduct();
-    };
-  
-    const handleInputChange = (e) => {
-      setData({ ...data, [e.target.name]: e.target.value });
-    };
-  
+  const [categories, setCategories] = useState([]);
+  const { id: productId } = useParams();
+  const [data, setData] = useState({
+    productCode: "",
+    title: "",
+    description: "",
+    category: "",
+    quantity: "",
+    imagePath: "",
+    manufacturer: "",
+    discountprice: "",
+    price: "",
+  });
+  const [roleDetails, setRoleDetails] = useState("");
+
+  const getProduct = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/products/${productId}`
+      );
+      setData(response.data);
+    } catch (error) {
+      toast.error("Failed to fetch product", {
+        autoClose: 1500,
+        position: "top-right",
+      });
+      console.error("Error fetching product:", error);
+    }
+  };
+
+  const getCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/categories");
+      setCategories(response.data);
+    } catch (error) {
+      toast.error("Failed to fetch categories", {
+        autoClose: 1500,
+        position: "top-right",
+      });
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const updateProduct = async () => {
+    try {
+      await axios.put(
+        `http://localhost:5000/api/update-product/${productId}`,
+        data
+      );
+      toast.success("Product updated successfully", {
+        autoClose: 2000,
+        position: "top-right",
+      });
+    } catch (error) {
+      toast.error("Failed to update product", {
+        autoClose: 2000,
+        position: "top-right",
+      });
+      console.error("Error updating product:", error);
+    }
+  };
+
+  const fetchRoleDetails = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/user-role", {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setRoleDetails(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+    getCategories();
+    fetchRoleDetails();
+  }, []);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    updateProduct();
+  };
+
+  const handleInputChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
   return (
     <div>
       {roleDetails.role === "admin" ? (
@@ -125,7 +131,7 @@ const EditProduct = ({ match }) => {
               value={data.price}
               onChange={handleInputChange}
             />
-             <label>Discount Price</label>
+            <label>Discount Price</label>
             <input
               type="text"
               name="discountprice"
@@ -175,7 +181,18 @@ const EditProduct = ({ match }) => {
         </div>
       ) : (
         <div>
-          <p>You are not authorized</p>
+          <p
+            style={{
+              textAlign: "center",
+              marginTop: "16rem",
+              fontSize: "2rem",
+            }}
+          >
+            Oh no! Something went wrong! Could not find the page you're looking
+            for.
+            <br />
+            <Link to="/">Click here to return to homepage.</Link>
+          </p>{" "}
         </div>
       )}
     </div>
