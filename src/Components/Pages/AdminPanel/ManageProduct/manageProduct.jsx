@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPenToSquare,
-  faTrash,
-  faTimesCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import {faPenToSquare,faTrash,} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EditProduct from "./editProduct";
+import AddProduct from "./addProduct";
 
 const ManageProduct = () => {
   const [roleDetails, setRoleDetails] = useState({});
   const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(5);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showProducts, setShowProducts] = useState(true);
+  const [editProduct, setEditProduct] = useState(false);
+  const [addProduct, setaddProduct] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -32,23 +33,8 @@ const ManageProduct = () => {
     }
   };
 
-  // Fetch categories from the API
-  const fetchCategory = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/categories", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setCategory(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // Fetch role details from the API
   const fetchRoleDetails = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get("http://localhost:5000/api/user-role", {
         withCredentials: true,
@@ -57,18 +43,18 @@ const ManageProduct = () => {
         },
       });
       setRoleDetails(response.data);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchCategory();
     fetchProducts();
     fetchRoleDetails();
   }, []);
 
-  // Handle pagination - Get the current products to display
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(
@@ -76,16 +62,34 @@ const ManageProduct = () => {
     indexOfLastProduct
   );
 
-  // Change page
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const updateProduct = (selectedProduct) => {};
+  const deleteProduct = async (productId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/delete-product/${productId}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-  const deleteProduct = (selectedProduct) => {};
+      if (response.status === 200) {
+        toast.success("Product deleted successfully.");
+        fetchProducts();
+      } else {
+        toast.error("Failed to delete product.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while deleting the product.");
+    }
+  };
 
-  // Render a single product row
   const renderProductRow = (product) => {
     const formatDate = (dateString) => {
       const date = new Date(dateString);
@@ -93,29 +97,7 @@ const ManageProduct = () => {
       return date.toLocaleDateString("en-US", options);
     };
 
-    if (selectedProduct && selectedProduct._id === product._id) {
-      return (
-        <tr className="productInfox" key={product._id}>
-          <td className="productIdx">{product._id}</td>
-          <td className="productCreatedAtx">
-            <label type="text">{formatDate(selectedProduct.createdAt)}</label>
-          </td>
-          <td className="productTitlex">
-            <label>{selectedProduct.title}</label>
-          </td>
-          <td className="productEditx">
-            <Link to={`/edit-product/${product._id}`}>
-              {" "}
-              {/* Add backticks */}
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </Link>
-          </td>
-          <td className="productDeletex" onClick={closeeditProduct}>
-            <FontAwesomeIcon icon={faTimesCircle} />
-          </td>
-        </tr>
-      );
-    } else {
+    if (product._id) {
       return (
         <tr className="productInfox" key={product._id}>
           <td className="productIdx">{product._id}</td>
@@ -123,33 +105,56 @@ const ManageProduct = () => {
             <label type="text">{formatDate(product.createdAt)}</label>
           </td>
           <td className="productIdx">{product.productCode}</td>
-          <td className="productIdx">{product.imagePath}</td>
           <td className="productTitlex">{product.title}</td>
-          <td className="productEditx" onClick={() => editProduct(product)}>
-            <FontAwesomeIcon icon={faPenToSquare} />
+          <td className="productIdx">{product.imagePath}</td>
+          <td className="productEditx">
+            <Link onClick={() => showEditProduct(product._id)}>
+              <FontAwesomeIcon icon={faPenToSquare} />
+            </Link>
           </td>
-          <td className="productDeletex" onClick={() => deleteProduct(product)}>
-            <FontAwesomeIcon icon={faTrash} />
+          <td className="productDeletex">
+            <Link onClick={() => deleteProduct(product._id)}>
+              <FontAwesomeIcon icon={faTrash} />
+            </Link>
           </td>
         </tr>
       );
     }
   };
 
-  const editProduct = (product) => {
-    setSelectedProduct(product);
+  const showOnlyProducts = async () => {
+    setaddProduct(false);
+    setEditProduct(false);
+    setShowProducts(true);
   };
 
-  const closeeditProduct = () => {
-    setSelectedProduct(null);
+  const showEditProduct = async (productId) => {
+    setSelectedProductId(productId);
+    setaddProduct(false);
+    setShowProducts(false);
+    setEditProduct(true);
+  };
+
+  const showAddProduct = async () => {
+    setEditProduct(false);
+    setShowProducts(false);
+    setaddProduct(true);
   };
 
   return (
     <>
-      {roleDetails.role === "admin" ? (
+      {isLoading ? (
+        <p
+          style={{ textAlign: "center", marginTop: "16rem", fontSize: "2rem" }}
+        >
+          Loading please wait...
+        </p>
+      ) : roleDetails.role === "admin" ? (
         <div>
-          <div>
-            <Link to="/add-product">
+          {showProducts&&(
+            <>
+            <div>
+            <Link onClick={showAddProduct}>
               <button>Add a Product</button>
             </Link>
           </div>
@@ -172,7 +177,6 @@ const ManageProduct = () => {
             </table>
           </div>
           <div className="pagination">
-            {/* Generate pagination links */}
             {Array.from({
               length: Math.ceil(products.length / productsPerPage),
             }).map((_, index) => (
@@ -181,6 +185,20 @@ const ManageProduct = () => {
               </button>
             ))}
           </div>
+            </>
+          )}
+          {editProduct && (
+            <>
+              <button onClick={showOnlyProducts}>Go back</button>
+            <EditProduct productId={selectedProductId}/>
+            </>
+          )}
+          {addProduct && (
+            <>
+            <button onClick={showOnlyProducts}>Go back</button>
+            <AddProduct productId={selectedProductId}/>
+            </>
+          )}
         </div>
       ) : (
         <p

@@ -23,6 +23,7 @@ const Home = () => {
         localStorage.setItem("loggedIn?",false);
     }
   };
+
   return (
     <div className="main_div">
       <h1 className="main_name">Silicon Pulses </h1>

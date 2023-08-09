@@ -3,12 +3,10 @@ import axios from "axios";
 import "./addProduct.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const EditProduct = ({ match }) => {
+const EditProduct = ({productId}) => {
   const [categories, setCategories] = useState([]);
-  const { id: productId } = useParams();
   const [data, setData] = useState({
     productCode: "",
     title: "",

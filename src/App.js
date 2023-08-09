@@ -17,7 +17,6 @@ import EditProduct from "./Components/Pages/AdminPanel/ManageProduct/editProduct
 import Order from "./Components/Pages/Order/Order";
 
 const App = () => {
-
   return (
     <Router>
       <Header />

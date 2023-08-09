@@ -184,6 +184,21 @@ router.delete("/delete-user/:id", async (req, res) => {
   }
 });
 
+router.delete("/delete-product/:productId", async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    const deletedProduct = await Product.findByIdAndDelete(productId);
+    
+    if (!deletedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to delete product" });
+  }
+});
+
 router.get("/categories", (req, res) => {
   Category.find()
     .then(categories => {
@@ -430,18 +445,22 @@ router.put('/update-product/:productId', async (req, res) => {
   const updates = req.body;
 
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(productId, updates, { new: true });
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      { $set: updates }, // Use $set to update specific fields
+      { new: true }
+    );
 
-    if (updatedProduct) {
-      res.status(200).json(updatedProduct);
-    } else {
-      res.status(404).json({ error: 'Product not found' });
+    if (!updatedProduct) {
+      return res.status(404).json({ error: 'Product not found' });
     }
+
+    res.json(updatedProduct);
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
-
 
 router.get('/user-role', auth, (req, res) => {
   try {

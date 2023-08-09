@@ -8,6 +8,12 @@ const Profile = () => {
   
   useEffect(() => {
     IsLoggedIn();
+    if (chckLogin === "false") {
+      toast.error("Login required, redirecting...", {
+        autoClose: 1500,
+        position: "top-right",
+      });
+    }
   }, []);
 
   const IsLoggedIn = () => {
@@ -19,13 +25,22 @@ const Profile = () => {
           </>
         );
       } else {
-        toast.error("Login required, redirecting...", {
-          autoClose: 1500,
-          position: "top-right",
-        });
         setTimeout(() => {
           window.location.href = "/login";
         }, 1500);
+        return(
+          <>
+                    <p
+          style={{ textAlign: "center", marginTop: "16rem", fontSize: "2rem" }}
+        >
+          Oh no! Something went wrong! Could not find the page you're looking
+          for.
+          <br />
+          Redirecting.....
+        </p>
+          </>
+        )
+        
       }
     } catch (error) {
       console.log(error);
