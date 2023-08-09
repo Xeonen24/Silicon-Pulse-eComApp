@@ -1,42 +1,62 @@
-import React ,{useEffect}from "react";
+import React, { useState, useEffect } from "react";
 import image from "../../Images/hs.png";
 import "./home.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Home = () => {
+  const [loading, setLoading] = useState(true); // State to manage loading state
+  const [loggedIn, setLoggedIn] = useState(true); // Assuming you'll manage login state
+
   useEffect(() => {
     checkLogin();
   }, []);
 
   const checkLogin = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/user", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });;
-    } catch (error) {
-      console.error(error);
-        localStorage.setItem("userDetails",null);
-        localStorage.setItem("loggedIn?",false);
-    }
+    // Simulate longer loading time with setTimeout
+    setTimeout(async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/user", {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        // Assuming you have a way to manage loggedIn state
+        setLoggedIn(true);
+      } catch (error) {
+        console.error(error);
+        localStorage.setItem("userDetails", null);
+        localStorage.setItem("loggedIn?", false);
+      } finally {
+        setLoading(false); // Set loading to false after the API call is done
+      }
+    },500); // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
   };
 
   return (
     <div className="main_div">
-      <h1 className="main_name">Silicon Pulses </h1>
-      <p className="subhead_name">The Ultimate Gaming Hardware Empssorium.</p>
-      <Link to="product">
-        <Link className="product-link">
-          <h4 className="home_btn" spellCheck="false">
-            Shop Now
-          </h4>
-        </Link>
-      </Link>
-      <img className="img_main" src={image} alt="" />
+      {/* Display the loading animation for the entire page while loading is true */}
+      {loading ? (
+        <div className="page-loading">
+          <div className="spinner"></div>
+        </div>
+      ) : (
+        <>
+          <h1 className="main_name">Silicon Pulses</h1>
+          <p className="subhead_name">The Ultimate Gaming Hardware Emporium.</p>
+          <Link to="product">
+            <Link className="product-link">
+              <h4 className="home_btn" spellCheck="false">
+                Shop Now
+              </h4>
+            </Link>
+          </Link>
+          <img className="img_main" src={image} alt="" />
+        </>
+      )}
     </div>
   );
 };
+
 export default Home;

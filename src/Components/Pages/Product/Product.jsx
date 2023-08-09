@@ -23,6 +23,7 @@ const Product = () => {
   const location = useLocation();
   const [loginChek, setLoginChek] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     checkLogin();
@@ -53,10 +54,12 @@ const Product = () => {
         axios.spread((categoriesResponse, productsResponse) => {
           setCategories(categoriesResponse.data);
           setProducts(productsResponse.data);
+          setLoading(false);
         })
       )
       .catch((error) => {
         console.error("Error fetching categories and products:", error);
+        setLoading(false);
       });
   }, []);
 
@@ -123,17 +126,6 @@ const Product = () => {
     setCurrentPage(pageNumber);
   };
 
-  if (categories.length === 0) {
-    return <p
-    style={{
-      textAlign: "center",
-      marginTop: "16rem",
-      fontSize: "2rem",
-    }}
-  >
-    Loading please wait...
-  </p>;
-  }
 
   return (
     <>
@@ -166,70 +158,86 @@ const Product = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <div>
-        <select value={selectedCategory} onChange={handleCategoryChange}>
-          <option value="">All Categories</option>
-          {categories.map((category) => (
-            <option key={category._id} value={category._id}>
-              {category.title}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="grid">
-        {currentProducts.map((product, index) => (
-          <div className="grid-item" key={index}>
-            <Link to={`/product/${product._id}`} className="product-link">
-              <img
-                src={product.imagePath}
-                alt={product.title}
-                className="item-image"
-              />
-              <h3 className="item-title">{product.title}</h3>
-              <p className="item-dcprices">
-                {product.discountprice !== 0
-                  ? `₹ ${product.discountprice}`
-                  : ""}
-              </p>
-              <p className="item-prices">
-                {product.discountprice !== 0
-                  ? `₹ ${product.price}`
-                  : `₹ ${product.price}`}
-              </p>
-              <h4 style={{ color: product.quantity > 0 ? "green" : "red" }}>
-                {product.quantity > 0 ? "In Stock" : "Out of Stock"}
-              </h4>
-            </Link>
-            <button
-              className={
-                product.quantity > 0 ? "item-add-to-cart" : "item-out-of-stock"
-              }
-              disabled={!product.quantity}
-              onClick={() => addToCart(product._id)}
-              style={{
-                backgroundColor: product.quantity ? "" : "#a6a6a6",
-              }}
+      {loading ? (
+        <div className="page-loading">
+          <div className="spinner"></div>
+        </div>
+      ) : (
+        <>
+          <div className="categories">
+            <div
+              className={`category ${selectedCategory === "" ? "active" : ""}`}
+              onClick={() => handleCategoryChange({ target: { value: "" } })}
             >
-              <FontAwesomeIcon
-                icon={faCartPlus}
-                style={{ fontSize: "23px", paddingLeft: "0px" }}
-              />
-            </button>
+              All Categories
+            </div>
+            {categories.map((category) => (
+              <div
+                key={category._id}
+                className={`category ${selectedCategory === category._id ? "active" : ""}`}
+                onClick={() => handleCategoryChange({ target: { value: category._id } })}
+              >
+                {category.title}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      <div className="pagination">
-        {Array.from(
-          Array(Math.ceil(filteredProducts.length / productsPerPage)),
-          (item, index) => (
-            <button key={index} onClick={() => paginate(index + 1)}>
-              {index + 1}
-            </button>
-          )
-        )}
-      </div>
+          <div className="grid">
+            {currentProducts.map((product, index) => (
+              <div className="grid-item" key={index}>
+                <Link to={`/product/${product._id}`} className="product-link">
+                  <img
+                    src={product.imagePath}
+                    alt={product.title}
+                    className="item-image"
+                  />
+                  <h3 className="item-title">{product.title}</h3>
+                  <p className="item-dcprices">
+                    {product.discountprice !== 0
+                      ? `₹ ${product.discountprice}`
+                      : ""}
+                  </p>
+                  <p className="item-prices">
+                    {product.discountprice !== 0
+                      ? `₹ ${product.price}`
+                      : `₹ ${product.price}`}
+                  </p>
+                  <h4 style={{ color: product.quantity > 0 ? "green" : "red" }}>
+                    {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+                  </h4>
+                </Link>
+                <button
+                  className={
+                    product.quantity > 0 ? "item-add-to-cart" : "item-out-of-stock"
+                  }
+                  disabled={!product.quantity}
+                  onClick={() => addToCart(product._id)}
+                  style={{
+                    backgroundColor: product.quantity ? "" : "#a6a6a6",
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faCartPlus}
+                    style={{ fontSize: "23px", paddingLeft: "0px" }}
+                  />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="pagination">
+            {Array.from(
+              Array(Math.ceil(filteredProducts.length / productsPerPage)),
+              (item, index) => (
+                <button key={index} onClick={() => paginate(index + 1)}>
+                  {index + 1}
+                </button>
+              )
+            )}
+          </div>
+        </>
+      )}
+
     </>
   );
 };

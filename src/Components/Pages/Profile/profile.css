@@ -17,11 +17,15 @@
      transition: all 0.3s ease-in-out;
      top: -100px;
      position: relative;
+     padding-top: 2rem;
  }
 
  .profile img {
      border-radius: 50%;
      box-shadow: 0px 0px 5px 1px grey;
+     left:0px;
+     top:25px;
+     position: absolute;
  }
 
  .name {
