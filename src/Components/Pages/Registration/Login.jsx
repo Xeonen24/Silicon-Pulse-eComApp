@@ -18,7 +18,6 @@ const Login = () => {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
-      localStorage.setItem("userDetails", "");
     }
   };
 

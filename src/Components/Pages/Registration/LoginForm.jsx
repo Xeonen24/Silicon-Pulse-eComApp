@@ -8,10 +8,17 @@ const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
 
   useEffect(() => {
     IsLoggedIn();
   }, []);
+
+  useEffect(() => {
+    if (userDetails) {
+      localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    }
+  }, [userDetails]);
 
   const IsLoggedIn = () => {
     const chckLogin = localStorage.getItem("loggedIn?");
@@ -20,6 +27,20 @@ const LoginForm = () => {
       window.location.href = "/";
     } else {
       setIsLoggedIn(false);
+    }
+  };
+
+  const fetchUserDetails = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/user", {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setUserDetails(response.data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -46,6 +67,7 @@ const LoginForm = () => {
         });
       } else {
         localStorage.setItem("loggedIn?", true);
+        fetchUserDetails();
         toast.success("Login successful", {
           autoClose: 1500,
           position: "top-right",
