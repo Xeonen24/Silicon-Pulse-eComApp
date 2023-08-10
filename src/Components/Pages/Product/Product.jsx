@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./product.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faL } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { Shimmer } from "react-shimmer";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -25,6 +26,7 @@ const Product = () => {
   const [loginChek, setLoginChek] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [productLoading, setProductLoading] = useState(true);
 
   useEffect(() => {
     checkLogin();
@@ -62,6 +64,9 @@ const Product = () => {
         console.error("Error fetching categories and products:", error);
         setLoading(false);
       });
+        setTimeout(() => {
+          setProductLoading(false);
+        }, 1500);
   }, []);
 
   useEffect(() => {
@@ -77,7 +82,7 @@ const Product = () => {
       setSelectedCategory(event.target.value);
       setCurrentPage(1);
       setLoading(false);
-    },150);
+    }, 150);
   };
 
   const handleCloseModal = () => {
@@ -194,57 +199,92 @@ const Product = () => {
               </div>
             ))}
           </div>
-
-          <div className="grid">
-            {currentProducts.map((product, index) => (
-              <div className="grid-item" key={index}>
-                <Link to={`/product/${product._id}`} className="product-link">
-                  <div style={{ padding: "1rem" }}>
-                    <img
-                      src={product.imagePath}
-                      alt={product.title}
-                      className="item-image"
-                    />
-                    <h3 className="item-title">{product.title}</h3>
-                    <p className="item-prices">
-                      {product.discountprice !== 0
-                        ? `₹ ${product.price}`
-                        : `₹ ${product.price}`}
-                    </p>
-                    <p className="item-dcprices">
-                      {product.discountprice !== 0
-                        ? `₹ ${product.discountprice}`
-                        : ""}
-                    </p>
-                    <h4
-                      style={{ color: product.quantity > 0 ? "green" : "red" }}
+          {productLoading ? (
+           <div className="grid">
+           {Array.from({ length: 10 }).map((_, index) => (
+             <div className="grid-item" style={{paddingBottom:'12.7rem'}} key={index}>
+               <div style={{ padding: "1rem" }}>
+                 <Shimmer width={300} height={300} style={{ borderRadius: "15px" }} />
+                 <Shimmer
+                   width={100}
+                   height={20}
+                   style={{ marginTop: "0.5rem", borderRadius: "5px" }}
+                 />
+                 <Shimmer
+                   width={80}
+                   height={15}
+                   style={{ marginTop: "5rem", borderRadius: "5px" }}
+                 />
+                 <Shimmer
+                   width={100}
+                   height={15}
+                   style={{ marginTop: "0.25rem", borderRadius: "5px" }}
+                 />
+                 <Shimmer
+                   width={50}
+                   height={15}
+                   style={{ marginTop: "0.25rem", borderRadius: "5px" }}
+                 />
+               </div>
+             </div>
+           ))}
+         </div>
+         
+          ) : (
+            <div className="grid">
+              {currentProducts.map((product, index) => (
+                <div className="grid-item" key={index}>
+                  <Link to={`/product/${product._id}`} className="product-link">
+                    <div style={{ padding: "1rem" }}>
+                      <img
+                        src={product.imagePath}
+                        alt={product.title}
+                        className="item-image"
+                      />
+                      <h3 className="item-title">{product.title}</h3>
+                      <p className="item-prices">
+                        {product.discountprice !== 0
+                          ? `₹ ${product.price}`
+                          : `₹ ${product.price}`}
+                      </p>
+                      <p className="item-dcprices">
+                        {product.discountprice !== 0
+                          ? `₹ ${product.discountprice}`
+                          : ""}
+                      </p>
+                      <h4
+                        style={{
+                          color: product.quantity > 0 ? "green" : "red",
+                        }}
+                      >
+                        {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+                      </h4>
+                    </div>
+                  </Link>
+                  <div style={{ paddingBottom: "1rem" }}>
+                    <button
+                      className={
+                        product.quantity > 0
+                          ? "item-add-to-cart"
+                          : "item-out-of-stock"
+                      }
+                      disabled={!product.quantity}
+                      onClick={() => addToCart(product._id)}
+                      style={{
+                        backgroundColor: product.quantity ? "" : "#a6a6a6",
+                      }}
                     >
-                      {product.quantity > 0 ? "In Stock" : "Out of Stock"}
-                    </h4>
+                      <FontAwesomeIcon
+                        icon={faCartPlus}
+                        style={{ fontSize: "23px", paddingLeft: "0rem" }}
+                      />
+                    </button>
                   </div>
-                </Link>
-                <div style={{ paddingBottom: "1rem" }}>
-                  <button
-                    className={
-                      product.quantity > 0
-                        ? "item-add-to-cart"
-                        : "item-out-of-stock"
-                    }
-                    disabled={!product.quantity}
-                    onClick={() => addToCart(product._id)}
-                    style={{
-                      backgroundColor: product.quantity ? "" : "#a6a6a6",
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faCartPlus}
-                      style={{ fontSize: "23px", paddingLeft: "0rem" }}
-                    />
-                  </button>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
+
           <div className="pagination">
             {Array.from(
               Array(Math.ceil(filteredProducts.length / productsPerPage)),
