@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 
 const AddProduct = () => {
+  const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [data, setData] = useState({
     productCode: "",
@@ -35,7 +36,7 @@ const AddProduct = () => {
   };
 
   const postData = async () => {
-    const toastId = toast.loading("Loading...");
+    setLoading(true);
     try {
       const response = await axios.post(
         "http://localhost:5000/api/add-product",
@@ -46,9 +47,9 @@ const AddProduct = () => {
         autoClose: 2000,
         position: "top-right",
       });
-      toast.dismiss(toastId);
+      setLoading(false);
     } catch (error) {
-      toast.dismiss(toastId);
+      setLoading(false);
       toast.error("Failed To Add Product", {
         autoClose: 2000,
         position: "top-right",
@@ -79,6 +80,7 @@ const AddProduct = () => {
         toastId: "admin-toast",
       });
     }
+    setLoading(false)
   }, [roleDetails.role]);
 
   useEffect(() => {
@@ -92,110 +94,124 @@ const AddProduct = () => {
   };
 
   return (
-    <div>
-      {roleDetails.role === "admin" ? (
-        <div className="add-product-box">
-          <form className="add-product-form" onSubmit={handleFormSubmit}>
-            <label>Product Code</label>
-            <input
-              type="text"
-              name="productCode"
-              value={data.productCode}
-              onChange={(e) =>
-                setData({ ...data, productCode: e.target.value })
-              }
-            />
-            <label>Title</label>
-            <input
-              type="text"
-              name="title"
-              value={data.title}
-              onChange={(e) => setData({ ...data, title: e.target.value })}
-            />
-            <label>Description</label>
-            <input
-              type="text"
-              name="description"
-              value={data.description}
-              onChange={(e) =>
-                setData({ ...data, description: e.target.value })
-              }
-            />
-            <label>Price</label>
-            <input
-              type="text"
-              name="price"
-              value={data.price}
-              onChange={(e) => setData({ ...data, price: e.target.value })}
-            />
-            <label>Category</label>
-            <div className="custom-dropdown-container">
-              <select
-                className="custom-dropdown-select"
-                value={data.category}
-                onChange={(e) => setData({ ...data, category: e.target.value })}
-              >
-                {categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.title}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <label>Available</label>
-            <input
-              type="text"
-              name="available"
-              value={data.available}
-              onChange={(e) => setData({ ...data, available: e.target.value })}
-            />
-            <label>Image Path</label>
-            <input
-              type="text"
-              name="imagePath"
-              value={data.imagePath}
-              onChange={(e) => setData({ ...data, imagePath: e.target.value })}
-            />
-            <label>Discount Price</label>
-            <input
-              type="text"
-              name="discountprice"
-              value={data.discountprice}
-              onChange={(e) =>
-                setData({ ...data, discountprice: e.target.value })
-              }
-            />
-            <label>Manufacturer</label>
-            <input
-              type="text"
-              name="manufacturer"
-              value={data.manufacturer}
-              onChange={(e) =>
-                setData({ ...data, manufacturer: e.target.value })
-              }
-            />
-            <button className="signupbutton" type="submit">
-              Register
-            </button>
-          </form>
+    <>
+      {loading ? (
+        <div className="page-loading">
+          <div className="spinner"></div>
         </div>
       ) : (
         <div>
-          <p
-            style={{
-              textAlign: "center",
-              marginTop: "16rem",
-              fontSize: "2rem",
-            }}
-          >
-            Oh no! Something went wrong! Could not find the page you're looking
-            for.
-            <br />
-            <Link to="/">Click here to return to homepage.</Link>
-          </p>{" "}
+          {roleDetails.role === "admin" ? (
+            <div className="add-product-box">
+              <form className="add-product-form" onSubmit={handleFormSubmit}>
+                <label>Product Code</label>
+                <input
+                  type="text"
+                  name="productCode"
+                  value={data.productCode}
+                  onChange={(e) =>
+                    setData({ ...data, productCode: e.target.value })
+                  }
+                />
+                <label>Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={data.title}
+                  onChange={(e) => setData({ ...data, title: e.target.value })}
+                />
+                <label>Description</label>
+                <input
+                  type="text"
+                  name="description"
+                  value={data.description}
+                  onChange={(e) =>
+                    setData({ ...data, description: e.target.value })
+                  }
+                />
+                <label>Price</label>
+                <input
+                  type="text"
+                  name="price"
+                  value={data.price}
+                  onChange={(e) => setData({ ...data, price: e.target.value })}
+                />
+                <label>Category</label>
+                <div className="custom-dropdown-container">
+                  <select
+                    className="custom-dropdown-select"
+                    value={data.category}
+                    onChange={(e) =>
+                      setData({ ...data, category: e.target.value })
+                    }
+                  >
+                    {categories.map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <label>Available</label>
+                <input
+                  type="text"
+                  name="available"
+                  value={data.available}
+                  onChange={(e) =>
+                    setData({ ...data, available: e.target.value })
+                  }
+                />
+                <label>Image Path</label>
+                <input
+                  type="text"
+                  name="imagePath"
+                  value={data.imagePath}
+                  onChange={(e) =>
+                    setData({ ...data, imagePath: e.target.value })
+                  }
+                />
+                <label>Discount Price</label>
+                <input
+                  type="text"
+                  name="discountprice"
+                  value={data.discountprice}
+                  onChange={(e) =>
+                    setData({ ...data, discountprice: e.target.value })
+                  }
+                />
+                <label>Manufacturer</label>
+                <input
+                  type="text"
+                  name="manufacturer"
+                  value={data.manufacturer}
+                  onChange={(e) =>
+                    setData({ ...data, manufacturer: e.target.value })
+                  }
+                />
+                <button className="signupbutton" type="submit">
+                  Register
+                </button>
+              </form>
+            </div>
+          ) : (
+            <div>
+              <p
+                style={{
+                  textAlign: "center",
+                  marginTop: "16rem",
+                  fontSize: "2rem",
+                }}
+              >
+                Oh no! Something went wrong! Could not find the page you're
+                looking for.
+                <br />
+                <Link to="/">Click here to return to homepage.</Link>
+              </p>{" "}
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

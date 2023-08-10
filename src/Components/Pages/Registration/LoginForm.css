@@ -69,25 +69,3 @@
     font-size: 18px;
     margin-top: 15px;
   }
-
-  .categories {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-  }
-  
-  .category {
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: background-color 0.2s ease-in-out;
-    border-radius: 10px;
-  }
-  
-  .category.active {
-    background-color: var(--aplared); /* Change this to your desired active background color */
-    color: rgb(0, 0, 0);
-  }
-  

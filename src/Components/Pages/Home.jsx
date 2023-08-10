@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Home = () => {
-  const [loading, setLoading] = useState(true); // State to manage loading state
-  const [loggedIn, setLoggedIn] = useState(true); // Assuming you'll manage login state
+  const [loading, setLoading] = useState(true); 
+  const [loggedIn, setLoggedIn] = useState(true);
 
   useEffect(() => {
     checkLogin();

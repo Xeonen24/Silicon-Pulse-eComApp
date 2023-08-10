@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,7 +21,9 @@ const Cart = () => {
           },
         });
         setCartItems(response.data);
+        setLoading(false)
       } catch (error) {
+        setLoading(false)
         console.log(error);
       }
     };
@@ -48,6 +51,7 @@ const Cart = () => {
   }, []);
 
   const removeFromCart = async (productId) => {
+    setLoading(true)
     try {
       await axios.delete(`http://localhost:5000/api/cart/remove/${productId}`, {
         withCredentials: true,
@@ -63,12 +67,15 @@ const Cart = () => {
         autoClose: 2000,
         position: "top-right",
       });
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.log(error);
     }
   };
 
   const clearCart = async () => {
+    setLoading(true)
     try {
       await axios.delete(`http://localhost:5000/api/cart/remove-all`, {
         withCredentials: true,
@@ -81,12 +88,15 @@ const Cart = () => {
         autoClose: 2000,
         position: "top-right",
       });
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.log(error);
     }
   };
 
   const decreaseQuantity = async (productId) => {
+    setLoading(true)
     try {
       await axios.post(
         'http://localhost:5000/api/cart/dec',
@@ -118,12 +128,15 @@ const Cart = () => {
         autoClose: 2000,
         position: "top-right",
       });
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.log(error);
     }
   };
 
   const increaseQuantity = async (productId) => {
+    setLoading(true);
     try {
       await axios.post(
         'http://localhost:5000/api/cart/inc',
@@ -144,11 +157,13 @@ const Cart = () => {
           item.product._id === productId ? { ...item, quantity: item.quantity + 1 } : item
         )
       );
-      toast.success("Updated quantity.", {
+      toast.info("Updated quantity.", {
         autoClose: 2000,
         position: "top-right",
       });
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.log(error);
     }
   };
@@ -163,7 +178,13 @@ const Cart = () => {
   };
 
   return (
-    <div className="cart-container">
+    <>
+     {loading ? (
+        <div className="page-loading">
+          <div className="spinner"></div>
+        </div>
+      ) : (
+        <div className="cart-container">
       <h2  className='cart-head'>Cart</h2>
       {cartItems.length > 0 ? (
         <>
@@ -226,6 +247,9 @@ const Cart = () => {
         <p className="cart-empty">Your cart is empty.</p>
       )}
     </div>
+      )}
+    
+    </>
   );
 };
 

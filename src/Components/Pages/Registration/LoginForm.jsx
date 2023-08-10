@@ -9,9 +9,11 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     IsLoggedIn();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -45,6 +47,7 @@ const LoginForm = () => {
   };
 
   const handleFormSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -68,15 +71,12 @@ const LoginForm = () => {
       } else {
         localStorage.setItem("loggedIn?", true);
         fetchUserDetails();
-        toast.success("Login successful", {
-          autoClose: 1500,
-          position: "top-right",
-        });
         setTimeout(() => {
           window.location.href = "/";
         }, 1500);
       }
     } catch (error) {
+      setLoading(false)
       toast.error("Invalid credentials", {
         autoClose: 1500,
         position: "top-right",
@@ -98,37 +98,43 @@ const LoginForm = () => {
             Already logged in, redirecting....
           </p>
         </>
-      ) : (
-        <div className="fbLoginForm">
-          <div className="fbLoginFormContainer">
-            <h2 className="fbLoginFormTitle">Login</h2>
-            <form className="fbLoginForm" onSubmit={handleFormSubmit}>
-              <label className="fbLoginFormLabel">Username</label>
-              <input
-                className="fbLoginFormInput"
-                type="text"
-                name="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <label className="fbLoginFormLabel">Password</label>
-              <input
-                className="fbLoginFormInput"
-                type="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <button className="fbLoginBtn" type="submit">
-                Login
-              </button>
-            </form>
-            <hr className="fbLoginDivider" />
-            <Link to="/signup" className="fbLoginLink">
-              Don't have an account? Click here.
-            </Link>
-          </div>
+      ) : loading ? (
+        <div className="page-loading">
+          <div className="spinner"></div>
         </div>
+      ) : (
+        <>
+          <div className="fbLoginForm">
+            <div className="fbLoginFormContainer">
+              <h2 className="fbLoginFormTitle">Login</h2>
+              <form className="fbLoginForm" onSubmit={handleFormSubmit}>
+                <label className="fbLoginFormLabel">Username</label>
+                <input
+                  className="fbLoginFormInput"
+                  type="text"
+                  name="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <label className="fbLoginFormLabel">Password</label>
+                <input
+                  className="fbLoginFormInput"
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button className="fbLoginBtn" type="submit">
+                  Login
+                </button>
+              </form>
+              <hr className="fbLoginDivider" />
+              <Link to="/signup" className="fbLoginLink">
+                Don't have an account? Click here.
+              </Link>
+            </div>
+          </div>
+        </>
       )}
     </>
   );

@@ -1,6 +1,16 @@
 .item-dcprices{
-    text-decoration:line-through;
+  color: #e67e22;
+  font-size: 28px;
+  text-decoration: none;
 }
+
+.item-prices {
+  text-decoration:line-through;
+  color: black;
+  font-size: 20px;
+
+}
+
 .productcontainer {
     max-width: 960px;
     margin: 0 auto;
@@ -41,13 +51,7 @@
     margin-top: 10px;
     line-height: 1.5;
   }
-  
-  .item-prices {
-    font-size: 28px;
-    margin-top: 20px;
-    color: #e67e22;
-  }
-  
+
   button {
     background-color: #f0c040;
     color: #fff;

@@ -16,6 +16,7 @@ const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [loginChek, setLoginChek] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     checkLogin();
@@ -37,13 +38,17 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
+
     axios
       .get(`http://localhost:5000/api/products/${id}`)
       .then((response) => {
-        setProduct(response.data);
+          setProduct(response.data);
+          setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching product:", error);
+        setLoading(false);
       });
   }, [id]);
 
@@ -85,10 +90,6 @@ const ProductPage = () => {
     }
   };
 
-  if (!product) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <>
       <Dialog
@@ -120,43 +121,56 @@ const ProductPage = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <div className="productcontainer">
-        <div className="product-details">
-          <div className="product-image">
-            <img src={product.imagePath} alt={product.title} />
-          </div>
-          <div className="product-info">
-            <h2>{product.title}</h2>
-            <p>Product ID: {product.productCode}</p>
-            <h4>Manufacturer: {product.manufacturer}</h4>
-            <h4>
-              Category:{" "}
-              <Link to={`/category/${product.category}`}>
-                {product.category}
-              </Link>
-            </h4>
-            <p>{product.description}</p>
-            <h2 className="item-dcprices">
-              {product.discountprice !== 0 ? `₹ ${product.discountprice}` : ""}
-            </h2>
-            <h2 className="item-prices">
-              {product.discountprice !== 0
-                ? `₹ ${product.price}`
-                : `₹ ${product.price}`}
-            </h2>
-            <h4>{product.quantity > 0 ? "In Stock" : "Out of Stock"}</h4>
-            {product.quantity > 0 ? (
-              <>
-                <button type="button" onClick={() => addToCart(product._id)}>
-                  Add to Cart
-                </button>
-              </>
-            ) : (
-              <></>
-            )}
-          </div>
+      {loading ? (
+        <div className="page-loading">
+          <div className="spinner"></div>
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="productcontainer">
+            <div className="product-details">
+              <div className="product-image">
+                <img src={product.imagePath} alt={product.title} />
+              </div>
+              <div className="product-info">
+                <h2>{product.title}</h2>
+                <p>Product ID: {product.productCode}</p>
+                <h4>Manufacturer: {product.manufacturer}</h4>
+                <h4>
+                  Category:{" "}
+                  <Link to={`/category/${product.category}`}>
+                    {product.category}
+                  </Link>
+                </h4>
+                <p>{product.description}</p>
+                <h2 className="item-prices">
+                  {product.discountprice !== 0
+                    ? `₹ ${product.price}`
+                    : `₹ ${product.price}`}
+                </h2>
+                <h2 className="item-dcprices">
+                  {product.discountprice !== 0
+                    ? `₹ ${product.discountprice}`
+                    : ""}
+                </h2>
+                <h4>{product.quantity > 0 ? "In Stock" : "Out of Stock"}</h4>
+                {product.quantity > 0 ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => addToCart(product._id)}
+                    >
+                      Add to Cart
+                    </button>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };

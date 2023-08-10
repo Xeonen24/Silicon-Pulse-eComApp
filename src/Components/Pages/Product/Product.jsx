@@ -13,6 +13,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { pink } from "@mui/material/colors";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -70,8 +71,13 @@ const Product = () => {
   }, [location.search]);
 
   const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-    setCurrentPage(1);
+    setLoading(true);
+
+    setTimeout(() => {
+      setSelectedCategory(event.target.value);
+      setCurrentPage(1);
+      setLoading(false);
+    },150);
   };
 
   const handleCloseModal = () => {
@@ -123,9 +129,12 @@ const Product = () => {
   );
 
   const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    setLoading(true);
+    setTimeout(() => {
+      setCurrentPage(pageNumber);
+      setLoading(false);
+    }, 150);
   };
-
 
   return (
     <>
@@ -174,8 +183,12 @@ const Product = () => {
             {categories.map((category) => (
               <div
                 key={category._id}
-                className={`category ${selectedCategory === category._id ? "active" : ""}`}
-                onClick={() => handleCategoryChange({ target: { value: category._id } })}
+                className={`category ${
+                  selectedCategory === category._id ? "active" : ""
+                }`}
+                onClick={() =>
+                  handleCategoryChange({ target: { value: category._id } })
+                }
               >
                 {category.title}
               </div>
@@ -186,58 +199,70 @@ const Product = () => {
             {currentProducts.map((product, index) => (
               <div className="grid-item" key={index}>
                 <Link to={`/product/${product._id}`} className="product-link">
-                  <img
-                    src={product.imagePath}
-                    alt={product.title}
-                    className="item-image"
-                  />
-                  <h3 className="item-title">{product.title}</h3>
-                  <p className="item-dcprices">
-                    {product.discountprice !== 0
-                      ? `₹ ${product.discountprice}`
-                      : ""}
-                  </p>
-                  <p className="item-prices">
-                    {product.discountprice !== 0
-                      ? `₹ ${product.price}`
-                      : `₹ ${product.price}`}
-                  </p>
-                  <h4 style={{ color: product.quantity > 0 ? "green" : "red" }}>
-                    {product.quantity > 0 ? "In Stock" : "Out of Stock"}
-                  </h4>
+                  <div style={{ padding: "1rem" }}>
+                    <img
+                      src={product.imagePath}
+                      alt={product.title}
+                      className="item-image"
+                    />
+                    <h3 className="item-title">{product.title}</h3>
+                    <p className="item-prices">
+                      {product.discountprice !== 0
+                        ? `₹ ${product.price}`
+                        : `₹ ${product.price}`}
+                    </p>
+                    <p className="item-dcprices">
+                      {product.discountprice !== 0
+                        ? `₹ ${product.discountprice}`
+                        : ""}
+                    </p>
+                    <h4
+                      style={{ color: product.quantity > 0 ? "green" : "red" }}
+                    >
+                      {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+                    </h4>
+                  </div>
                 </Link>
-                <button
-                  className={
-                    product.quantity > 0 ? "item-add-to-cart" : "item-out-of-stock"
-                  }
-                  disabled={!product.quantity}
-                  onClick={() => addToCart(product._id)}
-                  style={{
-                    backgroundColor: product.quantity ? "" : "#a6a6a6",
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faCartPlus}
-                    style={{ fontSize: "23px", paddingLeft: "0px" }}
-                  />
-                </button>
+                <div style={{ paddingBottom: "1rem" }}>
+                  <button
+                    className={
+                      product.quantity > 0
+                        ? "item-add-to-cart"
+                        : "item-out-of-stock"
+                    }
+                    disabled={!product.quantity}
+                    onClick={() => addToCart(product._id)}
+                    style={{
+                      backgroundColor: product.quantity ? "" : "#a6a6a6",
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faCartPlus}
+                      style={{ fontSize: "23px", paddingLeft: "0rem" }}
+                    />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
-
           <div className="pagination">
             {Array.from(
               Array(Math.ceil(filteredProducts.length / productsPerPage)),
               (item, index) => (
-                <button key={index} onClick={() => paginate(index + 1)}>
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  key={index}
+                  sx={{ fontWeight: "bold", marginRight: "1rem" }}
+                  onClick={() => paginate(index + 1)}
+                >
                   {index + 1}
-                </button>
+                </Button>
               )
             )}
           </div>
         </>
       )}
-
     </>
   );
 };
