@@ -51,8 +51,9 @@
 
  .url a:hover,
  .url .active {
-     background-color: #e8f5ff;
+     background-color: var(--aplared);
      border-radius: 28px;
+     transform: scale(1.1);
      color: #000;
  }
 
