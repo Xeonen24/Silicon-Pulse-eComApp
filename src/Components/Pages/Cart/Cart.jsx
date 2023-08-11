@@ -29,6 +29,7 @@ const Cart = () => {
     };
     fetchCartItems();
   }, []);
+  
   useEffect(() => {
     const calculateTotalPrice = () => {
       const total = cartItems.reduce(
@@ -185,7 +186,7 @@ const Cart = () => {
         </div>
       ) : (
         <div className="cart-container">
-      <h2  className='cart-head'>Cart</h2>
+         <h2  className='cart-head'>Cart</h2>
       {cartItems.length > 0 ? (
         <>
           {cartItems.reduce((updatedItems, item) => {
