@@ -66,7 +66,7 @@ const Product = () => {
       });
     setTimeout(() => {
       setProductLoading(false);
-    }, 1500);
+    }, 1000);
   }, []);
 
   useEffect(() => {

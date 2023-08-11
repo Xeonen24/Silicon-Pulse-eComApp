@@ -17,11 +17,12 @@ const ProductPage = () => {
   const [loginChek, setLoginChek] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [rating, setRating] = useState([]);
+  const [myuser, setMyuser] = useState(null);
 
-  useEffect(() => {
-    checkLogin();
-  }, []);
 
+
+  
   const checkLogin = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/user", {
@@ -38,66 +39,113 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
+    checkLogin();
+  }, [])
+  
+  
+  const fetchProduct = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`http://localhost:5000/api/products/${id}`);
 
-    axios
-      .get(`http://localhost:5000/api/products/${id}`)
-      .then((response) => {
-          setProduct(response.data);
+      setProduct(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+      setLoading(false);
+    }
+  };
+    
+    const fetchRating = async () => {
+      try{
+        setLoading(true);
+         const response = await axios.get(`http://localhost:5000/api/get-rating/${id}` ,
+         {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+          console.log(response)
+          setRating(response.data.ratingsAndReviews);
           setLoading(false);
-      })
-      .catch((error) => {
+        }
+      catch (error) {
         console.error("Error fetching product:", error);
         setLoading(false);
-      });
-  }, [id]);
+      }
+    }
+    
+    const postRating = async () => {
+      setLoading(true);
+      axios.post(`http://localhost:5000/api/post-rating/${id}`, {
+        rating : myuser.rating,
+        review : myuser.review
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+      )
+    };
+    
+    useEffect(() => {
+      fetchProduct();
+      fetchRating();
+    }, [id]);
 
-  const handleCloseModal = () => {
-    setShowLoginModal(false);
-  };
-  const handleCloseModal2 = () => {
+    
+    const handleCloseModal = () => {
+      setShowLoginModal(false);
+    };
+    const handleCloseModal2 = () => {
     setShowLoginModal(false);
     window.location.href = "/login";
-  };
-
+    };
+  
   const addToCart = (productId) => {
     if (loginChek === false) {
       setShowLoginModal(true);
     } else {
       axios
-        .post(
-          "http://localhost:5000/api/cart/add",
-          {
-            productId: productId,
-            quantity: 1,
+      .post(
+        "http://localhost:5000/api/cart/add",
+        {
+          productId: productId,
+          quantity: 1,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+        }
         )
         .then((response) => {
           console.log(response.data);
-
+          
           toast.success("Item Added to cart", {
             autoClose: 2000,
             position: "bottom-right",
           });
         })
         .catch((error) => console.log(error));
-    }
-  };
+      }
+    };
+    
 
-  return (
-    <>
+
+    
+    return (
+      <>
       <Dialog
         open={showLoginModal}
         onClose={handleCloseModal}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-      >
+        >
         <DialogTitle id="alert-dialog-title">
           {"To add a product to the shopping cart, you must log in."}
         </DialogTitle>
@@ -162,6 +210,13 @@ const ProductPage = () => {
                     >
                       Add to Cart
                     </button>
+
+                    <div>
+                      {
+
+                      }
+                    </div>
+
                   </>
                 ) : (
                   <></>
@@ -169,6 +224,29 @@ const ProductPage = () => {
               </div>
             </div>
           </div>
+
+          <div className="product-reviews">
+            <h2>Reviews</h2>
+              {rating ? rating.map((rating , index) => (
+                <div className="review-div" key={index}>
+                  <div className="review-card-header">
+                    <h4>{rating.user}</h4>
+                    <p>{rating.rating}</p>
+                    <p>{rating.createdAt}</p>
+                  </div>
+                  <div className="review-card-body">
+                    <p>{rating.review}</p>
+                  </div>
+                </div>
+               ) ) :
+               (
+                <div>
+                  No ratings found
+                </div>
+              )}
+        </div>
+
+
         </>
       )}
     </>
