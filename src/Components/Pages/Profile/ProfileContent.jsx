@@ -78,6 +78,7 @@ const ProfileContent = () => {
     setLoading(true);
     setshowManageProds(false);
     setshowManageuser(false);
+    setShowOrderPage(false);
     setTimeout(() => {
       setshowProfileCont(true);
       setLoading(false);
@@ -88,6 +89,7 @@ const ProfileContent = () => {
     setLoading(true);
     setshowProfileCont(false);
     setshowManageuser(false);
+    setShowOrderPage(false);
     setTimeout(() => {
       setshowManageProds(true);
       setLoading(false);
@@ -98,18 +100,20 @@ const ProfileContent = () => {
     setLoading(true);
     setshowProfileCont(false);
     setshowManageProds(false);
+    setShowOrderPage(false);
     setTimeout(() => {
       setshowManageuser(true);
       setLoading(false);
     }, 150);
   };
 
-  const showOrderPageFun = async () => {
+  const showOrderpage = async () => {
     setLoading(true);
     setshowProfileCont(false);
     setshowManageProds(false);
+    setshowManageuser(false);
     setTimeout(() => {
-      showOrderPage(true);
+      setShowOrderPage(true);
       setLoading(false);
     }, 150);
   };
@@ -126,6 +130,8 @@ const ProfileContent = () => {
     showManageUser,
     showManageuser,
     logoutUser,
+    showOrderpage,
+    showOrderPage
   };
   
   const data2 = {
@@ -158,7 +164,7 @@ const ProfileContent = () => {
 
             <div className="main">
 
-                {showOrderPageFun && (
+                {showOrderPage && (
                   <OrderPage /> )}
 
                 {showProfileCont && (

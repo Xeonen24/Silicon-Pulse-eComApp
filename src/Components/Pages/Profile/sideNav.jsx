@@ -14,6 +14,8 @@ const {
     showManageUser,
     showManageuser,
     logoutUser,
+    showOrderpage,
+    showOrderPage
 } = props.data;
 
 
@@ -38,8 +40,9 @@ const {
                   </div>
                   <div className="url">
                     <Link
+                      onClick={showOrderpage}
                       className={`listofform ${
-                        showProfileCont ? "active" : ""
+                        showOrderPage ? "active" : ""
                       }`}
                     >
                       Orders
