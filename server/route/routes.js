@@ -6,7 +6,7 @@ const Product = require("../model/product");
 const Category = require("../model/category");
 const auth = require("../midddleware/auth");
 const bodyParser = require("body-parser");
-const mongoose=require("mongoose");
+const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const validator = require('validator');
 const UploadToCloudinary = require("../seed/imageUpload");
@@ -25,7 +25,7 @@ router.post("/signup", asyncHandler(async (req, res) => {
       return res.status(422).json({ error: "User already exists" });
     } else if (password !== password2) {
       return res.status(422).json({ error: "Passwords do not match" });
-    } else if (!email || validator.isEmail.email){
+    } else if (!email || validator.isEmail.email) {
       return res.status(422).json({ error: "Email address is not valid" });
     } else {
       const user = new USER({
@@ -100,16 +100,55 @@ router.get('/products', async (req, res) => {
   }
 });
 
-router.get("/products/:id", asyncHandler(async (req, res) => {
+// router.get("/products/:id", asyncHandler(async (req, res) => {
+//   const productId = req.params.id;
+//   try {
+//     const product = await Product.findById(productId).populate("category").populate('ratingAndReviews');
+
+//     if (!product) {
+//       return res.status(404).json({ error: "Product not found" });
+//     }
+//     const categoryName = product.category.title;
+//     const productWithCategory = { ...product.toObject(), category: categoryName };
+
+//     res.json(productWithCategory);
+//   } catch (error) {
+//     console.error("Error fetching product:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// }));
+router.get("/product-with-ratings/:id", asyncHandler(async (req, res) => {
   const productId = req.params.id;
   try {
-    const product = await Product.findById(productId).populate("category");
+    const product = await Product.findById(productId)
+      .populate("category")
+      .populate('ratingAndReviews');
 
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
     const categoryName = product.category.title;
     const productWithCategory = { ...product.toObject(), category: categoryName };
+
+    const updatedRatingsAndReviews = [];
+
+    for (const review of product.ratingAndReviews) {
+      const user = await USER.findById(review.user);
+
+      if (user) {
+        const newReview = {
+          rating: review.rating,
+          review: review.review,
+          user: user.username,
+          date: review.createdAt
+        };
+
+        updatedRatingsAndReviews.push(newReview);
+      }
+    }
+
+    productWithCategory.ratingsAndReviews = updatedRatingsAndReviews;
+    delete productWithCategory.ratingAndReviews;
 
     res.json(productWithCategory);
   } catch (error) {
@@ -118,7 +157,7 @@ router.get("/products/:id", asyncHandler(async (req, res) => {
   }
 }));
 
-router.get("/user",auth, async (req, res) => {
+router.get("/user", auth, async (req, res) => {
   try {
     const user = await USER.findById(req.userID).select('-password -password2');
     res.json(user);
@@ -189,7 +228,7 @@ router.delete("/delete-product/:productId", async (req, res) => {
   try {
     const productId = req.params.productId;
     const deletedProduct = await Product.findByIdAndDelete(productId);
-    
+
     if (!deletedProduct) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -213,7 +252,7 @@ router.get("/categories", (req, res) => {
 router.post('/cart/add', auth, asyncHandler(async (req, res) => {
   try {
 
-    const { productId , quantity} = req.body;
+    const { productId, quantity } = req.body;
     const user = await USER.findById(req.userID);
     const product = await Product.findById(productId);
 
@@ -244,7 +283,7 @@ router.post('/cart/add', auth, asyncHandler(async (req, res) => {
 router.post('/cart/inc', auth, asyncHandler(async (req, res) => {
   try {
 
-    const { productId , quantity} = req.body;
+    const { productId, quantity } = req.body;
 
     const user = await USER.findById(req.userID);
 
@@ -324,7 +363,7 @@ router.post('/cart/dec', auth, asyncHandler(async (req, res) => {
 }));
 
 
-router.get('/cart',auth , asyncHandler(async (req, res) => {
+router.get('/cart', auth, asyncHandler(async (req, res) => {
   try {
     const user = await USER.findById(req.userID).populate('cart.product');
 
@@ -376,7 +415,7 @@ router.delete('/cart/remove-all', auth, asyncHandler(async (req, res) => {
 router.post('/cart/add', auth, asyncHandler(async (req, res) => {
   try {
 
-    const { productId , quantity} = req.body;
+    const { productId, quantity } = req.body;
 
     const user = await USER.findById(req.userID);
 
@@ -411,27 +450,27 @@ router.post('/cart/add', auth, asyncHandler(async (req, res) => {
 
 router.post('/add-product', asyncHandler(async (req, res) => {
   try {
-    const { title , description , price , quantity ,
-      category , manufacturer , discountprice , productCode } = req.body;
+    const { title, description, price, quantity,
+      category, manufacturer, discountprice, productCode } = req.body;
 
-      const image = req.files.image;
+    const image = req.files.image;
 
-    if( !title || !description || !price || !quantity || !category || !manufacturer 
-      || !discountprice || !productCode || !image){
-        return res.status(422).json({ error: 'Please add all the fields' });
-      }
+    if (!title || !description || !price || !quantity || !category || !manufacturer
+      || !discountprice || !productCode || !image) {
+      return res.status(422).json({ error: 'Please add all the fields' });
+    }
 
 
-      const imageUpload = await UploadToCloudinary(image , 'SiliconPulse');
+    const imageUpload = await UploadToCloudinary(image, 'SiliconPulse');
 
     const newproduct = new Product({
-      title , description , price , quantity ,
-      category , manufacturer , discountprice , productCode , imagePath : imageUpload.secure_url ,
+      title, description, price, quantity,
+      category, manufacturer, discountprice, productCode, imagePath: imageUpload.secure_url,
     });
 
     const product = await newproduct.save();
 
-    return res.status(201).json({ message: 'Product added successfully' , product });
+    return res.status(201).json({ message: 'Product added successfully', product });
 
 
   }
@@ -478,9 +517,9 @@ router.get('/get-users', auth, asyncHandler(async (req, res) => {
     const users = await USER.find();
 
     res.json(users);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: 'Unable to fetch users' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Unable to fetch users' });
   }
 }))
 
@@ -516,7 +555,7 @@ router.post('/post-rating/:productId', auth, asyncHandler(async (req, res) => {
     const existingRating = await Rating.findOne({ product: productId, user: user._id });
 
     if (existingRating) {
-      return res.status(400).json({ error: 'You have already reviewed this product' });
+      return res.status(409).json({ error: 'You have already reviewed this product' });
     }
 
     const newRating = new Rating({
@@ -540,8 +579,6 @@ router.post('/post-rating/:productId', auth, asyncHandler(async (req, res) => {
       return res.status(500).json({ error: 'Failed to update product with review' });
     }
 
-    console.log(savedRating);
-
     res.json({ message: 'Review added successfully' });
 
   } catch (error) {
@@ -550,44 +587,45 @@ router.post('/post-rating/:productId', auth, asyncHandler(async (req, res) => {
   }
 }));
 
-router.get('/get-rating/:productId', asyncHandler(async (req, res) => {
-  try {
-    const { productId } = req.params;
 
-    // Find the product by ID along with its associated ratings and reviews
-    const productWithRatings = await Product.findById(productId).populate('ratingAndReviews');
+// router.get('/get-rating/:productId', asyncHandler(async (req, res) => {
+//   try {
+//     const { productId } = req.params;
 
-    if (!productWithRatings) {
-      return res.status(404).json({ error: 'Product not found' });
-    }
+//     // Find the product by ID along with its associated ratings and reviews
+//     const productWithRatings = await Product.findById(productId).populate('ratingAndReviews');
 
-    // Extract the ratings and reviews from the populated product
-    const ratingsAndReviews = productWithRatings.ratingAndReviews;
+//     if (!productWithRatings) {
+//       return res.status(404).json({ error: 'Product not found' });
+//     }
 
-    const updatedRatingsAndReviews = [];
+//     // Extract the ratings and reviews from the populated product
+//     const ratingsAndReviews = productWithRatings.ratingAndReviews;
 
-    for (const review of ratingsAndReviews) {
-      const user = await USER.findById(review.user);
+//     const updatedRatingsAndReviews = [];
 
-      if (user) {
-        const newReview = {
-          rating: review.rating,
-          review: review.review,
-          user: user.username,
-          date: review.createdAt
-        };
-        
-        updatedRatingsAndReviews.push(newReview);
-      }
-    }
+//     for (const review of ratingsAndReviews) {
+//       const user = await USER.findById(review.user);
 
-    res.json({ ratingsAndReviews: updatedRatingsAndReviews });
+//       if (user) {
+//         const newReview = {
+//           rating: review.rating,
+//           review: review.review,
+//           user: user.username,
+//           date: review.createdAt
+//         };
 
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
-  }
-}));
+//         updatedRatingsAndReviews.push(newReview);
+//       }
+//     }
+
+//     res.json({ ratingsAndReviews: updatedRatingsAndReviews });
+
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Server error' });
+//   }
+// }));
 
 
 

@@ -164,7 +164,7 @@ const Order = () => {
       </h2>
       <form className="amazon-form">
         <div className="form-group">
-          <label htmlFor="name">Name:</label>
+          <label className="form-label" htmlFor="name">Name:</label>
           <input
             type="text"
             id="name"
@@ -175,7 +175,7 @@ const Order = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="street">Street Address:</label>
+          <label className="form-label" htmlFor="street">Street Address:</label>
           <input
             type="text"
             id="street"
@@ -186,7 +186,7 @@ const Order = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="city">City:</label>
+          <label  className="form-label" htmlFor="city">City:</label>
           <input
             type="text"
             id="city"
@@ -197,7 +197,7 @@ const Order = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="state">State:</label>
+          <label  className="form-label" htmlFor="state">State:</label>
           <select
             className="dropdownState"
             style={{ width: "100%" }}
@@ -218,7 +218,7 @@ const Order = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="zip">Zip Code:</label>
+          <label className="form-label" htmlFor="zip">Zip Code:</label>
           <input
             type="text"
             id="zip"
@@ -229,7 +229,7 @@ const Order = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="country">Country:</label>
+          <label className="form-label" htmlFor="country">Country:</label>
           <input
             type="text"
             id="country"
@@ -258,7 +258,7 @@ const Order = () => {
         Select Payment Method
       </h2>
       <div class="payment-options">
-        <label class="pure-material-radio">
+        <label  className="form-label" class="pure-material-radio">
           <input
             type="radio"
             name="group"
@@ -271,7 +271,7 @@ const Order = () => {
         </label>
         <br/>
         <br/>
-        <label class="pure-material-radio">
+        <label className="form-label" class="pure-material-radio">
           <input
             type="radio"
             name="group"
@@ -284,7 +284,7 @@ const Order = () => {
         </label>
         <br/>
         <br/>
-        <label class="pure-material-radio">
+        <label className="form-label" class="pure-material-radio">
           <input
             type="radio"
             name="group"

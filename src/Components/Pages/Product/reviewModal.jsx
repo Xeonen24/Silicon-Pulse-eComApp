@@ -1,23 +1,54 @@
-import React, { useState } from 'react';
-import './reviewmodal.css';
+import React, { useState } from "react";
+import axios from "axios";
+import Dialog from "@mui/material/Dialog";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Rating from "@mui/material/Rating";
+import Typography from "@mui/material/Typography";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./reviewmodal.css";
 
-function ReviewModal({isModalOpen, setIsModalOpen}) {
+function ReviewModal({ isModalOpen, setIsModalOpen, productId }) {
+  const [loading, setLoading] = useState(true);
+  const [newRating, setNewRating] = useState(1);
+  const [newReview, setNewReview] = useState("");
 
-
-  const [myuser, setMyuser] = useState(null);
-  const [newRating, setNewRating] = useState(1); // Default rating
-  const [newReview, setNewReview] = useState('');
-
-  const openModal = () => {
-    setIsModalOpen(true);
+  const postRating = async () => {
+    setLoading(true);
+    try {
+      await axios.post(
+        `http://localhost:5000/api/post-rating/${productId}`,
+        {
+          rating: newRating,
+          review: newReview,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      window.location.reload();
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        toast.error("You cannot post more than one", {
+          autoClose: 2000,
+          position: "top-right",
+        });
+      } else {
+        console.log(error);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleRatingChange = (event) => {
-    setNewRating(parseInt(event.target.value));
+  const handleRatingChange = (event, value) => {
+    setNewRating(value);
   };
 
   const handleReviewChange = (event) => {
@@ -25,41 +56,50 @@ function ReviewModal({isModalOpen, setIsModalOpen}) {
   };
 
   const handleAddRating = () => {
+    postRating();
     setNewRating(1);
-    setNewReview('');
-    closeModal();
+    setNewReview("");
+    setIsModalOpen(false);
   };
 
   return (
-    <div className="product-reviews">
-      <div className="reviews-header">
-        <h2 className="reviews-title">Reviews</h2>
-        <button className="add-rating-button" onClick={openModal}>Add Rating</button>
-      </div>
-      {isModalOpen && (
-        <div className="review-modal">
-          <div className="review-modal-content">
-            <h3>Add Rating</h3>
-            <div className="rating-input">
-              <label>Rating:</label>
-              <select value={newRating} onChange={handleRatingChange}>
-                {[1, 2, 3, 4, 5].map((value) => (
-                  <option key={value} value={value}>{value}</option>
-                ))}
-              </select>
-            </div>
-            <div className="review-text-input">
-              <label>Review:</label>
-              <textarea value={newReview} onChange={handleReviewChange} />
-            </div>
-            <div className="modal-buttons">
-              <button className="modal-button" onClick={handleAddRating}>Add Rating</button>
-              <button className="modal-button" onClick={closeModal}>Cancel</button>
-            </div>
+    <>
+      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <div
+          className="review-dialog-content"
+          style={{ width: "500px", height: "500px", padding: "2rem" }}
+        >
+          <Typography variant="h4">Add Rating</Typography>
+          <FormControl>
+            <Rating
+              style={{ fontSize: "2rem" }}
+              precision={0.5}
+              name="new-rating"
+              value={newRating}
+              onChange={handleRatingChange}
+            />
+          </FormControl>
+          <InputLabel>Review:</InputLabel>
+          <TextField
+            value={newReview}
+            onChange={handleReviewChange}
+            multiline
+            rows={4}
+          />
+          <div className="dialog-buttons">
+            <Button className="dialog-button" onClick={handleAddRating}>
+              Add Rating
+            </Button>
+            <Button
+              className="dialog-button"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Cancel
+            </Button>
           </div>
         </div>
-      )}
-    </div>
+      </Dialog>
+    </>
   );
 }
 

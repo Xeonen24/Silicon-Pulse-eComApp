@@ -12,7 +12,7 @@ const ManageProduct = () => {
   const [roleDetails, setRoleDetails] = useState({});
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(5);
+  const [productsPerPage] = useState(9);
   const [isLoading, setIsLoading] = useState(false);
   const [showProducts, setShowProducts] = useState(true);
   const [editProduct, setEditProduct] = useState(false);
@@ -106,7 +106,6 @@ const ManageProduct = () => {
           </td>
           <td className="productIdx">{product.productCode}</td>
           <td className="productTitlex">{product.title}</td>
-          <td className="productIdx">{product.imagePath}</td>
           <td className="productEditx">
             <Link onClick={() => showEditProduct(product._id)}>
               <FontAwesomeIcon icon={faPenToSquare} />
@@ -166,7 +165,6 @@ const ManageProduct = () => {
                   <th>Created At</th>
                   <th>Product Code</th>
                   <th>Title</th>
-                  <th>Image path</th>
                   <th>Edit Product</th>
                   <th>Delete Product</th>
                 </tr>

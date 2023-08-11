@@ -1,6 +1,5 @@
 /* Styles for the modal */
 .review-modal {
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -17,55 +16,11 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    width: 400px;
+    width:600px;
+    height: 400px;
   }
-  
-  .review-modal h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-  
-  .rating-input,
-  .review-text-input {
-    margin-bottom: 15px;
-  }
-  
-  .rating-input label,
-  .review-text-input label {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 5px;
-  }
-  
-  .rating-input select,
-  .review-text-input textarea {
-    width: 100%;
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
+
   .modal-buttons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
-  
-  .modal-button {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 15px;
-    font-size: 14px;
-    margin-left: 10px;
-    cursor: pointer;
-  }
-  
-  .modal-button:hover {
-    background-color: #2980b9;
-  }
-  
-  /* Rest of the existing styles for reviews and ratings */
-  /* ... */
-  

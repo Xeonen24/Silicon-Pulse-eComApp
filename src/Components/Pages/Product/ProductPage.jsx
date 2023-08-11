@@ -10,8 +10,16 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import moment from "moment";
 import ReviewModal from "./reviewModal";
+import moment from "moment";
+
+import {
+  Typography,
+  Card,
+  CardHeader,
+  CardContent,
+  Rating,
+} from "@mui/material";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -22,6 +30,29 @@ const ProductPage = () => {
   const [rating, setRating] = useState([]);
   const [reviewModal, setReviewModal] = useState(false);
   const [myuser, setMyuser] = useState(null);
+
+  useEffect(() => {
+    checkLogin();
+  }, []);
+
+  useEffect(() => {
+    fetchProduct();
+    // fetchRating();
+  }, []);
+
+  const fetchProduct = async () => {
+    try {
+      setLoading(true);
+
+      const response = await axios.get(
+        `http://localhost:5000/api/product-with-ratings/${id}`
+      );
+      setProduct(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const checkLogin = async () => {
     try {
@@ -37,68 +68,6 @@ const ProductPage = () => {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    checkLogin();
-  }, []);
-
-  const fetchProduct = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `http://localhost:5000/api/products/${id}`
-      );
-
-      setProduct(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching product:", error);
-      setLoading(false);
-    }
-  };
-
-  const fetchRating = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `http://localhost:5000/api/get-rating/${id}`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response);
-      setRating(response.data.ratingsAndReviews);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching product:", error);
-      setLoading(false);
-    }
-  };
-
-  const postRating = async () => {
-    setLoading(true);
-    axios.post(
-      `http://localhost:5000/api/post-rating/${id}`,
-      {
-        rating: myuser.rating,
-        review: myuser.review,
-      },
-      {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-  };
-
-  useEffect(() => {
-    fetchProduct();
-    fetchRating();
-  }, [id]);
 
   const handleCloseModal = () => {
     setShowLoginModal(false);
@@ -141,6 +110,8 @@ const ProductPage = () => {
   const reatingClickHandler = () => {
     setReviewModal(true);
   };
+
+  console.log(product);
 
   return (
     <>
@@ -226,30 +197,53 @@ const ProductPage = () => {
 
           <div className="product-reviews">
             <div className="reviews-header">
-              <h2 className="reviews-title">Reviews</h2>
-              <button
+              <Typography variant="h6" className="reviews-title">
+                Reviews
+              </Typography>
+              <Button
                 className="add-rating-button"
+                variant="contained"
+                color="primary"
                 onClick={reatingClickHandler}
               >
-                Add Rating
-              </button>
+                Post a review
+              </Button>
             </div>
-            {rating && rating.length > 0 ? (
-              rating.map((review, index) => (
-                <div className="review-div" key={index}>
-                  <div className="review-card-header">
-                    <h4 className="review-user">{review.user}</h4>
-                    <p className="review-rating">Rating: {review.rating}</p>
-                    <p className="review-date">
-                      Date:{" "}
-                      {moment(review.createdAt).utc().format("YYYY-MM-DD")}
-                    </p>
-                  </div>
-                  <div className="review-card-body">
-                    <p className="review-text">{review.review}</p>
-                  </div>
-                </div>
-              ))
+            {product.ratingsAndReviews &&
+            product.ratingsAndReviews.length > 0 ? (
+              <>
+                {product.ratingsAndReviews.map((review, index) => (
+                  <Card className="review-div" key={index}>
+                    <CardHeader
+                      className="review-card-header"
+                      title={
+                        <Typography variant="h6" className="review-user">
+                          {review.user}
+                        </Typography>
+                      }
+                      subheader={
+                        <>
+                          <Rating
+                            name={`rating-${index}`}
+                            value={review.rating}
+                            readOnly
+                            precision={0.5}
+                            className="review-rating"
+                          />
+                          <Typography variant="body2" className="review-date">
+                            {moment(review.date).format("DD MMM YYYY, h:mm A")}
+                          </Typography>
+                        </>
+                      }
+                    />
+                    <CardContent className="review-card-body">
+                      <Typography variant="body1" className="review-text">
+                        {review.review}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                ))}
+              </>
             ) : (
               <div className="no-ratings">No ratings found</div>
             )}
@@ -259,6 +253,7 @@ const ProductPage = () => {
             <ReviewModal
               isModalOpen={reviewModal}
               setIsModalOpen={setReviewModal}
+              productId={product._id}
             />
           )}
         </>
