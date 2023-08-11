@@ -14,12 +14,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { pink } from "@mui/material/colors";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(15);
   const location = useLocation();
@@ -64,9 +64,9 @@ const Product = () => {
         console.error("Error fetching categories and products:", error);
         setLoading(false);
       });
-        setTimeout(() => {
-          setProductLoading(false);
-        }, 1500);
+    setTimeout(() => {
+      setProductLoading(false);
+    }, 1500);
   }, []);
 
   useEffect(() => {
@@ -123,23 +123,35 @@ const Product = () => {
   };
 
   const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const filteredProducts = selectedCategory
     ? products.filter((product) => product.category === selectedCategory)
     : products;
 
-  const currentProducts = filteredProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  const sortProducts = (products) => {
+    return products.slice().sort((a, b) => {
+      const priceA = a.discountprice !== 0 ? a.discountprice : a.price;
+      const priceB = b.discountprice !== 0 ? b.discountprice : b.price;
+
+      if (sortOrder === "asc") {
+        return priceA - priceB;
+      } else {
+        return priceB - priceA;
+      }
+    });
+  };
 
   const paginate = (pageNumber) => {
     setLoading(true);
     setTimeout(() => {
       setCurrentPage(pageNumber);
       setLoading(false);
-    }, 150);
+    }, 200);
   };
+
+  const startIdx = (currentPage - 1) * productsPerPage;
+  const endIdx = startIdx + productsPerPage;
+  const sortedProducts = sortProducts(filteredProducts);
+  const currentProducts = sortedProducts.slice(startIdx, endIdx);
 
   return (
     <>
@@ -199,37 +211,63 @@ const Product = () => {
               </div>
             ))}
           </div>
+          <div className="sort-buttons">
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => setSortOrder("asc")}
+              disabled={sortOrder === "asc"}
+            >
+              Price Low to High
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => setSortOrder("desc")}
+              disabled={sortOrder === "desc"}
+            >
+              Price High to Low
+            </Button>
+          </div>
+
           {productLoading ? (
-           <div className="grid">
-           {Array.from({ length: 10 }).map((_, index) => (
-             <div className="grid-item" style={{paddingBottom:'12.7rem'}} key={index}>
-               <div style={{ padding: "1rem" }}>
-                 <Shimmer width={300} height={300} style={{ borderRadius: "15px" }} />
-                 <Shimmer
-                   width={100}
-                   height={20}
-                   style={{ marginTop: "0.5rem", borderRadius: "5px" }}
-                 />
-                 <Shimmer
-                   width={80}
-                   height={15}
-                   style={{ marginTop: "5rem", borderRadius: "5px" }}
-                 />
-                 <Shimmer
-                   width={100}
-                   height={15}
-                   style={{ marginTop: "0.25rem", borderRadius: "5px" }}
-                 />
-                 <Shimmer
-                   width={50}
-                   height={15}
-                   style={{ marginTop: "0.25rem", borderRadius: "5px" }}
-                 />
-               </div>
-             </div>
-           ))}
-         </div>
-         
+            <div className="grid">
+              {Array.from({ length: 10 }).map((_, index) => (
+                <div
+                  className="grid-item"
+                  style={{ paddingBottom: "12.7rem" }}
+                  key={index}
+                >
+                  <div style={{ padding: "1rem" }}>
+                    <Shimmer
+                      width={300}
+                      height={300}
+                      style={{ borderRadius: "15px" }}
+                    />
+                    <Shimmer
+                      width={100}
+                      height={20}
+                      style={{ marginTop: "0.5rem", borderRadius: "5px" }}
+                    />
+                    <Shimmer
+                      width={80}
+                      height={15}
+                      style={{ marginTop: "5rem", borderRadius: "5px" }}
+                    />
+                    <Shimmer
+                      width={100}
+                      height={15}
+                      style={{ marginTop: "0.25rem", borderRadius: "5px" }}
+                    />
+                    <Shimmer
+                      width={50}
+                      height={15}
+                      style={{ marginTop: "0.25rem", borderRadius: "5px" }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : (
             <div className="grid">
               {currentProducts.map((product, index) => (
@@ -287,7 +325,7 @@ const Product = () => {
 
           <div className="pagination">
             {Array.from(
-              Array(Math.ceil(filteredProducts.length / productsPerPage)),
+              Array(Math.ceil(sortedProducts.length / productsPerPage)),
               (item, index) => (
                 <Button
                   color="secondary"

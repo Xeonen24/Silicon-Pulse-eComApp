@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ManageProduct from "../AdminPanel/ManageProduct/manageProduct";
 import ManageUser from "../AdminPanel/ManageUser/manageUser";
+import { Shimmer } from "react-shimmer";
 
 const ProfileContent = () => {
   const [user, setUser] = useState({});
