@@ -66,7 +66,7 @@ const Product = () => {
       });
     setTimeout(() => {
       setProductLoading(false);
-    }, 1500);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -244,23 +244,27 @@ const Product = () => {
                       height={300}
                       style={{ borderRadius: "15px" }}
                     />
+                    <br />
                     <Shimmer
-                      width={100}
+                      width={300}
                       height={20}
                       style={{ marginTop: "0.5rem", borderRadius: "5px" }}
                     />
+                    <br />
                     <Shimmer
-                      width={80}
+                      width={100}
                       height={15}
                       style={{ marginTop: "5rem", borderRadius: "5px" }}
                     />
+                    <br />
                     <Shimmer
                       width={100}
                       height={15}
                       style={{ marginTop: "0.25rem", borderRadius: "5px" }}
                     />
+                    <br />
                     <Shimmer
-                      width={50}
+                      width={200}
                       height={15}
                       style={{ marginTop: "0.25rem", borderRadius: "5px" }}
                     />
