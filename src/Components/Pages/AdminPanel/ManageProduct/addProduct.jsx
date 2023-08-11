@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./addProduct.css";
 import { toast } from "react-toastify";
@@ -8,13 +8,32 @@ import { Link } from "react-router-dom";
 const AddProduct = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
+  const [previewSource, setPreviewSource] = useState(null);
+
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      previewFile(file);
+    }
+  };
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result?.toString() || null);
+    };
+  };
+
   const [data, setData] = useState({
     productCode: "",
     title: "",
     description: "",
     category: "",
-    available: "",
-    imagePath: "",
+    quantity: "",
     manufacturer: "",
     discountprice: "",
     price: "",
@@ -38,11 +57,30 @@ const AddProduct = () => {
   const postData = async () => {
     setLoading(true);
     try {
+      const formData = new FormData();
+      formData.append("productCode", data.productCode);
+      formData.append("title", data.title);
+      formData.append("description", data.description);
+      formData.append("category", data.category);
+      formData.append("quantity", data.quantity);
+      formData.append("manufacturer", data.manufacturer);
+      formData.append("discountprice", data.discountprice);
+      formData.append("price", data.price);
+      formData.append("image", imageFile); // Append the selected image to the formData
+  
       const response = await axios.post(
         "http://localhost:5000/api/add-product",
-        data
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
+  
       setData({});
+  
       toast.success("Product Added Successfully", {
         autoClose: 2000,
         position: "top-right",
@@ -54,9 +92,10 @@ const AddProduct = () => {
         autoClose: 2000,
         position: "top-right",
       });
-      console.error("Error fetching categories and products:", error);
+      console.error("Error adding product:", error);
     }
   };
+  
 
   const fetchRoleDetails = async () => {
     try {
@@ -152,23 +191,28 @@ const AddProduct = () => {
                     ))}
                   </select>
                 </div>
-                <label>Available</label>
+                <label>Quantity</label>
                 <input
                   type="text"
-                  name="available"
-                  value={data.available}
+                  name="quantity"
+                  value={data.quantity}
                   onChange={(e) =>
-                    setData({ ...data, available: e.target.value })
+                    setData({ ...data, quantity: e.target.value })
                   }
                 />
-                <label>Image Path</label>
+                <label>Image</label>
+                {
+                    previewSource && 
+                  <img
+                  src={previewSource}
+                  alt="Add Image"
+                  className='w-100'
+                  />
+                }
                 <input
-                  type="text"
-                  name="imagePath"
-                  value={data.imagePath}
-                  onChange={(e) =>
-                    setData({ ...data, imagePath: e.target.value })
-                  }
+                  type="file"
+                  onChange={handleFileChange}
+                  accept="image/png, image/gif, image/jpeg"
                 />
                 <label>Discount Price</label>
                 <input

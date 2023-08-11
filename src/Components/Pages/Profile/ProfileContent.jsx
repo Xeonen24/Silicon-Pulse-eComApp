@@ -145,7 +145,7 @@ const ProfileContent = () => {
             <div className="sidenav">
               <div className="sidenavborder">
                 <div className="profile">
-                  <img src={userLogo} alt="" width="80px" height="80px" />
+                  <img src={userLogo} className="alpesNoob-img" alt="" width="80px" height="80px" />
                 </div>
                 <div className="name">{user.username}</div>
                 <div className="sidenav-url">
