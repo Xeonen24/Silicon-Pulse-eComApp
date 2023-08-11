@@ -80,6 +80,8 @@ const AddProduct = () => {
       );
   
       setData({});
+      setImageFile(null);
+      setPreviewSource(null);
   
       toast.success("Product Added Successfully", {
         autoClose: 2000,

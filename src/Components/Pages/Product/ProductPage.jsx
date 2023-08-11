@@ -10,6 +10,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import moment from "moment";
+import ReviewModal from "./reviewModal";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -17,10 +19,9 @@ const ProductPage = () => {
   const [loginChek, setLoginChek] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    checkLogin();
-  }, []);
+  const [rating, setRating] = useState([]);
+  const [reviewModal , setReviewModal] = useState(false);
+  const [myuser, setMyuser] = useState(null);
 
   const checkLogin = async () => {
     try {
@@ -38,18 +39,65 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
+    checkLogin();
+  }, []);
 
-    axios
-      .get(`http://localhost:5000/api/products/${id}`)
-      .then((response) => {
-          setProduct(response.data);
-          setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching product:", error);
-        setLoading(false);
-      });
+  const fetchProduct = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:5000/api/products/${id}`
+      );
+
+      setProduct(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+      setLoading(false);
+    }
+  };
+
+  const fetchRating = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:5000/api/get-rating/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response);
+      setRating(response.data.ratingsAndReviews);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+      setLoading(false);
+    }
+  };
+
+  const postRating = async () => {
+    setLoading(true);
+    axios.post(
+      `http://localhost:5000/api/post-rating/${id}`,
+      {
+        rating: myuser.rating,
+        review: myuser.review,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    fetchProduct();
+    fetchRating();
   }, [id]);
 
   const handleCloseModal = () => {
@@ -88,6 +136,10 @@ const ProductPage = () => {
         })
         .catch((error) => console.log(error));
     }
+  };
+
+  const reatingClickHandler = () => {
+    setReviewModal(true);
   };
 
   return (
@@ -162,6 +214,8 @@ const ProductPage = () => {
                     >
                       Add to Cart
                     </button>
+
+                    <div>{}</div>
                   </>
                 ) : (
                   <></>
@@ -169,6 +223,42 @@ const ProductPage = () => {
               </div>
             </div>
           </div>
+
+          <div className="product-reviews">
+            <div className="reviews-header">
+              <h2 className="reviews-title">Reviews</h2>
+              <button
+                className="add-rating-button"
+                onClick={reatingClickHandler}
+              >
+                Add Rating
+              </button>
+            </div>
+            {rating && rating.length > 0 ? (
+              rating.map((review, index) => (
+                <div className="review-div" key={index}>
+                  <div className="review-card-header">
+                    <h4 className="review-user">{review.user}</h4>
+                    <p className="review-rating">Rating: {review.rating}</p>
+                    <p className="review-date">
+                      Date:{" "}
+                      {moment(review.createdAt).utc().format("YYYY-MM-DD")}
+                    </p>
+                  </div>
+                  <div className="review-card-body">
+                    <p className="review-text">{review.review}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="no-ratings">No ratings found</div>
+            )}
+          </div>
+
+          {reviewModal && ( 
+              <ReviewModal isModalOpen={reviewModal} setIsModalOpen={setReviewModal} />
+          )}
+
         </>
       )}
     </>

@@ -45,6 +45,13 @@ const productSchema = Schema({
     type: Date,
     default: Date.now,
   },
+  ratingAndReviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Rating",
+    },
+  ],
+
 });
 
 module.exports = mongoose.model("Product", productSchema);

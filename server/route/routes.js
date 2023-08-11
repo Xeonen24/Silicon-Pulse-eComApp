@@ -10,6 +10,7 @@ const mongoose=require("mongoose");
 const cookieParser = require("cookie-parser");
 const validator = require('validator');
 const UploadToCloudinary = require("../seed/imageUpload");
+const Rating = require("../model/ratingAndReviews");
 router.use(cookieParser());
 
 router.post("/signup", asyncHandler(async (req, res) => {
@@ -500,5 +501,95 @@ router.delete('/cart/remove-all', auth, asyncHandler(async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 }));
+
+router.post('/post-rating/:productId', auth, asyncHandler(async (req, res) => {
+  try {
+    const { rating, review } = req.body;
+    const { productId } = req.params;
+
+    const user = await USER.findById(req.userID);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const existingRating = await Rating.findOne({ product: productId, user: user._id });
+
+    if (existingRating) {
+      return res.status(400).json({ error: 'You have already reviewed this product' });
+    }
+
+    const newRating = new Rating({
+      rating,
+      review,
+      product: productId,
+      user: user._id
+    });
+
+    const savedRating = await newRating.save();
+
+    if (!savedRating) {
+      return res.status(500).json({ error: 'Failed to save rating' });
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(productId, {
+      $push: { ratingAndReviews: savedRating._id }
+    });
+
+    if (!updatedProduct) {
+      return res.status(500).json({ error: 'Failed to update product with review' });
+    }
+
+    console.log(savedRating);
+
+    res.json({ message: 'Review added successfully' });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
+
+router.get('/get-rating/:productId', auth, asyncHandler(async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    // Find the product by ID along with its associated ratings and reviews
+    const productWithRatings = await Product.findById(productId).populate('ratingAndReviews');
+
+    if (!productWithRatings) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    // Extract the ratings and reviews from the populated product
+    const ratingsAndReviews = productWithRatings.ratingAndReviews;
+
+    const updatedRatingsAndReviews = [];
+
+    for (const review of ratingsAndReviews) {
+      const user = await USER.findById(review.user);
+
+      if (user) {
+        const newReview = {
+          rating: review.rating,
+          review: review.review,
+          user: user.username,
+          date: review.createdAt
+        };
+        
+        updatedRatingsAndReviews.push(newReview);
+      }
+    }
+
+    res.json({ ratingsAndReviews: updatedRatingsAndReviews });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}));
+
+
+
 
 module.exports = router;
