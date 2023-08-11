@@ -550,7 +550,7 @@ router.post('/post-rating/:productId', auth, asyncHandler(async (req, res) => {
   }
 }));
 
-router.get('/get-rating/:productId', auth, asyncHandler(async (req, res) => {
+router.get('/get-rating/:productId', asyncHandler(async (req, res) => {
   try {
     const { productId } = req.params;
 

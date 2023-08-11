@@ -25,9 +25,6 @@ function ReviewModal({isModalOpen, setIsModalOpen}) {
   };
 
   const handleAddRating = () => {
-    // Handle your logic to add the new rating and review
-    // You can use the newRating and newReview states here
-    // Reset the inputs
     setNewRating(1);
     setNewReview('');
     closeModal();
@@ -39,10 +36,6 @@ function ReviewModal({isModalOpen, setIsModalOpen}) {
         <h2 className="reviews-title">Reviews</h2>
         <button className="add-rating-button" onClick={openModal}>Add Rating</button>
       </div>
-      {/* Existing code for displaying reviews */}
-      {/* ... */}
-      
-      {/* Modal for adding reviews */}
       {isModalOpen && (
         <div className="review-modal">
           <div className="review-modal-content">

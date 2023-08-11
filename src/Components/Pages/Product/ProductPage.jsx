@@ -20,7 +20,7 @@ const ProductPage = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [rating, setRating] = useState([]);
-  const [reviewModal , setReviewModal] = useState(false);
+  const [reviewModal, setReviewModal] = useState(false);
   const [myuser, setMyuser] = useState(null);
 
   const checkLogin = async () => {
@@ -255,10 +255,12 @@ const ProductPage = () => {
             )}
           </div>
 
-          {reviewModal && ( 
-              <ReviewModal isModalOpen={reviewModal} setIsModalOpen={setReviewModal} />
+          {reviewModal && (
+            <ReviewModal
+              isModalOpen={reviewModal}
+              setIsModalOpen={setReviewModal}
+            />
           )}
-
         </>
       )}
     </>
