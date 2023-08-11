@@ -9,6 +9,7 @@ import ManageUser from "../AdminPanel/ManageUser/manageUser";
 import MainProfile from "./mainProfile";
 import SideNav from "./sideNav";
 import OrderPage from "./orderPage";
+import { Shimmer } from "react-shimmer";
 
 const ProfileContent = () => {
   const [user, setUser] = useState({});
