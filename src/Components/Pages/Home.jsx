@@ -13,7 +13,6 @@ const Home = () => {
   }, []);
 
   const checkLogin = async () => {
-    // Simulate longer loading time with setTimeout
     setTimeout(async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/user", {
@@ -22,16 +21,15 @@ const Home = () => {
             "Content-Type": "application/json",
           },
         });
-        // Assuming you have a way to manage loggedIn state
         setLoggedIn(true);
+        setLoading(false); 
       } catch (error) {
+        setLoading(false); 
         console.error(error);
         localStorage.setItem("userDetails", null);
         localStorage.setItem("loggedIn?", false);
-      } finally {
-        setLoading(false); // Set loading to false after the API call is done
       }
-    },500); // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    },1000);
   };
 
   return (

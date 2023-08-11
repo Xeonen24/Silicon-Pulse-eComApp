@@ -213,7 +213,7 @@ const Product = () => {
           </div>
           <div className="sort-buttons">
             <Button
-              variant="outlined"
+              variant={sortOrder === "asc" ? "contained" : "outlined"}
               color="secondary"
               onClick={() => setSortOrder("asc")}
               disabled={sortOrder === "asc"}
@@ -221,7 +221,7 @@ const Product = () => {
               Price Low to High
             </Button>
             <Button
-              variant="outlined"
+              variant={sortOrder === "desc" ? "contained" : "outlined"}
               color="secondary"
               onClick={() => setSortOrder("desc")}
               disabled={sortOrder === "desc"}
@@ -329,7 +329,7 @@ const Product = () => {
               (item, index) => (
                 <Button
                   color="secondary"
-                  variant="outlined"
+                  variant="contained"
                   key={index}
                   sx={{ fontWeight: "bold", marginRight: "1rem" }}
                   onClick={() => paginate(index + 1)}

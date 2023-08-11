@@ -1,7 +1,6 @@
 // product.js
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Category = require("./category"); // Import the Category model
 
 const productSchema = Schema({
   productCode: {
