@@ -10,6 +10,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import moment from "moment";
+import ReviewModal from "./reviewModal";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -18,11 +20,9 @@ const ProductPage = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [rating, setRating] = useState([]);
+  const [reviewModal , setReviewModal] = useState(false);
   const [myuser, setMyuser] = useState(null);
 
-
-
-  
   const checkLogin = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/user", {
@@ -40,13 +40,14 @@ const ProductPage = () => {
 
   useEffect(() => {
     checkLogin();
-  }, [])
-  
-  
+  }, []);
+
   const fetchProduct = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5000/api/products/${id}`);
+      const response = await axios.get(
+        `http://localhost:5000/api/products/${id}`
+      );
 
       setProduct(response.data);
       setLoading(false);
@@ -55,32 +56,35 @@ const ProductPage = () => {
       setLoading(false);
     }
   };
-    
-    const fetchRating = async () => {
-      try{
-        setLoading(true);
-         const response = await axios.get(`http://localhost:5000/api/get-rating/${id}` ,
-         {
+
+  const fetchRating = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:5000/api/get-rating/${id}`,
+        {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
-        });
-          console.log(response)
-          setRating(response.data.ratingsAndReviews);
-          setLoading(false);
         }
-      catch (error) {
-        console.error("Error fetching product:", error);
-        setLoading(false);
-      }
+      );
+      console.log(response);
+      setRating(response.data.ratingsAndReviews);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+      setLoading(false);
     }
-    
-    const postRating = async () => {
-      setLoading(true);
-      axios.post(`http://localhost:5000/api/post-rating/${id}`, {
-        rating : myuser.rating,
-        review : myuser.review
+  };
+
+  const postRating = async () => {
+    setLoading(true);
+    axios.post(
+      `http://localhost:5000/api/post-rating/${id}`,
+      {
+        rating: myuser.rating,
+        review: myuser.review,
       },
       {
         withCredentials: true,
@@ -88,64 +92,64 @@ const ProductPage = () => {
           "Content-Type": "application/json",
         },
       }
-      )
-    };
-    
-    useEffect(() => {
-      fetchProduct();
-      fetchRating();
-    }, [id]);
+    );
+  };
 
-    
-    const handleCloseModal = () => {
-      setShowLoginModal(false);
-    };
-    const handleCloseModal2 = () => {
+  useEffect(() => {
+    fetchProduct();
+    fetchRating();
+  }, [id]);
+
+  const handleCloseModal = () => {
+    setShowLoginModal(false);
+  };
+  const handleCloseModal2 = () => {
     setShowLoginModal(false);
     window.location.href = "/login";
-    };
-  
+  };
+
   const addToCart = (productId) => {
     if (loginChek === false) {
       setShowLoginModal(true);
     } else {
       axios
-      .post(
-        "http://localhost:5000/api/cart/add",
-        {
-          productId: productId,
-          quantity: 1,
-        },
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
+        .post(
+          "http://localhost:5000/api/cart/add",
+          {
+            productId: productId,
+            quantity: 1,
           },
-        }
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         )
         .then((response) => {
           console.log(response.data);
-          
+
           toast.success("Item Added to cart", {
             autoClose: 2000,
             position: "bottom-right",
           });
         })
         .catch((error) => console.log(error));
-      }
-    };
-    
+    }
+  };
 
+  const reatingClickHandler = () => {
+    setReviewModal(true);
+  };
 
-    
-    return (
-      <>
+  return (
+    <>
       <Dialog
         open={showLoginModal}
         onClose={handleCloseModal}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        >
+      >
         <DialogTitle id="alert-dialog-title">
           {"To add a product to the shopping cart, you must log in."}
         </DialogTitle>
@@ -211,12 +215,7 @@ const ProductPage = () => {
                       Add to Cart
                     </button>
 
-                    <div>
-                      {
-
-                      }
-                    </div>
-
+                    <div>{}</div>
                   </>
                 ) : (
                   <></>
@@ -226,26 +225,39 @@ const ProductPage = () => {
           </div>
 
           <div className="product-reviews">
-            <h2>Reviews</h2>
-              {rating ? rating.map((rating , index) => (
+            <div className="reviews-header">
+              <h2 className="reviews-title">Reviews</h2>
+              <button
+                className="add-rating-button"
+                onClick={reatingClickHandler}
+              >
+                Add Rating
+              </button>
+            </div>
+            {rating && rating.length > 0 ? (
+              rating.map((review, index) => (
                 <div className="review-div" key={index}>
                   <div className="review-card-header">
-                    <h4>{rating.user}</h4>
-                    <p>{rating.rating}</p>
-                    <p>{rating.createdAt}</p>
+                    <h4 className="review-user">{review.user}</h4>
+                    <p className="review-rating">Rating: {review.rating}</p>
+                    <p className="review-date">
+                      Date:{" "}
+                      {moment(review.createdAt).utc().format("YYYY-MM-DD")}
+                    </p>
                   </div>
                   <div className="review-card-body">
-                    <p>{rating.review}</p>
+                    <p className="review-text">{review.review}</p>
                   </div>
                 </div>
-               ) ) :
-               (
-                <div>
-                  No ratings found
-                </div>
-              )}
-        </div>
+              ))
+            ) : (
+              <div className="no-ratings">No ratings found</div>
+            )}
+          </div>
 
+          {reviewModal && ( 
+              <ReviewModal isModalOpen={reviewModal} setIsModalOpen={setReviewModal} />
+          )}
 
         </>
       )}
