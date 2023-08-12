@@ -34,7 +34,7 @@ const LoginForm = () => {
 
   const fetchUserDetails = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/user", {
+      const response = await axios.get("http://localhost:5000/auth/user", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/login",
+        "http://localhost:5000/auth/login",
         {
           username,
           password,

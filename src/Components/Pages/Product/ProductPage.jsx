@@ -4,22 +4,16 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import "./productpg.css";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import ReviewModal from "./reviewModal";
-import moment from "moment";
-
 import {
-  Typography,
-  Card,
-  CardHeader,
-  CardContent,
-  Rating,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
+import ReviewModal from "./reviewModal";
+import ProductReviews from "./ProductReviews";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -45,7 +39,7 @@ const ProductPage = () => {
       setLoading(true);
 
       const response = await axios.get(
-        `http://localhost:5000/api/product-with-ratings/${id}`
+        `http://localhost:5000/products/product-with-ratings/${id}`
       );
       setProduct(response.data);
       setLoading(false);
@@ -56,7 +50,7 @@ const ProductPage = () => {
 
   const checkLogin = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/user", {
+      const response = await axios.get("http://localhost:5000/auth/user", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +77,7 @@ const ProductPage = () => {
     } else {
       axios
         .post(
-          "http://localhost:5000/api/cart/add",
+          "http://localhost:5000/cart/cart/add",
           {
             productId: productId,
             quantity: 1,
@@ -110,8 +104,6 @@ const ProductPage = () => {
   const reatingClickHandler = () => {
     setReviewModal(true);
   };
-
-  console.log(product);
 
   return (
     <>
@@ -176,7 +168,9 @@ const ProductPage = () => {
                     ? `₹ ${product.discountprice}`
                     : ""}
                 </h2>
-                <h4>{product.quantity > 0 ? "In Stock" : "Out of Stock"}</h4>
+                <h4 style={{ color: product.quantity > 0 ? "green" : "red" }}>
+                  {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+                </h4>{" "}
                 {product.quantity > 0 ? (
                   <>
                     <button
@@ -194,61 +188,10 @@ const ProductPage = () => {
               </div>
             </div>
           </div>
-
-          <div className="product-reviews">
-            <div className="reviews-header">
-              <Typography variant="h6" className="reviews-title">
-                Reviews
-              </Typography>
-              <Button
-                className="add-rating-button"
-                variant="contained"
-                color="primary"
-                onClick={reatingClickHandler}
-              >
-                Post a review
-              </Button>
-            </div>
-            {product.ratingsAndReviews &&
-            product.ratingsAndReviews.length > 0 ? (
-              <>
-                {product.ratingsAndReviews.map((review, index) => (
-                  <Card className="review-div" key={index}>
-                    <CardHeader
-                      className="review-card-header"
-                      title={
-                        <Typography variant="h6" className="review-user">
-                          {review.user}
-                        </Typography>
-                      }
-                      subheader={
-                        <>
-                          <Rating
-                            name={`rating-${index}`}
-                            value={review.rating}
-                            readOnly
-                            precision={0.5}
-                            className="review-rating"
-                          />
-                          <Typography variant="body2" className="review-date">
-                            {moment(review.date).format("DD MMM YYYY, h:mm A")}
-                          </Typography>
-                        </>
-                      }
-                    />
-                    <CardContent className="review-card-body">
-                      <Typography variant="body1" className="review-text">
-                        {review.review}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                ))}
-              </>
-            ) : (
-              <div className="no-ratings">No ratings found</div>
-            )}
-          </div>
-
+          <ProductReviews
+            product={product}
+            reatingClickHandler={reatingClickHandler}
+          />
           {reviewModal && (
             <ReviewModal
               isModalOpen={reviewModal}

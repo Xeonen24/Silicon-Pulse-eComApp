@@ -12,7 +12,7 @@ const ManageUser = () => {
 
   const fetchRoleDetails = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/user-role", {
+      const response = await axios.get("http://localhost:5000/admin/user-role", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,7 @@ const ManageUser = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/get-users", {
+      const response = await axios.get("http://localhost:5000/admin/get-users", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const ManageUser = () => {
   const deleteUser = async(user) => {
     try {
         const response = await axios.delete(
-          `http://localhost:5000/api/delete-user/${user._id}`,
+          `http://localhost:5000/admin/delete-user/${user._id}`,
           user,
           {
             withCredentials: true,
@@ -90,7 +90,7 @@ const ManageUser = () => {
   const updateUser = async (updatedUser) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/update-user/${updatedUser._id}`,
+        `http://localhost:5000/admin/update-user/${updatedUser._id}`,
         updatedUser,
         {
           withCredentials: true,

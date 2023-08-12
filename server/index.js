@@ -6,7 +6,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-const Routes = require("./route/routes");
+const authController = require('./routes/authcontroller');
+const productController = require('./routes/productcontroller');
+const cartController = require('./routes/cartcontroller');
+const adminController = require('./routes/admincontroller');
 const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
 
@@ -56,7 +59,10 @@ app.use(
   })
 );
 
-app.use("/api", Routes);
+app.use('/auth', authController);
+app.use('/products', productController);
+app.use('/cart', cartController);
+app.use('/admin', adminController);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

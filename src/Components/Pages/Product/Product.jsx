@@ -14,6 +14,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { Rating } from "@mui/material";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -34,7 +35,7 @@ const Product = () => {
 
   const checkLogin = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/user", {
+      const response = await axios.get("http://localhost:5000/auth/user", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -50,8 +51,8 @@ const Product = () => {
   useEffect(() => {
     axios
       .all([
-        axios.get("http://localhost:5000/api/categories"),
-        axios.get("http://localhost:5000/api/products"),
+        axios.get("http://localhost:5000/products/categories"),
+        axios.get("http://localhost:5000/products/products"),
       ])
       .then(
         axios.spread((categoriesResponse, productsResponse) => {
@@ -99,7 +100,7 @@ const Product = () => {
     } else {
       axios
         .post(
-          "http://localhost:5000/api/cart/add",
+          "http://localhost:5000/cart/cart/add",
           {
             productId: productId,
             quantity: 1,
@@ -284,6 +285,11 @@ const Product = () => {
                         className="item-image"
                       />
                       <h3 className="item-title">{product.title}</h3>
+                      <Rating
+            name={`average-rating-${product._id}`}
+            value={product.averageRating} 
+            readOnly
+          />
                       <p className="item-prices">
                         {product.discountprice !== 0
                           ? `₹ ${product.price}`

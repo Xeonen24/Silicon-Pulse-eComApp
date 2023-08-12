@@ -15,7 +15,7 @@ const Home = () => {
   const checkLogin = async () => {
     setTimeout(async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/user", {
+        const response = await axios.get("http://localhost:5000/auth/user", {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",

@@ -21,7 +21,7 @@ const ManageProduct = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/products", {
+      const response = await axios.get("http://localhost:5000/products/products", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ const ManageProduct = () => {
   const fetchRoleDetails = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/api/user-role", {
+      const response = await axios.get("http://localhost:5000/admin/user-role", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const ManageProduct = () => {
   const deleteProduct = async (productId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/delete-product/${productId}`,
+        `http://localhost:5000/admin/delete-product/${productId}`,
         {
           withCredentials: true,
           headers: {

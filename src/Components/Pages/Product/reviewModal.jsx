@@ -20,7 +20,7 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId }) {
     setLoading(true);
     try {
       await axios.post(
-        `http://localhost:5000/api/post-rating/${productId}`,
+        `http://localhost:5000/products/post-rating/${productId}`,
         {
           rating: newRating,
           review: newReview,

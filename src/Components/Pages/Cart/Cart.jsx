@@ -14,7 +14,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/cart", {
+        const response = await axios.get("http://localhost:5000/cart/cart", {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
@@ -54,7 +54,7 @@ const Cart = () => {
   const removeFromCart = async (productId) => {
     setLoading(true)
     try {
-      await axios.delete(`http://localhost:5000/api/cart/remove/${productId}`, {
+      await axios.delete(`http://localhost:5000/cart/cart/remove/${productId}`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
@@ -78,7 +78,7 @@ const Cart = () => {
   const clearCart = async () => {
     setLoading(true)
     try {
-      await axios.delete(`http://localhost:5000/api/cart/remove-all`, {
+      await axios.delete(`http://localhost:5000/cart/cart/remove-all`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwtoken')}`,
@@ -100,7 +100,7 @@ const Cart = () => {
     setLoading(true)
     try {
       await axios.post(
-        'http://localhost:5000/api/cart/dec',
+        'http://localhost:5000/cart/cart/dec',
         {
           productId,
           quantity: -1,
@@ -140,7 +140,7 @@ const Cart = () => {
     setLoading(true);
     try {
       await axios.post(
-        'http://localhost:5000/api/cart/inc',
+        'http://localhost:5000/cart/cart/inc',
         {
           productId,
           quantity: 1,
