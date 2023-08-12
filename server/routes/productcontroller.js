@@ -148,4 +148,40 @@ router.get('/products', async (req, res) => {
       res.status(500).json({ error: 'Server error' });
     }
   }));
+
+  router.put('/update-rating/:productId', auth, asyncHandler(async (req, res) => {
+    try{
+      const { rating, review } = req.body;
+      const { productId } = req.params;
+
+      const user = await USER.findById(req.userID);
+
+      if(!user){
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const existingRating = await Rating.findOne({ product: productId, user: user._id });
+
+      if(!existingRating){
+        return res.status(409).json({ error: 'You have not reviewed this product' });
+      }
+
+      const updatedRating = await Rating.findByIdAndUpdate(existingRating._id, {
+        rating,
+        review
+      });
+
+      if(!updatedRating){
+        return res.status(500).json({ error: 'Failed to update rating' });
+      }
+
+      res.json({ success:true ,  message: 'Review updated successfully' });
+
+    }
+    catch(error){
+      console.error(error);
+      res.status(500).json({ error: 'Server error' });
+    }
+  }));
+
   module.exports = router;
