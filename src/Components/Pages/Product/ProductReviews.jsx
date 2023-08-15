@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from "moment";
 import {
   Button,
@@ -7,17 +7,24 @@ import {
   CardHeader,
   CardContent,
   Rating,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
-const ProductReviews = ({ product, reatingClickHandler, loggedInUser }) => {
-  const isUserReview = (reviewUser) => {
-    return loggedInUser && loggedInUser.username === reviewUser;
+const ProductReviews = ({ product, reatingClickHandler }) => {
+  const [sortOrder, setSortOrder] = useState('default'); // 'default', 'positive', 'negative'
+
+  const handleSortChange = (event) => {
+    setSortOrder(event.target.value);
   };
 
-  const handleEditClick = (reviewIndex) => {
-    // Implement your edit review logic here, e.g. opening a modal or redirecting to an edit page
-    console.log(`Edit review index: ${reviewIndex}`);
-  };
+  const sortedReviews = [...product.ratingsAndReviews]; // Make a copy of the reviews array
+
+  if (sortOrder === 'positive') {
+    sortedReviews.sort((a, b) => b.rating - a.rating); // Sort by descending rating
+  } else if (sortOrder === 'negative') {
+    sortedReviews.sort((a, b) => a.rating - b.rating); // Sort by ascending rating
+  }
 
   return (
     <div className="product-reviews">
@@ -25,6 +32,17 @@ const ProductReviews = ({ product, reatingClickHandler, loggedInUser }) => {
         <Typography variant="h6" className="reviews-title">
           Reviews
         </Typography>
+        <div className="sort-buttons">
+          <Select
+            value={sortOrder}
+            onChange={handleSortChange}
+            variant="outlined"
+          >
+            <MenuItem value="default">Default</MenuItem>
+            <MenuItem value="positive">Positive Reviews First</MenuItem>
+            <MenuItem value="negative">Negative Reviews First</MenuItem>
+          </Select>
+        </div>
         <Button
           className="add-rating-button"
           variant="contained"
@@ -34,9 +52,9 @@ const ProductReviews = ({ product, reatingClickHandler, loggedInUser }) => {
           Post a review
         </Button>
       </div>
-      {product.ratingsAndReviews && product.ratingsAndReviews.length > 0 ? (
+      {sortedReviews.length > 0 ? (
         <>
-          {product.ratingsAndReviews.map((review, index) => (
+          {sortedReviews.map((review, index) => (
             <Card className="review-div" key={index}>
               <CardHeader
                 className="review-card-header"
@@ -58,17 +76,6 @@ const ProductReviews = ({ product, reatingClickHandler, loggedInUser }) => {
                       {moment(review.date).format("DD MMM YYYY, h:mm A")}
                     </Typography>
                   </>
-                }
-                action={
-                  isUserReview(review.user) && (
-                    <Button
-                      size="small"
-                      color="primary"
-                      onClick={() => handleEditClick(index)}
-                    >
-                      Edit
-                    </Button>
-                  )
                 }
               />
               <CardContent className="review-card-body">

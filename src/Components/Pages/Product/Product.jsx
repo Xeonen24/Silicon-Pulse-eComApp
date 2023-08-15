@@ -338,8 +338,8 @@ const Product = () => {
               Array(Math.ceil(sortedProducts.length / productsPerPage)),
               (item, index) => (
                 <Button
-                  color="secondary"
-                  variant="contained"
+                  color="primary"
+                  variant="outlined"
                   key={index}
                   sx={{ fontWeight: "bold", marginRight: "1rem" }}
                   onClick={() => paginate(index + 1)}
