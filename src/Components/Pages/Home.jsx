@@ -34,7 +34,6 @@ const Home = () => {
 
   return (
     <div className="main_div">
-      {/* Display the loading animation for the entire page while loading is true */}
       {loading ? (
         <div className="page-loading">
           <div className="spinner"></div>

@@ -85,9 +85,6 @@
     }
   }
   
-
-
-  /* Styles for the product reviews section */
   .product-reviews {
     background-color: #f8f8f8;
     padding: 20px;
@@ -95,7 +92,6 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  /* Styling for the reviews header */
   .reviews-header {
     display: flex;
     justify-content: space-between;
@@ -103,13 +99,11 @@
     margin-bottom: 15px;
   }
   
-/* Styling for the reviews title */
 .reviews-title {
   font-size: 24px;
   margin-bottom: 15px;
 }
 
-/* Styling for each individual review */
 .review-div {
   background-color: #fff;
   border-radius: 8px;
@@ -118,7 +112,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling for the review card header */
 .review-card-header {
   display: flex;
   justify-content: space-between;
@@ -141,7 +134,6 @@
   color: #999;
 }
 
-/* Styling for the review card body */
 .review-card-body {
   margin-top: 10px;
 }
@@ -150,7 +142,6 @@
   font-size: 16px;
 }
 
-/* Styling for the "No ratings found" message */
 .no-ratings {
   font-size: 18px;
   font-style: italic;

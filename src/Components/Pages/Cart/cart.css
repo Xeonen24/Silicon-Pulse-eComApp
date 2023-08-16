@@ -24,13 +24,17 @@
   
   .cart-item:hover {
     transform: scale(1.02);
+    text-decoration: none;
   }
   
   .cart-item-title {
     font-size: 20px;
     font-weight: bold;
-    max-width: 100px;
     min-width: 100px;
+    margin-left: 4rem;
+    text-decoration: none;
+    color: black;
+    height: 23px;
   }
 
   .cart-card{
