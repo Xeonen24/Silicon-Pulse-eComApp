@@ -34,6 +34,11 @@ const orderSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  shipped: {
+    enum: ["Not processed", "Processing", "Shipped", "Delivered", "Cancelled"],
+    type: String,
+    default: "Not processed",
+  }
 });
 
 module.exports = mongoose.model("Order", orderSchema);

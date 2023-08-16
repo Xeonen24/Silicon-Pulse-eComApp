@@ -71,7 +71,7 @@ router.get('/products', async (req, res) => {
         .populate('ratingAndReviews');
   
       if (!product) {
-        return res.status(404).json({ error: "Product not found" });
+        return res.status(409).json({ error: "Product not found" });
       }
       const categoryName = product.category.title;
       const productWithCategory = { ...product.toObject(), category: categoryName };
