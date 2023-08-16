@@ -136,7 +136,6 @@ details[open] summary ~ * {
   margin-left: 61rem;
   margin-top: -2.4rem;
   font-size: 1.2rem;
-  font-weight: bold;
 }
 
 .total-price{
@@ -163,7 +162,7 @@ details[open] summary ~ * {
   top: -6rem;
   margin-left: 60rem;
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 400;
 }
 
 .prod_quantity{
@@ -171,13 +170,12 @@ details[open] summary ~ * {
   top: -6rem;
   margin-left: 60rem;
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 400;
 }
 
 .total-price-drop{
   margin-left: 62rem;
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.3rem;
 }
 
 li{
@@ -216,7 +214,7 @@ details.learn-more {
   border: 2px solid var(--pink-border);
   border-radius: 0.75em;
   transform-style: preserve-3d;
-  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1);
 }
 
 details.learn-more::before {
@@ -228,11 +226,9 @@ details.learn-more::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--dark-pink);
   border-radius: inherit;
-  box-shadow: 0 0 0 2px var(--pink-border), 0 0.625em 0 0 var(--pink-shadow);
   transform: translate3d(0, 0.75em, -1em);
-  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1);
 }
 
 details.learn-more:hover {
@@ -241,7 +237,6 @@ details.learn-more:hover {
 }
 
 details.learn-more:hover::before {
-  box-shadow: 0 0 0 2px var(--pink-border), 0 0.5em 0 0 var(--pink-shadow);
   transform: translate3d(0, 0.5em, -1em);
 }
 
@@ -251,6 +246,5 @@ details.learn-more:active {
 }
 
 details.learn-more:active::before {
-  box-shadow: 0 0 0 2px var(--pink-border), 0 0 var(--pink-shadow);
   transform: translate3d(0, 0, -1em);
 }
