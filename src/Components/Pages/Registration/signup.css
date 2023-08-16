@@ -26,20 +26,22 @@
   }
   
   .signup-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
     width: 100%;
-    border-radius: 3px;
-    padding: 10px 20px;
+    padding: 10px;
+    font-weight: bold;
     cursor: pointer;
-    justify-content: center;
-    align-items: center;
+    transition: all ease-in-out 0.3s;
   }
   
   .signup-button:hover {
-    background-color: #0056b3;
-  }
+    background-color: rgb(35, 35, 35);
+    color:rgb(235, 235, 235);
+    scale: 1.02;
+   }
   
   .login-box {
     display: flex;
