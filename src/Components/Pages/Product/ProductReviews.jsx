@@ -9,8 +9,6 @@ import {
   CardHeader,
   CardContent,
   Rating,
-  Select,
-  MenuItem,
 } from "@mui/material";
 
 const ProductReviews = ({ product, reatingClickHandler }) => {
@@ -49,31 +47,12 @@ const ProductReviews = ({ product, reatingClickHandler }) => {
     console.log(`Edit review index: ${reviewIndex}`);
   };
 
-  const sortedReviews = [...product.ratingsAndReviews]; // Make a copy of the reviews array
-
-  if (sortOrder === 'positive') {
-    sortedReviews.sort((a, b) => b.rating - a.rating); // Sort by descending rating
-  } else if (sortOrder === 'negative') {
-    sortedReviews.sort((a, b) => a.rating - b.rating); // Sort by ascending rating
-  }
-
   return (
     <div className="product-reviews">
       <div className="reviews-header">
         <Typography variant="h7" className="reviews-title">
           Reviews
         </Typography>
-        <div className="sort-buttons">
-          <Select
-            value={sortOrder}
-            onChange={handleSortChange}
-            variant="outlined"
-          >
-            <MenuItem value="default">Default</MenuItem>
-            <MenuItem value="positive">Positive Reviews First</MenuItem>
-            <MenuItem value="negative">Negative Reviews First</MenuItem>
-          </Select>
-        </div>
         <Button
           className="add-rating-button"
           variant="contained"
@@ -83,7 +62,7 @@ const ProductReviews = ({ product, reatingClickHandler }) => {
           Post a review
         </Button>
       </div>
-      {sortedReviews.length > 0 ? (
+      {product.ratingsAndReviews && product.ratingsAndReviews.length > 0 ? (
         <>
           {userReview && (
             <Card className="review-div">
