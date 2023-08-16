@@ -40,19 +40,21 @@
   }
   
   .fbLoginBtn {
-    background-color: rgb(35, 35, 35);
-    color: #ffffff;
-    border: none;
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
     border-radius: 5px;
     width: 100%;
     padding: 10px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all ease-in-out 0.3s;
   }
   
   .fbLoginBtn:hover {
-    background-color:black;
+    background-color: rgb(35, 35, 35);
+    color:rgb(235, 235, 235);
+    scale: 1.02;
   }
   
   .fbLoginDivider {

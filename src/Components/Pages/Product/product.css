@@ -20,13 +20,18 @@
 .item-add-to-cart {
     width:50%;
     height: 50px;
-    background-color: var(--aplared);
     cursor: pointer;
+    color: var(--aplared);
+    border: 1px solid var(--aplared);
+    background-color: transparent;
     transition: all 0.2s ease-in-out;
   }
 
   .item-add-to-cart:hover{
-    background-color: rgb(207, 126, 126);
+    background-color: var(--aplared);
+    color:white;
+    border-radius: 0.75rem;
+    box-shadow: 5px 5px 10px 0px rgba(255, 142, 142, 0.408);
   }
 
   .item-out-of-stock {
@@ -68,7 +73,8 @@
   .category {
     cursor: pointer;
     padding: 0.5rem 1rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--aplared);
+    color: var(--aplared);
     border-radius: 7px;
     transition: all 0.3s ease-in-out;
     margin-left: 1rem;
@@ -76,14 +82,42 @@
 
   .category:hover{
     background-color: var(--aplared);
+    color: white;
+    border-radius: 0.75rem;
   }
   
   .category.active {
+    color: white;
     background-color: var(--aplared);
     border-radius: 15px;
     transform: scale(1.075);
   }
   .pagination{
     margin:2rem 2rem 2rem 2rem;
+  }
+  
+  .ascdscbut{
+    width:10%;
+    height: 50px;
+    cursor: pointer;
+    color: var(--aplared);
+    border: 1px solid var(--aplared);
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+    margin-left: 1rem;
+    border-radius: 0.3rem;
+  }
+
+  .ascdscbut:hover{
+    background-color: var(--aplared);
+    color:white;
+    box-shadow: 5px 5px 10px 0px rgba(255, 142, 142, 0.408);  
+  }
+
+  .ascdscbut.active {
+    pointer-events: none;
+    border-color: red;
+    background-color: rgb(255, 226, 226);
+    border-radius: 1rem;
   }
   

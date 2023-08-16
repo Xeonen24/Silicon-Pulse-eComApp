@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import "./productpg.css";
@@ -24,6 +26,8 @@ const ProductPage = () => {
   const [rating, setRating] = useState([]);
   const [reviewModal, setReviewModal] = useState(false);
   const [myuser, setMyuser] = useState(null);
+  const [mode , setMode] = useState("rating")
+  const [editData , setEditData] = useState(null)
 
   useEffect(() => {
     checkLogin();
@@ -101,10 +105,6 @@ const ProductPage = () => {
     }
   };
 
-  const reatingClickHandler = () => {
-    setReviewModal(true);
-  };
-
   return (
     <>
       <Dialog
@@ -174,10 +174,16 @@ const ProductPage = () => {
                 {product.quantity > 0 ? (
                   <>
                     <button
+                      style={{width: "30%"}}
+                      className="item-add-to-cart"
                       type="button"
                       onClick={() => addToCart(product._id)}
                     >
                       Add to Cart
+                      <FontAwesomeIcon
+                        icon={faCartPlus}
+                        style={{ fontSize: "23px", paddingLeft: "0rem" }}
+                      />
                     </button>
 
                     <div>{}</div>
@@ -190,13 +196,17 @@ const ProductPage = () => {
           </div>
           <ProductReviews
             product={product}
-            reatingClickHandler={reatingClickHandler}
-          />
+            setReviewModal={setReviewModal}
+            setMode={setMode}
+            setEditData={setEditData}
+            />
           {reviewModal && (
             <ReviewModal
-              isModalOpen={reviewModal}
-              setIsModalOpen={setReviewModal}
-              productId={product._id}
+            isModalOpen={reviewModal}
+            setIsModalOpen={setReviewModal}
+            productId={product._id}
+            mode={mode}
+            editData={editData || null}
             />
           )}
         </>

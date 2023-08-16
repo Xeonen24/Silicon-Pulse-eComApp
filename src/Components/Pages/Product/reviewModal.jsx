@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
@@ -11,10 +11,19 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./reviewmodal.css";
 
-function ReviewModal({ isModalOpen, setIsModalOpen, productId }) {
+function ReviewModal({ isModalOpen, setIsModalOpen, productId, mode , editData }) {
   const [loading, setLoading] = useState(true);
   const [newRating, setNewRating] = useState(1);
   const [newReview, setNewReview] = useState("");
+
+
+  useEffect(() => {
+    if(mode === "edit"){
+      setNewRating(editData.rating)
+      setNewReview(editData.review)
+    }
+  }, [editData])
+
 
   const postRating = async () => {
     setLoading(true);
@@ -62,6 +71,37 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId }) {
     setIsModalOpen(false);
   };
 
+  const handleEditReview = async () => {
+    setLoading(true);
+    try {
+      await axios.put(
+        `http://localhost:5000/products/update-rating/${productId}`,
+        {
+          rating: newRating,
+          review: newReview,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      window.location.reload();
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        toast.error("You have not reviewd this product", {
+          autoClose: 2000,
+          position: "top-right",
+        });
+      } else {
+        console.log(error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -69,7 +109,9 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId }) {
           className="review-dialog-content"
           style={{ width: "500px", height: "500px", padding: "2rem" }}
         >
-          <Typography variant="h4">Add Rating</Typography>
+          <Typography variant="h4">
+            {mode === "edit" ? "Edit Review" : "Add Rating"}
+          </Typography>
           <FormControl>
             <Rating
               style={{ fontSize: "2rem" }}
@@ -87,9 +129,15 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId }) {
             rows={4}
           />
           <div className="dialog-buttons">
-            <Button className="dialog-button" onClick={handleAddRating}>
-              Add Rating
-            </Button>
+            {mode === "edit" ? (
+              <Button className="dialog-button" onClick={handleEditReview}>
+                Edit Review
+              </Button>
+            ) : (
+              <Button className="dialog-button" onClick={handleAddRating}>
+                Add Rating
+              </Button>
+            )}
             <Button
               className="dialog-button"
               onClick={() => setIsModalOpen(false)}

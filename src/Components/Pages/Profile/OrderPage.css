@@ -254,8 +254,3 @@ details.learn-more:active::before {
   box-shadow: 0 0 0 2px var(--pink-border), 0 0 var(--pink-shadow);
   transform: translate3d(0, 0, -1em);
 }
-
-
-
-
-  

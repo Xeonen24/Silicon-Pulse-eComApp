@@ -11,7 +11,7 @@ import {
   Rating,
 } from "@mui/material";
 
-const ProductReviews = ({ product, reatingClickHandler }) => {
+const ProductReviews = ({ product , setReviewModal , setMode , setEditData }) => {
   const [user, setUser] = useState(null);
   const [userReview, setUserReview] = useState(null);
 
@@ -27,11 +27,13 @@ const ProductReviews = ({ product, reatingClickHandler }) => {
 
         setUser(res.data);
 
-        if (res.data && product.ratingsAndReviews) {
+        if(res.data && product.ratingsAndReviews) {
           const userReview = product.ratingsAndReviews.find(
             (review) => review.user === res.data.username
           );
+          product.ratingsAndReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
           setUserReview(userReview);
+          setEditData(userReview);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -41,10 +43,16 @@ const ProductReviews = ({ product, reatingClickHandler }) => {
     fetchData();
   }, []);
 
-  console.log(userReview);
+  console.log("user" ,userReview);
+
+  const reatingClickHandler = () => {
+    setMode("rating")
+    setReviewModal(true);
+  };
 
   const handleEditClick = (reviewIndex) => {
-    console.log(`Edit review index: ${reviewIndex}`);
+    setMode("edit")
+    setReviewModal(true);
   };
 
   return (
@@ -64,52 +72,7 @@ const ProductReviews = ({ product, reatingClickHandler }) => {
       </div>
       {product.ratingsAndReviews && product.ratingsAndReviews.length > 0 ? (
         <>
-          {userReview && (
-            <Card className="review-div">
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <CardHeader
-                  className="review-card-header"
-                  title={
-                    <Typography variant="h6" className="review-user">
-                      {userReview.user}
-                    </Typography>
-                  }
-                  subheader={
-                    <>
-                      <Rating
-                        name={`rating-user`}
-                        value={userReview.rating}
-                        readOnly
-                        precision={0.5}
-                        className="review-rating"
-                      />
-                      <Typography variant="body2" className="review-date">
-                        {moment(userReview.date).format("DD MMM YYYY, h:mm A")}
-                      </Typography>
-                    </>
-                  }
-                />
-                <div className="review-edit">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleEditClick}
-                  >
-                    Edit
-                  </Button>
-                </div>
-              </div>
-              <CardContent className="review-card-body">
-                <Typography variant="body1" className="review-text">
-                  {userReview.review}
-                </Typography>
-              </CardContent>
-            </Card>
-          )}
-         
-         {product.ratingsAndReviews
-          .filter((rev) =>  !userReview || rev.user !== userReview.user )
-          .map((review, index) => (
+      {product.ratingsAndReviews.filter(review => review.user === user?.username).map((review, index) => (
             <Card className="review-div" key={index}>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <CardHeader
@@ -134,6 +97,53 @@ const ProductReviews = ({ product, reatingClickHandler }) => {
                     </>
                   }
                 />
+
+                {review.user === user?.username && <div style={{ maxHeight: "20px" }}>
+                  <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleEditClick}
+                  >
+                  Edit
+                  </Button>
+                </div>
+              }
+
+              </div>
+              <CardContent className="review-card-body">
+                <Typography variant="body1" className="review-text">
+                  {review.review}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+
+    {product.ratingsAndReviews.filter(review => review.user !== user?.username).map((review, index) => (
+            <Card className="review-div" key={index}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <CardHeader
+                  className="review-card-header"
+                  title={
+                    <Typography variant="h6" className="review-user">
+                      {review.user}
+                    </Typography>
+                  }
+                  subheader={
+                    <>
+                      <Rating
+                        name={`rating-${index}`}
+                        value={review.rating}
+                        readOnly
+                        precision={0.5}
+                        className="review-rating"
+                      />
+                      <Typography variant="body2" className="review-date">
+                        {moment(review.date).format("DD MMM YYYY, h:mm A")}
+                      </Typography>
+                    </>
+                  }
+                />
+
               </div>
               <CardContent className="review-card-body">
                 <Typography variant="body1" className="review-text">
@@ -144,7 +154,9 @@ const ProductReviews = ({ product, reatingClickHandler }) => {
           ))}
 
 
+
         </>
+
       ) : (
         <div className="no-ratings">No ratings found</div>
       )}

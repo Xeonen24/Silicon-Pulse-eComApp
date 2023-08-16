@@ -213,23 +213,22 @@ const Product = () => {
             ))}
           </div>
           <div className="sort-buttons">
-            <Button
-              variant={sortOrder === "asc" ? "contained" : "outlined"}
-              color="secondary"
-              onClick={() => setSortOrder("asc")}
-              disabled={sortOrder === "asc"}
-            >
-              Price Low to High
-            </Button>
-            <Button
-              variant={sortOrder === "desc" ? "contained" : "outlined"}
-              color="secondary"
-              onClick={() => setSortOrder("desc")}
-              disabled={sortOrder === "desc"}
-            >
-              Price High to Low
-            </Button>
-          </div>
+  <button
+    className={`ascdscbut ${sortOrder === "asc" ? "active" : ""}`}
+    onClick={() => setSortOrder("asc")}
+    disabled={sortOrder === "asc"}
+  >
+    Price Low to High
+  </button> 
+  <button
+    className={`ascdscbut ${sortOrder === "desc" ? "active" : ""}`}
+    onClick={() => setSortOrder("desc")}
+    disabled={sortOrder === "desc"}
+  >
+    Price High to Low
+  </button>
+</div>
+
 
           {productLoading ? (
             <div className="grid">
@@ -286,10 +285,10 @@ const Product = () => {
                       />
                       <h3 className="item-title">{product.title}</h3>
                       <Rating
-            name={`average-rating-${product._id}`}
-            value={product.averageRating} 
-            readOnly
-          />
+                        name={`average-rating-${product._id}`}
+                        value={product.averageRating}
+                        readOnly
+                      />
                       <p className="item-prices">
                         {product.discountprice !== 0
                           ? `₹ ${product.price}`

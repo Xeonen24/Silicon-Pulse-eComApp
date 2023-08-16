@@ -127,7 +127,7 @@ const Signup = () => {
             </button>
             <hr className="fbLoginDivider" />
             <Link to="/login" className="fbLoginLink">
-              Don't have an account? Click here.
+              Already have an account? <span style={{color:'blue'}}>Click here.</span>
             </Link>
           </form>
         </div>
