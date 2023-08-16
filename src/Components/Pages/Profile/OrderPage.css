@@ -1,0 +1,57 @@
+  .order-page {
+    padding: 20px;
+    width: 1280px;
+    }
+
+  .order-heading{
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+  
+  .order-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(1000px, 1fr));
+    gap: 20px;
+  }
+  
+  .order-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .order-details {
+    margin-bottom: 10px;
+  }
+  
+  .order-id {
+    font-weight: bold;
+  }
+  
+  .total-price {
+    color: #e47911;
+  }
+  
+  .payment-method {
+    font-style: italic;
+  }
+  
+  .order-status {
+    text-align: right;
+    color: #007600;
+    font-weight: bold;
+  }
+
+
+  .order-page {
+    padding: 20px;
+  }
+  
+  
+  
+  
+  
+  
