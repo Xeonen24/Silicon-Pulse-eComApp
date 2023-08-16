@@ -24,6 +24,8 @@ const ProductPage = () => {
   const [rating, setRating] = useState([]);
   const [reviewModal, setReviewModal] = useState(false);
   const [myuser, setMyuser] = useState(null);
+  const [mode , setMode] = useState("rating")
+  const [editData , setEditData] = useState(null)
 
   useEffect(() => {
     checkLogin();
@@ -99,10 +101,6 @@ const ProductPage = () => {
         })
         .catch((error) => console.log(error));
     }
-  };
-
-  const reatingClickHandler = () => {
-    setReviewModal(true);
   };
 
   return (
@@ -190,13 +188,17 @@ const ProductPage = () => {
           </div>
           <ProductReviews
             product={product}
-            reatingClickHandler={reatingClickHandler}
-          />
+            setReviewModal={setReviewModal}
+            setMode={setMode}
+            setEditData={setEditData}
+            />
           {reviewModal && (
             <ReviewModal
-              isModalOpen={reviewModal}
-              setIsModalOpen={setReviewModal}
-              productId={product._id}
+            isModalOpen={reviewModal}
+            setIsModalOpen={setReviewModal}
+            productId={product._id}
+            mode={mode}
+            editData={editData || null}
             />
           )}
         </>
