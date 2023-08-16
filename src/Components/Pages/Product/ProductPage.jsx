@@ -174,7 +174,7 @@ const ProductPage = () => {
                 {product.quantity > 0 ? (
                   <>
                     <button
-                      style={{width: "30%"}}
+                      style={{width: "31%"}}
                       className="item-add-to-cart"
                       type="button"
                       onClick={() => addToCart(product._id)}
@@ -182,7 +182,7 @@ const ProductPage = () => {
                       Add to Cart
                       <FontAwesomeIcon
                         icon={faCartPlus}
-                        style={{ fontSize: "23px", paddingLeft: "0rem" }}
+                        style={{ fontSize: "23px", paddingLeft: "0rem",marginLeft: "1rem"}}
                       />
                     </button>
 

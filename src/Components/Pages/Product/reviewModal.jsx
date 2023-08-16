@@ -123,6 +123,7 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId, mode , editData }
           </FormControl>
           <InputLabel>Review:</InputLabel>
           <TextField
+            style={{width: "100%", height: "280px",marginTop: "1rem"}}
             value={newReview}
             onChange={handleReviewChange}
             multiline
