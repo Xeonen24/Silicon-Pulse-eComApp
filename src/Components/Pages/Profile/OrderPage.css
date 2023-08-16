@@ -1,13 +1,14 @@
-  .order-page {
-    padding: 20px;
-    width: 1280px;
-    }
+/* OrderPage.css */
 
-  .order-heading{
-        font-size: 40px;
-        font-weight: bold;
-        margin-bottom: 25px;
+  .order-page {
+        padding: 20px;
+        width: 1280px;
     }
+  
+  .order-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
   
   .order-list {
     display: grid;
@@ -16,11 +17,19 @@
   }
   
   .order-card {
-    border: 1px solid #ddd;
+    border: 1px solid #e0e0e0;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .order-card:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   .order-details {
@@ -29,14 +38,17 @@
   
   .order-id {
     font-weight: bold;
+    color: #333;
   }
   
   .total-price {
     color: #e47911;
+    font-weight: bold;
   }
   
   .payment-method {
     font-style: italic;
+    color: #666;
   }
   
   .order-status {
@@ -44,14 +56,45 @@
     color: #007600;
     font-weight: bold;
   }
-
-
-  .order-page {
-    padding: 20px;
+  
+  .details-summary {
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
   }
   
+  .details-summary:focus {
+    outline: none;
+  }
   
+  .product-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+  }
   
+  .product-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+  }
   
+  .product-image {
+    width: 80px;
+    margin-right: 10px;
+  }
   
+  .product-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .product-price {
+    color: #e47911;
+  }
+  
+  .product-quantity {
+    color: #666;
+  }
   

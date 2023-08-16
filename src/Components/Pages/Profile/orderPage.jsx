@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './OrderPage.css'; // Import your CSS file for styling
+import { width } from '@mui/system';
 
 const OrderPage = () => {
   const [orders, setOrders] = useState([]);
@@ -33,12 +34,23 @@ const OrderPage = () => {
               <p className="order-id">Order ID: {order._id}</p>
               <p className="total-price">Total Price: ${order.totalPrice}</p>
               <p className="payment-method">Payment Method: {order.paymentMethod}</p>
-              {/* ... Add more order details */}
             </div>
             <div className="order-status">
               <p className="status">Status: {order.shipped}</p>
-              {/* ... Add more status-related information */}
             </div>
+              <details>
+                <summary>View Items</summary>
+                <ul>
+                  {order.products.map((product, index) => (
+                    <li key={index}>
+                      <strong><img src={product.product.imagePath} style={ {width : "80px" }}></img></strong>
+                      <strong>Title:</strong> {product.product.title}<br />
+                      <strong>Price:</strong> ${product.product.price}<br />
+                      <strong>Quantity:</strong> {product.quantity}
+                    </li>
+                  ))}
+                </ul>
+              </details>
           </div>
         ))}
       </div>

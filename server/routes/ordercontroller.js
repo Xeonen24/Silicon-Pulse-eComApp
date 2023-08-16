@@ -70,11 +70,14 @@ router.post("/saveaddress", auth, asyncHandler(async (req, res) => {
     try{
       console.log(req.userID)
 
-      const orders = await Order.find({user: req.userID}).populate("products");
+      const orders = await Order.find({ user: req.userID }).populate({
+        path: 'products.product',
+      });
+
 
       res.status(200).json(orders);
     }
-    catch (error) {
+    catch(error) {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
