@@ -201,9 +201,8 @@ const Product = () => {
             {categories.map((category) => (
               <div
                 key={category._id}
-                className={`category ${
-                  selectedCategory === category._id ? "active" : ""
-                }`}
+                className={`category ${selectedCategory === category._id ? "active" : ""
+                  }`}
                 onClick={() =>
                   handleCategoryChange({ target: { value: category._id } })
                 }
@@ -213,21 +212,21 @@ const Product = () => {
             ))}
           </div>
           <div className="sort-buttons">
-  <button
-    className={`ascdscbut ${sortOrder === "asc" ? "active" : ""}`}
-    onClick={() => setSortOrder("asc")}
-    disabled={sortOrder === "asc"}
-  >
-    Price Low to High
-  </button> 
-  <button
-    className={`ascdscbut ${sortOrder === "desc" ? "active" : ""}`}
-    onClick={() => setSortOrder("desc")}
-    disabled={sortOrder === "desc"}
-  >
-    Price High to Low
-  </button>
-</div>
+            <button
+              className={`ascdscbut ${sortOrder === "asc" ? "active" : ""}`}
+              onClick={() => setSortOrder("asc")}
+              disabled={sortOrder === "asc"}
+            >
+              Price Low to High
+            </button>
+            <button
+              className={`ascdscbut ${sortOrder === "desc" ? "active" : ""}`}
+              onClick={() => setSortOrder("desc")}
+              disabled={sortOrder === "desc"}
+            >
+              Price High to Low
+            </button>
+          </div>
 
 
           {productLoading ? (

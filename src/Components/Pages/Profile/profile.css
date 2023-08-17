@@ -1,7 +1,7 @@
  .sidenav {
      background-color: #fff;
      color: #333;
-     width: auto;
+     width: 10%;
  }
 
  .sidenavborder {
@@ -75,6 +75,7 @@
      background-color: #fff;
      border-radius: 18px;
      box-shadow: 1px 1px 8px 0 grey;
+     height: 520px;
  }
 
  .submitprofilebut {

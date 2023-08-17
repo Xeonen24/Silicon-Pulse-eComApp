@@ -7,6 +7,11 @@ const orderSchema = new Schema({
     ref: "User",
     required: true,
   },
+  address: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Address",
+    required: true,
+  },
   totalPrice: {
     type: Number,
     required: true,
@@ -35,9 +40,9 @@ const orderSchema = new Schema({
     default: Date.now,
   },
   shipped: {
-    enum: ["Not processed", "Processing", "Shipped", "Delivered", "Cancelled"],
+    enum: ["Processing", "Shipped","In transit", "Delivered", "Cancelled"],
     type: String,
-    default: "Not processed",
+    default: "Processing",
   }
 });
 

@@ -43,8 +43,6 @@ const ProductReviews = ({ product , setReviewModal , setMode , setEditData }) =>
     fetchData();
   }, []);
 
-  console.log("user" ,userReview);
-
   const reatingClickHandler = () => {
     setMode("rating")
     setReviewModal(true);
@@ -61,14 +59,12 @@ const ProductReviews = ({ product , setReviewModal , setMode , setEditData }) =>
         <Typography variant="h7" className="reviews-title">
           Reviews
         </Typography>
-        <Button
-          className="add-rating-button"
-          variant="contained"
-          color="primary"
+        <button
+          className="ascdscbut"
           onClick={reatingClickHandler}
         >
           Post a review
-        </Button>
+        </button>
       </div>
       {product.ratingsAndReviews && product.ratingsAndReviews.length > 0 ? (
         <>
@@ -98,14 +94,15 @@ const ProductReviews = ({ product , setReviewModal , setMode , setEditData }) =>
                   }
                 />
 
-                {review.user === user?.username && <div style={{ maxHeight: "20px" }}>
-                  <Button
-                  variant="contained"
-                  color="primary"
+                {review.user === user?.username && 
+                <div style={{marginRight:'1rem'}}>
+                  <button
+                  style={{width:'100%'}}
+                  className="ascdscbut"
                   onClick={handleEditClick}
                   >
                   Edit
-                  </Button>
+                  </button>
                 </div>
               }
 

@@ -25,15 +25,6 @@ const addressSchema = Schema({
         type: Number,
         default:null,
       },
-      // paymentMethod:{
-      //   type: String,
-      // },
-      // products:[{
-      //   product: {
-      //     type: mongoose.Schema.Types.ObjectId,
-      //     ref: "Product",
-      //   },
-      // }],
 });
 
 module.exports = mongoose.model("Address", addressSchema);

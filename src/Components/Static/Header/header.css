@@ -6,7 +6,7 @@
 }
 
 :root {
-  --aplared: rgb(255, 155, 155);
+  --aplared: rgb(255, 130, 130);
 }
 
 .navbar-toggler {
@@ -41,20 +41,21 @@
 
 .nav-comp {
   transition: background-color 0.4s ease-in-out;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-right: 0.75rem;
 }
 .nav-link{
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid transparent;
-  padding: 0.2rem 2000rem 0.2rem 2rem;
-  transition: all 0.25s ease-in-out;
+  padding: 0.5rem 0rem 0.5rem 0rem;
+  transition: all 0.2s ease-in-out;
 }
 
 .nav-link:hover {
-  border: 1px solid var(--aplared);
-  border-radius: 10px; 
+  background-color: var(--aplared);
+  color: white;
+  border-radius: 15px;
 }
+
 .nav-bar-all {
   font-family: 'Google Sans', sans-serif;
   padding-top: 2rem;

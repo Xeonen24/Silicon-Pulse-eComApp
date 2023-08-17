@@ -13,6 +13,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Rating,
 } from "@mui/material";
 import ReviewModal from "./reviewModal";
 import ProductReviews from "./ProductReviews";
@@ -23,11 +24,10 @@ const ProductPage = () => {
   const [loginChek, setLoginChek] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [rating, setRating] = useState([]);
   const [reviewModal, setReviewModal] = useState(false);
-  const [myuser, setMyuser] = useState(null);
-  const [mode , setMode] = useState("rating")
-  const [editData , setEditData] = useState(null)
+  const [mode, setMode] = useState("rating");
+  const [ProductRating, setProductRating] = useState(null);
+  const [editData, setEditData] = useState(null);
 
   useEffect(() => {
     checkLogin();
@@ -35,13 +35,23 @@ const ProductPage = () => {
 
   useEffect(() => {
     fetchProduct();
-    // fetchRating();
+    getRatingofProduct();
   }, []);
+
+  const getRatingofProduct = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/products/getSpecRating/${id}`
+      );
+      setProductRating(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const fetchProduct = async () => {
     try {
       setLoading(true);
-
       const response = await axios.get(
         `http://localhost:5000/products/product-with-ratings/${id}`
       );
@@ -94,8 +104,6 @@ const ProductPage = () => {
           }
         )
         .then((response) => {
-          console.log(response.data);
-
           toast.success("Item Added to cart", {
             autoClose: 2000,
             position: "bottom-right",
@@ -149,6 +157,10 @@ const ProductPage = () => {
               </div>
               <div className="product-info">
                 <h2>{product.title}</h2>
+                <h4>
+                  Rating: &nbsp;
+                  <Rating style={{marginTop: "10px"}} value={ProductRating.averageRating} readOnly />
+                </h4>
                 <p>Product ID: {product.productCode}</p>
                 <h4>Manufacturer: {product.manufacturer}</h4>
                 <h4>
@@ -174,7 +186,7 @@ const ProductPage = () => {
                 {product.quantity > 0 ? (
                   <>
                     <button
-                      style={{width: "31%"}}
+                      style={{ width: "31%" }}
                       className="item-add-to-cart"
                       type="button"
                       onClick={() => addToCart(product._id)}
@@ -182,7 +194,11 @@ const ProductPage = () => {
                       Add to Cart
                       <FontAwesomeIcon
                         icon={faCartPlus}
-                        style={{ fontSize: "23px", paddingLeft: "0rem",marginLeft: "1rem"}}
+                        style={{
+                          fontSize: "23px",
+                          paddingLeft: "0rem",
+                          marginLeft: "1rem",
+                        }}
                       />
                     </button>
 
@@ -199,14 +215,14 @@ const ProductPage = () => {
             setReviewModal={setReviewModal}
             setMode={setMode}
             setEditData={setEditData}
-            />
+          />
           {reviewModal && (
             <ReviewModal
-            isModalOpen={reviewModal}
-            setIsModalOpen={setReviewModal}
-            productId={product._id}
-            mode={mode}
-            editData={editData || null}
+              isModalOpen={reviewModal}
+              setIsModalOpen={setReviewModal}
+              productId={product._id}
+              mode={mode}
+              editData={editData || null}
             />
           )}
         </>

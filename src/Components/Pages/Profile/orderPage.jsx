@@ -38,17 +38,50 @@ const OrderPage = () => {
               <p className="payment-method">Payment Method: {order.paymentMethod}</p>
             </div>
             <div className="order-status">
-            <Line percent={12} strokeWidth={1} strokeColor="red" />
-              <p className="status">Status: {order.shipped}</p>
+              <Line
+                percent={
+                  order.shipped === 'Processing'
+                    ? 1
+                    : order.shipped === 'Shipped'
+                      ? 25
+                      : order.shipped === 'In transit'
+                        ? 50
+                        : order.shipped === 'Delivered'
+                          ? 100
+                          : order.shipped === 'Cancelled'
+                            ? 100
+                            : 0
+                }
+                strokeWidth={1}
+                strokeColor={
+                  order.shipped === 'Delivered'
+                    ? 'green'
+                    : order.shipped === 'Cancelled'
+                      ? 'red'
+                      : 'skyblue'
+                }
+              />
+
+              <p className="status" style={{ fontSize: '1.2rem' }}>
+                Status : &nbsp;
+                <span style={{
+                  color: order.shipped === 'Delivered' ? 'green' : order.shipped === 'Cancelled' ? 'red' : 'skyblue'
+                }}>
+                  {order.shipped}
+                </span>
+              </p>
             </div>
             <details className="learn-more">
-                <summary>View Items</summary>
+              <summary>View Items</summary>
               <ul>
                 {order.products.map((product, index) => (
                   <>
                     <li key={index} >
                       <div style={{ marginTop: '1rem', maxHeight: '210px' }}>
                         <strong><img src={product.product.imagePath} style={{ marginLeft: "1rem", marginTop: "1rem", height: "180px", width: "180px" }}></img></strong>
+                        <Link style={{ marginLeft:'1.7rem'}} to={`/product/${product.product._id}`}>
+                          <button className="ascdscbut">Review</button>
+                        </Link>
                         <Link style={{ textDecoration: 'none' }} to={`/product/${product.product._id}`}>
                           <h4 className='prod_title'>{product.product.title}</h4>
                         </Link>

@@ -123,7 +123,7 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId, mode , editData }
           </FormControl>
           <InputLabel>Review:</InputLabel>
           <TextField
-            style={{width: "100%", height: "280px",marginTop: "1rem"}}
+            style={{width: "100%", height: "270px",marginTop: "1rem"}}
             value={newReview}
             onChange={handleReviewChange}
             multiline
@@ -131,16 +131,17 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId, mode , editData }
           />
           <div className="dialog-buttons">
             {mode === "edit" ? (
-              <Button className="dialog-button" onClick={handleEditReview}>
+              <Button  style={{padding: "1rem",fontSize:'1rem'}} className="dialog-button" onClick={handleEditReview}>
                 Edit Review
               </Button>
             ) : (
-              <Button className="dialog-button" onClick={handleAddRating}>
+              <Button style={{padding: "1rem",fontSize:'1rem'}} className="dialog-button" onClick={handleAddRating}>
                 Add Rating
               </Button>
             )}
             <Button
               className="dialog-button"
+              style={{padding: "1rem",fontSize:'1rem'}}
               onClick={() => setIsModalOpen(false)}
             >
               Cancel

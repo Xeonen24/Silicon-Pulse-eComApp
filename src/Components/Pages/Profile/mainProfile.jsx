@@ -100,60 +100,14 @@ const MainProfile = (props) => {
               </td>
             </tr>
             <tr>
-              <td>Address</td>
-              <td>:</td>
-              <td>
-                {settingsEditMode ? (
-                  <input
-                    type="text"
-                    value={"newAddress"}
-                    // onChange={(e) => setNewAddress(e.target.value)}
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    value={"newAddress" || ""}
-                    disabled
-                  />
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td>Mobile</td>
-              <td>:</td>
-              <td>
-                {settingsEditMode ? (
-                  <input
-                    type="text"
-                    value={"newMobile"}
-                    // onChange={(e) => setNewMobile(e.target.value)}
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    value={"newMobile" || ""}
-                    disabled
-                  />
-                )}
-              </td>
-            </tr>
-            <tr>
               <td>Country</td>
               <td>:</td>
               <td>
-                {settingsEditMode ? (
                   <input
                     type="text"
-                    value={"newCountry"}
-                    // onChange={(e) => setNewCountry(e.target.value)}
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    value={"newCountry" || ""}
+                    value={"India"}
                     disabled
                   />
-                )}
               </td>
             </tr>
             <tr>
@@ -199,10 +153,11 @@ const MainProfile = (props) => {
               </td>
             </tr>
           </tbody>
-          {settingsEditMode ? (
+        </table>
+        {settingsEditMode ? (
             <button
-              style={{ width: "100", margin: "1rem" }}
-              className="buttonsoforder"
+              style={{ width: "33%", margin: "1rem" }}
+              className="ascdscbut"
               onClick={handleSaveProfile}
             >
               Submit &nbsp;&nbsp;
@@ -213,8 +168,8 @@ const MainProfile = (props) => {
           ) : (
             <>
               <button
-                style={{ width: "100", margin: "1rem" }}
-                className="submitprofilebut"
+                style={{ width: "33%", margin: "1rem" }}
+                className="ascdscbut"
                 disabled
               >
                 Submit &nbsp;&nbsp;
@@ -224,7 +179,6 @@ const MainProfile = (props) => {
               </button>
             </>
           )}
-        </table>
       </div>
     </div>
   </>

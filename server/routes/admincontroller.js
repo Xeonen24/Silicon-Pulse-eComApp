@@ -4,6 +4,7 @@ const auth = require('../midddleware/auth');
 const USER = require('../model/user');
 const UploadToCloudinary = require('../seed/imageUpload');
 const Product = require('../model/product');
+const Order = require('../model/orders')
 
 const router = express.Router();
 
@@ -126,5 +127,33 @@ router.put("/update-user/:id", async (req, res) => {
       res.status(500).json({ error: 'Unable to fetch users' });
     }
   }))
+
+  router.get('/get-orders',auth,asyncHandler(async(req,res)=>{
+    try {
+      const order = await Order.find();
+      res.json(order);
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ error: 'Unable to fetch orders' });
+    }
+  }))
+
+  router.put('/update-shipping/:orderId', async (req, res) => {
+    const orderId = req.params.orderId;
+    const { shipped } = req.body;
+  
+    try {
+      const updatedOrder = await Order.findByIdAndUpdate(
+        orderId,
+        { shipped },
+        { new: true }
+      );
+  
+      res.json(updatedOrder);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error updating shipped status' });
+    }
+  });
 
   module.exports = router;

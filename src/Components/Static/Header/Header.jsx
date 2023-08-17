@@ -38,19 +38,19 @@ function Navbar(){
         <div className={`collapse navbar-collapse ${expanded ? "show" : ""}`}>
           <ul className="navbar-nav">
             <li className="nav-item nav-comp">
-              <Link to="/" className="nav-link">
+              <Link to="/" style={{paddingLeft:'1rem',paddingRight:'1rem'}} className="nav-link">
                 Home
               </Link>
             </li>
             <li
               className={`nav-item nav-comp dropdown ${dropdownOpen ? "show" : ""}`}
             >
-              <Link className="nav-link" to='/product'>
+              <Link style={{paddingLeft:'1rem',paddingRight:'1rem'}} className="nav-link" to='/product'>
                 Products
               </Link>
             </li>
             <li className="nav-item nav-comp">
-              <Link className="nav-link" href="#">
+              <Link style={{paddingLeft:'1rem',paddingRight:'1rem'}} className="nav-link" href="#">
                 About
               </Link>
             </li>

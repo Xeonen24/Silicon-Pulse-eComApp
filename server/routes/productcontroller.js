@@ -39,6 +39,30 @@ router.get('/products', async (req, res) => {
       res.status(500).json({ error: 'Server error' });
     }
   });
+
+  router.get('/getSpecRating/:productId', async (req, res) => {
+    try {
+      const productId = req.params.productId;
+      const product = await Product.findById(productId).populate('ratingAndReviews');
+  
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+  
+      const ratings = product.ratingAndReviews.map(review => review.rating);
+      const averageRating = ratings.length > 0 ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length : 0;
+  
+      const productWithAverage = {
+        ...product.toObject(),
+        averageRating: isNaN(averageRating) ? 0 : averageRating,
+      };
+  
+      res.json(productWithAverage);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'Server error' });
+    }
+  });
   
   router.get("/products/:id", asyncHandler(async (req, res) => {
     const productId = req.params.id;

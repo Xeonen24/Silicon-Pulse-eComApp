@@ -9,7 +9,7 @@ import ManageUser from "../AdminPanel/ManageUser/manageUser";
 import MainProfile from "./mainProfile";
 import SideNav from "./sideNav";
 import OrderPage from "./orderPage";
-import { Shimmer } from "react-shimmer";
+import ManageOrders from "../AdminPanel/ManageOrders/manageOrders";
 
 const ProfileContent = () => {
   const [user, setUser] = useState({});
@@ -21,6 +21,7 @@ const ProfileContent = () => {
   const [showProfileCont, setshowProfileCont] = useState(false);
   const [showManageProds, setshowManageProds] = useState(false);
   const [showManageuser, setshowManageuser] = useState(false);
+  const [showManageOrder, setshowManageOrder] = useState(false);
   const [showOrderPage, setShowOrderPage] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -79,6 +80,7 @@ const ProfileContent = () => {
     setshowManageProds(false);
     setshowManageuser(false);
     setShowOrderPage(false);
+    setshowManageOrder(false);
     setTimeout(() => {
       setshowProfileCont(true);
       setLoading(false);
@@ -90,6 +92,7 @@ const ProfileContent = () => {
     setshowProfileCont(false);
     setshowManageuser(false);
     setShowOrderPage(false);
+    setshowManageOrder(false);
     setTimeout(() => {
       setshowManageProds(true);
       setLoading(false);
@@ -101,17 +104,31 @@ const ProfileContent = () => {
     setshowProfileCont(false);
     setshowManageProds(false);
     setShowOrderPage(false);
+    setshowManageOrder(false);
     setTimeout(() => {
       setshowManageuser(true);
       setLoading(false);
     }, 150);
   };
 
+  const showManageOrders = async () => {
+    setLoading(true);
+    setshowProfileCont(false);
+    setshowManageProds(false);
+    setShowOrderPage(false);
+    setshowManageuser(false);
+    setTimeout(() => {
+      setshowManageOrder(true);
+      setLoading(false);
+    }, 150);
+  }
+
   const showOrderpage = async () => {
     setLoading(true);
     setshowProfileCont(false);
     setshowManageProds(false);
     setshowManageuser(false);
+    setshowManageOrder(false);
     setTimeout(() => {
       setShowOrderPage(true);
       setLoading(false);
@@ -129,9 +146,12 @@ const ProfileContent = () => {
     showManageProds,
     showManageUser,
     showManageuser,
+    showManageOrder,
+    setshowManageOrder,
     logoutUser,
     showOrderpage,
-    showOrderPage
+    showOrderPage,
+    showManageOrders
   };
   
   const data2 = {
@@ -173,6 +193,11 @@ const ProfileContent = () => {
                 {showManageProds && (
                   <>
                     <ManageProduct />
+                  </>
+                )}
+                {showManageOrder && (
+                  <>
+                    <ManageOrders />
                   </>
                 )}
                 {showManageuser && (
