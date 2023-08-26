@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Footer from "../../Static/Footer/Footer";
 import "./About.css";
 
 const About = () => {
@@ -129,6 +130,9 @@ const About = () => {
             </button>
           </form>
         </div>
+      </div>
+      <div className="FooterDiv">
+        <Footer />
       </div>
     </div>
   );

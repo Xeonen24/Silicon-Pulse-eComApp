@@ -9,7 +9,7 @@ const Category = require('../model/category');
 
 const router = express.Router();
 
-router.get("/categories", (req, res) => {
+  router.get("/categories", (req, res) => {
     Category.find()
       .then(categories => {
         res.json(categories);
@@ -19,7 +19,7 @@ router.get("/categories", (req, res) => {
       });
   });
 
-router.get('/products', async (req, res) => {
+  router.get('/products', async (req, res) => {
     try {
       const products = await Product.find().populate('ratingAndReviews');
   
@@ -208,4 +208,25 @@ router.get('/products', async (req, res) => {
     }
   }));
 
+  router.get('/discounted-product', asyncHandler(async (req, res) => {
+    try{
+      const allProducts = await Product.find().populate('ratingAndReviews');
+
+      const discountedProducts = allProducts.filter(product => product.discountprice > 0);
+      
+      const sortedProducts = discountedProducts.sort((a, b) => 
+      (a.price - a.discountprice) - (b.price - b.discountprice));
+
+      const sortByRating = sortedProducts.sort((a, b) => 
+      b.ratingAndReviews.rating - a.ratingAndReviews.rating );
+
+      return res.json(sortByRating.slice(0, 8));
+  
+    } 
+    catch(error){
+      console.error(error);
+      res.status(500).json({ error: 'Server error' });
+    }
+  }
+  ));
   module.exports = router;
