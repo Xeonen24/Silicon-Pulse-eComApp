@@ -7,7 +7,7 @@ const Address = require("../model/userAddress");
 const Order = require("../model/orders");
 const router = express.Router();
 
-router.post("/saveaddress", auth, asyncHandler(async (req, res) => {
+  router.post("/saveaddress", auth, asyncHandler(async (req, res) => {
     const user = await USER.findById(req.userID);
     
     try {
