@@ -197,68 +197,69 @@ const Cart = () => {
           <div className="spinner"></div>
         </div>
       ) : (
-        <div className="cart-container">
-          <h2 className="cart-head">Cart</h2>
-          {cartItems.length > 0 ? (
-            <div className="wrapper">
-              {cartItems.map((item) => (
-                <div className="cart-item" key={item.product._id}>
-                  <div className="cart-card">
-                    <Link style={{display:'flex'}}to={`/product/${item.product._id}`}>
-                      <img
-                        src={item.product.imagePath}
-                        alt={item.product.title}
-                        className="item-image"
-                      />
-                      <h3 className="cart-item-title">{item.product.title}</h3>
-                      </Link>
 
-                    <div className="cart-item-quantity">
+          <div className="cart-container">
+            <h2 className="cart-head">Cart</h2>
+            {cartItems.length > 0 ? (
+              <div className="wrapper">
+                {cartItems.map((item) => (
+                  <div className="cart-item" key={item.product._id}>
+                    <div className="cart-card">
+                      <Link style={{display:'flex'}}to={`/product/${item.product._id}`}>
+                        <img
+                          src={item.product.imagePath}
+                          alt={item.product.title}
+                          className="item-image"
+                        />
+                        <h3 className="cart-item-title">{item.product.title}</h3>
+                        </Link>
+
+                      <div className="cart-item-quantity">
+                        <button
+                          className="quantity-button"
+                          onClick={() => decreaseQuantity(item.product._id)}
+                        >
+                          -
+                        </button>
+                        <p>{item.quantity}</p>
+                        <button
+                          className="quantity-button"
+                          onClick={() => increaseQuantity(item.product._id)}
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <p className="cart-item-price">
+                        Price: {item.product.price * item.quantity}
+                      </p>
+
                       <button
-                        className="quantity-button"
-                        onClick={() => decreaseQuantity(item.product._id)}
+                        className="cart-item-remove"
+                        onClick={() => removeFromCart(item.product._id)}
                       >
-                        -
-                      </button>
-                      <p>{item.quantity}</p>
-                      <button
-                        className="quantity-button"
-                        onClick={() => increaseQuantity(item.product._id)}
-                      >
-                        +
+                        Remove
                       </button>
                     </div>
+                  </div>
+                ))}
+                <div className="price-div">
+                  <h4 className="cart-total-price">Total Price: {totalPrice}</h4>
 
-                    <p className="cart-item-price">
-                      Price: {item.product.price * item.quantity}
-                    </p>
-
-                    <button
-                      className="cart-item-remove"
-                      onClick={() => removeFromCart(item.product._id)}
-                    >
-                      Remove
+                  <div className="order-buttons-container">
+                    <button className="cart-clear" onClick={() => clearCart()}>
+                      Clear Cart
+                    </button>
+                    <button className="order-button" onClick={() => placeOrder()}>
+                      Order now
                     </button>
                   </div>
                 </div>
-              ))}
-              <div className="price-div">
-                <h4 className="cart-total-price">Total Price: {totalPrice}</h4>
-
-                <div className="order-buttons-container">
-                  <button className="cart-clear" onClick={() => clearCart()}>
-                    Clear Cart
-                  </button>
-                  <button className="order-button" onClick={() => placeOrder()}>
-                    Order now
-                  </button>
-                </div>
               </div>
-            </div>
-          ) : (
-            <p className="cart-empty">Your cart is empty.</p>
-          )}
-        </div>
+            ) : (
+              <p className="cart-empty">Your cart is empty.</p>
+            )}
+          </div>
       )}
     </>
   );

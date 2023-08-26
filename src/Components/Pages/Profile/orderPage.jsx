@@ -90,7 +90,7 @@ const OrderPage = () => {
                 {order.products.map((product, index) => (
                   <>
                     <li key={index}>
-                      <div style={{ marginTop: "1rem", maxHeight: "210px" }}>
+                      <div style={{ marginTop: "1rem", maxHeight: "250px" }}>
                         <strong>
                           <img
                             src={product.product.imagePath}

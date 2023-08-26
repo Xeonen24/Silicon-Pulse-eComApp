@@ -20,6 +20,7 @@ import About from "./Components/Pages/About/About";
 
 const App = () => {
   return (
+    <div className="wrapper">
     <Router>
       <Header />
       <ToastContainer />
@@ -40,6 +41,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
       </Routes>
     </Router>
+    </div>
   );
 };
 

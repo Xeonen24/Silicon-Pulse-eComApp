@@ -43,7 +43,9 @@
   .order-priceandquantity {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    width: 130px;
+    text-align: right;
+    margin-left: auto;
   }
 
   .order-details {
