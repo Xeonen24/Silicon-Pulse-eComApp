@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrash,faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenToSquare,
+  faTrash,
+  faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import "./manageUser.css";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 
 const ManageUser = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [roleDetails, setRoleDetails] = useState('');
+  const [roleDetails, setRoleDetails] = useState("");
 
   const fetchRoleDetails = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/admin/user-role", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:5000/admin/user-role",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setRoleDetails(response.data);
     } catch (error) {
       console.error(error);
@@ -25,9 +32,9 @@ const ManageUser = () => {
   };
 
   useEffect(() => {
-    console.log(roleDetails)
+    console.log(roleDetails);
     if (roleDetails.role === "admin") {
-        toast.info("Authorization check complete.", {
+      toast.info("Authorization check complete.", {
         autoClose: 1000,
         position: "top-right",
         toastId: "admin-toast",
@@ -37,12 +44,15 @@ const ManageUser = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/admin/get-users", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:5000/admin/get-users",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setUsers(response.data);
       console.log(response.data);
     } catch (error) {
@@ -51,41 +61,41 @@ const ManageUser = () => {
   };
 
   useEffect(() => {
-    fetchRoleDetails(); 
+    fetchRoleDetails();
     fetchUsers();
   }, []);
 
   const editUser = (user) => {
     setSelectedUser(user);
   };
-  const closeeditUser = () =>{
+  const closeeditUser = () => {
     setSelectedUser(null);
-  }
+  };
 
-  const deleteUser = async(user) => {
+  const deleteUser = async (user) => {
     try {
-        const response = await axios.delete(
-          `http://localhost:5000/admin/delete-user/${user._id}`,
-          user,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log(response.data);
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user._id === response.data._id ? response.data : user
-          )
-        );
-        setSelectedUser(null);
-        window.location.reload();
-      } catch (error) {
-        console.error("Error updating user:", error);
-      }  
-};
+      const response = await axios.delete(
+        `http://localhost:5000/admin/delete-user/${user._id}`,
+        user,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.data);
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user._id === response.data._id ? response.data : user
+        )
+      );
+      setSelectedUser(null);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
 
   const updateUser = async (updatedUser) => {
     try {
@@ -121,7 +131,7 @@ const ManageUser = () => {
     if (selectedUser && selectedUser._id === user._id) {
       return (
         <tr className="userInfox" key={user._id}>
-          <td className="userIdx">{user._id}</td>
+          <td className="userIdx">{user._id.slice(20, 25)}</td>
           <td className="userCreatedAtx">
             <label type="text">{formatDate(selectedUser.createdAt)}</label>
           </td>
@@ -132,7 +142,7 @@ const ManageUser = () => {
             <label>{selectedUser.username}</label>
           </td>
           <td className="userEmailx">
-          <label>{selectedUser.email}</label>
+            <label>{selectedUser.email}</label>
           </td>
           <td className="userRolex">
             <select
@@ -159,7 +169,7 @@ const ManageUser = () => {
     } else {
       return (
         <tr className="userInfox" key={user._id}>
-          <td className="userIdx">{user._id}</td>
+          <td className="userIdx">{user._id.slice(20, 25)}</td>{" "}
           <td className="userCreatedAtx">
             <label type="text">{formatDate(user.createdAt)}</label>
           </td>

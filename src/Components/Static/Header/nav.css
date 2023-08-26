@@ -1,0 +1,104 @@
+
+.menuToggle a {
+  text-decoration: none;
+  color: #232323;
+  transition: all 0.3s ease;
+}
+.menuToggle a:hover {
+  color: tomato;
+}
+.menuToggle input {
+  display: block;
+  width: 33px;
+  height: 33px;
+  position: absolute;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 10;
+  -webkit-touch-callout: none;
+}
+.menuToggle span {
+  position: relative;
+  display: block;
+  width: 33px;
+  height: 5px;
+  top: 0.7rem;
+  margin-bottom: 5px;
+  background: #cdcdcd;
+  border-radius: 3px;
+  z-index: 9;
+  transform-origin: 4px 0px;
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+}
+.menuToggle span:first-child {
+  transform-origin: 0% 0%;
+}
+.menuToggle span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+.menuToggle input:checked ~ span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background: #232323;
+}
+.menuToggle input:checked ~ span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+.menuToggle input:checked ~ span:nth-last-child(2) {
+  transform: rotate(-45deg) translate(0, -1px);
+}
+.menuToggle input:checked ~ .menuItem {
+  transform: none;
+}
+.menuItem {
+  position: absolute;
+  width: 250px;
+  padding: 50px;
+  z-index: 5;
+  padding-top: 125px;
+  background: #ededed;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  transform-origin: 0% 0%;
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+}
+.menuItem li {
+  padding: 10px 0;
+  font-size: 22px;
+}
+.menu--right .menuToggle {
+  opacity: 0;
+}
+.menu--right .menuItem {
+  right: 0;
+  margin: -100px 0 0 0;
+  transform: translate(100%, -100%);
+}
+.menu--right .menuItem li a:hover {
+  padding-left: 5px;
+}
+
+@keyframes text-slide-in {
+  0% {
+    -webkit-transform: translateX(100px);
+    -moz-transform: translateX(100px);
+    -ms-transform: translateX(100px);
+    -o-transform: translateX(100px);
+    transform: translateX(100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -o-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@media (max-width:820px){
+    .menu--right .menuToggle {
+        opacity: 1;
+    }
+}

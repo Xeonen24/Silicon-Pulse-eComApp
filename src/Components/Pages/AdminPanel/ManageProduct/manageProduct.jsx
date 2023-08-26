@@ -100,7 +100,7 @@ const ManageProduct = () => {
     if (product._id) {
       return (
         <tr className="productInfox" key={product._id}>
-          <td className="productIdx">{product._id}</td>
+          <td className="productIdx">{product._id.slice(20, 25)}</td>
           <td className="productCreatedAtx">
             <label type="text">{formatDate(product.createdAt)}</label>
           </td>

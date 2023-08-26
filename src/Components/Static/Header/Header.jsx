@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Navbar from "./Navbar";
 import "./header.css";
 
-function Navbar() {
+const Header = () => {
   const [expanded, setExpanded] = useState(false);
-  const [activeRoute, setActiveRoute] = useState(null);
+  const [activeRoute, setActiveRoute] = useState("/");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -33,133 +34,86 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-white bg-transparent nav-bar-all d-flex">
-      <div className="container">
-        <Link
-          className="navbar-brand"
-          onClick={() => setActiveRoute("/")}
-          to="/"
-        >
+    <div className="container">
+        <Link className="" onClick={() => setActiveRoute("/")} to="/">
           Silicon Pulse
         </Link>
-        <button
-          className={`navbar-toggler ${expanded ? "" : "collapsed"}`}
-          type="button"
-          onClick={toggleNavbar}
-          aria-expanded={expanded}
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className={`collapse navbar-collapse ${expanded ? "show" : ""}`}>
-          <ul className="navbar-nav">
-            <li className={`nav-item nav-comp`}>
-              <Link
-                to="/"
-                onClick={() => setActiveRoute("/")}
-                style={{ paddingLeft: "1rem", paddingRight: "1rem" }}
-                className={`nav-link ${activeRoute === "/" ? "active" : ""}`}
-              >
-                Home
-              </Link>
-            </li>
-            <li className={`nav-item nav-comp`}>
-              <Link
-                to="/product"
-                onClick={() => setActiveRoute("/product")}
-                style={{ paddingLeft: "1rem", paddingRight: "1rem" }}
-                className={`nav-link ${
-                  activeRoute === "/product" ? "active" : ""
-                }`}
-              >
-                Products
-              </Link>
-            </li>
-            <li className={`nav-item nav-comp`}>
-              <Link
-                to="/about"
-                onClick={() => setActiveRoute("/about")}
-                style={{ paddingLeft: "1rem", paddingRight: "1rem" }}
-                className={`nav-link ${
-                  activeRoute === "/about" ? "active" : ""
-                }`}
-              >
-                About
-              </Link>
-            </li>
-          </ul>
-          <ul className="navbar-nav ms-auto">
-            {isLoggedIn ? (
-              <Link
-                style={{ cursor: "pointer" }}
-                to="/profile"
-                className={`nav-link ${
-                  activeRoute === "/profile" ? "active" : ""
-                }`}
-                onClick={() => setActiveRoute("/profile")}
-              >
-                <li className="nav-link">
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    style={{
-                      color: "black",
-                      fontSize: "24px",
-                      paddingTop: "5px",
-                      paddingLeft: "1px",
-                    }}
-                  />
-                </li>
-              </Link>
-            ) : (
-              <>
-                <li
-                  style={{ cursor: "pointer" }}
-                  className={`nav-link ${
-                    activeRoute === "/login" ? "active" : ""
-                  }`}
-                  onClick={() => {
-                    setActiveRoute("/login");
-                    goTologin();
-                  }}
-                >
-                  <li className="nav-link">
-                    <FontAwesomeIcon
-                      icon={faUser}
-                      style={{
-                        color: "black",
-                        fontSize: "24px",
-                        paddingTop: "5px",
-                        paddingLeft: "1px",
-                      }}
-                    />
-                  </li>
-                </li>
-              </>
-            )}
-            <li className="nav-link">
-              <Link
-                to="/cart"
-                className={`nav-link ${
-                  activeRoute === "/cart" ? "active" : ""
-                }`}
-                onClick={() => setActiveRoute("/cart")}
-              >
-                <FontAwesomeIcon
-                  icon={faCartShopping}
-                  style={{
-                    color: "black",
-                    fontSize: "24px",
-                    paddingLeft: "1px",
-                    paddingTop: "5px",
-                    marginLeft: "1px",
-                  }}
-                />
-              </Link>
-            </li>
-          </ul>
+      <div className="headers">
+      
+        <ul className="navbar-nav">
+          <li className={`nav-item nav-comp`}>
+            <Link
+              to="/"
+              onClick={() => setActiveRoute("/")}
+              style={{ paddingLeft: "1rem", paddingRight: "1rem" }}
+              className={`nav-link ${activeRoute === "/" ? "active" : ""}`}
+            >
+              Home
+            </Link>
+          </li>
+          <li className={`nav-item nav-comp`}>
+            <Link
+              to="/product"
+              onClick={() => setActiveRoute("/product")}
+              style={{ paddingLeft: "1rem", paddingRight: "1rem" }}
+              className={`nav-link ${
+                activeRoute === "/product" ? "active" : ""
+              }`}
+            >
+              Products
+            </Link>
+          </li>
+          <li className={`nav-item nav-comp`}>
+            <Link
+              to="/about"
+              onClick={() => setActiveRoute("/about")}
+              style={{ paddingLeft: "1rem", paddingRight: "1rem" }}
+              className={`nav-link ${activeRoute === "/about" ? "active" : ""}`}
+            >
+              About
+            </Link>
+          </li>
+        </ul>
+        <div className="nav-right">
+          <Link
+            style={{ cursor: "pointer" }}
+            to="/profile"
+            className={`nav-links ${
+              activeRoute === "/profile" ? "active" : ""
+            }`}
+            onClick={() => setActiveRoute("/profile")}
+          >
+            <FontAwesomeIcon
+              icon={faUser}
+              style={{
+                color: "black",
+                fontSize: "24px",
+                paddingTop: "5px",
+                paddingLeft: "1px",
+              }}
+            />
+          </Link>
+          <Link
+            to="/cart"
+            style={{ marginRight: "0.6rem" }}
+            className={`nav-links ${activeRoute === "/cart" ? "active" : ""}`}
+            onClick={() => setActiveRoute("/cart")}
+          >
+            <FontAwesomeIcon
+              icon={faCartShopping}
+              style={{
+                color: "black",
+                fontSize: "24px",
+                paddingTop: "5px",
+                marginLeft: "1px",
+              }}
+            />
+          </Link>
+          <Navbar />
         </div>
       </div>
-    </nav>
+    </div>
   );
-}
+};
 
-export default Navbar;
+export default Header;

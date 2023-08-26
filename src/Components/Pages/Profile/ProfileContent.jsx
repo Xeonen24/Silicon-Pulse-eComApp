@@ -25,7 +25,6 @@ const ProfileContent = () => {
   const [showOrderPage, setShowOrderPage] = useState(false);
   const [loading, setLoading] = useState(true);
 
-
   const logoutUser = async () => {
     try {
       await axios.post(
@@ -48,7 +47,6 @@ const ProfileContent = () => {
     }
   };
 
-
   useEffect(() => {
     fetchRoleDetails();
     setshowProfileCont(true);
@@ -60,15 +58,17 @@ const ProfileContent = () => {
     setLoading(false);
   }, []);
 
-
   const fetchRoleDetails = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/admin/user-role", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:5000/admin/user-role",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setRoleDetails(response.data);
     } catch (error) {
       console.error(error);
@@ -121,7 +121,7 @@ const ProfileContent = () => {
       setshowManageOrder(true);
       setLoading(false);
     }, 150);
-  }
+  };
 
   const showOrderpage = async () => {
     setLoading(true);
@@ -151,9 +151,9 @@ const ProfileContent = () => {
     logoutUser,
     showOrderpage,
     showOrderPage,
-    showManageOrders
+    showManageOrders,
   };
-  
+
   const data2 = {
     settingsEditMode,
     setSettingsEditMode,
@@ -165,11 +165,8 @@ const ProfileContent = () => {
     setNewPassword,
     user,
     setLoading,
-    logoutUser
+    logoutUser,
   };
-  
-  
-
 
   return (
     <>
@@ -180,33 +177,28 @@ const ProfileContent = () => {
       ) : (
         <div>
           <div className="profile">
-                <SideNav data={data1} />
+            <SideNav data={data1} />
 
             <div className="main">
+              {showOrderPage && <OrderPage />}
 
-                {showOrderPage && (
-                  <OrderPage /> )}
-
-                {showProfileCont && (
-                  <MainProfile data={data2} /> 
-                )}
-                {showManageProds && (
-                  <>
-                    <ManageProduct />
-                  </>
-                )}
-                {showManageOrder && (
-                  <>
-                    <ManageOrders />
-                  </>
-                )}
-                {showManageuser && (
-                  <>
-                    <ManageUser />
-                  </>
-                )}
-           </div>
-
+              {showProfileCont && <MainProfile data={data2} />}
+              {showManageProds && (
+                <>
+                  <ManageProduct />
+                </>
+              )}
+              {showManageOrder && (
+                <>
+                  <ManageOrders />
+                </>
+              )}
+              {showManageuser && (
+                <>
+                  <ManageUser />
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}

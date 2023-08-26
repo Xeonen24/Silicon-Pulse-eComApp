@@ -1,41 +1,61 @@
+/* Base styles */
 .user-List {
-    margin-top: 2rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    justify-content: center;
-    align-items: center;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+}
+
+thead {
+  background-color: rgba(0, 0, 0, 0.116);
+}
+
+th {
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #00000011;
+}
+
+.userDeletex, .userEditx {
+  background-color: var(--aplared);
+  width: auto;
+  cursor: pointer;
+  transition: background-color 0.25s ease-in-out;
+}
+
+.userDeletex:hover, .userEditx:hover {
+  background-color: rgba(255, 0, 0, 0.6);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  /* Adjustments for screens with a max width of 768px */
+  .user-List {
+    margin: 1rem;
   }
-  
+
   table {
-    width: 100%;
-    border-collapse: separate;
-    border: 1px solid black;
+    font-size: 14px; /* Decrease font size for smaller screens */
   }
-  
+
   th, td {
-    padding: 10px;
-    text-align: center;
-  }
-  
-  thead {
-    background-color: rgba(0, 0, 0, 0.116);
-  }
-  
-  th {
-    font-weight: bold;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #00000011;
+    padding: 8px; /* Smaller padding for smaller screens */
   }
 
-  .userDeletex,.userEditx{
-    background-color: var(--aplared);
-    width: AUTO;
-    cursor: pointer;
-    transition: all 0.25s ease-in-out;
+  .userDeletex, .userEditx {
+    font-size: 12px; /* Decrease button font size for smaller screens */
   }
-
-  .userDeletex:hover,.userEditx:hover{
-  background-color: rgba(255, 0, 0, 0.6) !important;
 }

@@ -72,9 +72,6 @@ hr {
 }
 
 .main .card {
-  background-color: #fff;
-  border-radius: 18px;
-  box-shadow: 1px 1px 8px 0 grey;
   height: 520px;
 }
 
@@ -111,17 +108,19 @@ hr {
   .sidenavborder {
     padding: 1rem;
   }
-  .profile {
-    top: -1;
-  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 520px) {
   .mainh2 {
     font-size: 20px;
   }
-
   .main .card {
     height: auto;
+  }
+  .sidenavborder {
+    padding: 0.2rem;
+  }
+  .profile{
+    width: 70%;
   }
 }
