@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./Components/Pages/Home";
-import Footer from "./Components/Static/Footer/Footer";
 import Profile from "./Components/Pages/Profile/Profile";
 import Header from "./Components/Static/Header/Header";
 import Product from "./Components/Pages/Product/Product";
@@ -20,6 +19,7 @@ import About from "./Components/Pages/About/About";
 
 const App = () => {
   return (
+    <div className="wrapper">
     <Router>
       <Header />
       <ToastContainer />
@@ -40,6 +40,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
       </Routes>
     </Router>
+    </div>
   );
 };
 

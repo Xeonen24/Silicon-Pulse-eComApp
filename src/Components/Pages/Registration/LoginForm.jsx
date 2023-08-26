@@ -104,6 +104,7 @@ const LoginForm = () => {
         </div>
       ) : (
         <>
+        <div className="wrapperL">
           <div className="fbLoginForm">
             <div className="fbLoginFormContainer">
               <h2 className="fbLoginFormTitle">Login</h2>
@@ -134,6 +135,7 @@ const LoginForm = () => {
               </Link>
             </div>
           </div>
+        </div>
         </>
       )}
     </>

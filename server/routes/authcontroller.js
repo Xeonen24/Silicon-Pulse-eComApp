@@ -7,7 +7,7 @@ const mailSender = require('../midddleware/mailSender');
 
 const router = express.Router();
 
-router.post("/signup", asyncHandler(async (req, res) => {
+  router.post("/signup", asyncHandler(async (req, res) => {
     const { username, email, password, password2 } = req.body;
     if (!username || !email || !password || !password2) {
       return res.status(403).json({ error: "Please fill in all details" });
@@ -58,7 +58,7 @@ router.post("/signup", asyncHandler(async (req, res) => {
           await userSignin.save();
           res.header("Access-Control-Allow-Credentials", true);
           res.cookie("jwtoken", token, {
-            maxAge: 99999999999,
+            maxAge: 2 * 24 * 60 * 60 * 1000,
             httpOnly: false,
             SameSite: "Lax",
             secure: false,

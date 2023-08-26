@@ -1,5 +1,9 @@
 /* LoginForm.css */
 
+.wrapperL{
+  height: 70vh;
+}
+
 .fbLoginForm {
     display: flex;
     flex-direction: column;

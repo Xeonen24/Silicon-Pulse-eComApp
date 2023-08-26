@@ -87,7 +87,8 @@ const Signup = () => {
           </p>
         </>
       ) : (
-        <div className="signup-box">
+        <div className="wrapperL">
+          <div className="signup-box">
           <form className="signup-form" onSubmit={handleFormSubmit}>
             <h2 className="fbLoginFormTitle">Register</h2>
             <label>Username</label>
@@ -130,6 +131,7 @@ const Signup = () => {
               Already have an account? <span style={{color:'blue'}}>Click here.</span>
             </Link>
           </form>
+          </div>
         </div>
       )}
     </>
