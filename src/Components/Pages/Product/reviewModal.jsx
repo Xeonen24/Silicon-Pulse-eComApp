@@ -107,7 +107,7 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId, mode , editData }
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div
           className="review-dialog-content"
-          style={{ width: "500px", height: "500px", padding: "2rem" }}
+          style={{ width: "500px", height: "550px", padding: "2rem" }}
         >
           <Typography variant="h4">
             {mode === "edit" ? "Edit Review" : "Add Rating"}
@@ -127,25 +127,25 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId, mode , editData }
             value={newReview}
             onChange={handleReviewChange}
             multiline
-            rows={4}
+            rows={10}
           />
           <div className="dialog-buttons">
             {mode === "edit" ? (
-              <Button  style={{padding: "1rem",fontSize:'1rem'}} className="dialog-button" onClick={handleEditReview}>
+              <button className="ascdscbut" style={{width:"10rem"}} onClick={handleEditReview}>
                 Edit Review
-              </Button>
+              </button>
             ) : (
-              <Button style={{padding: "1rem",fontSize:'1rem'}} className="dialog-button" onClick={handleAddRating}>
+              <button className="ascdscbut" style={{width:"8rem",fontSize:'1rem'}}  onClick={handleAddRating}>
                 Add Rating
-              </Button>
+              </button>
             )}
-            <Button
-              className="dialog-button"
-              style={{padding: "1rem",fontSize:'1rem'}}
+            <button
+              className="ascdscbut"
+              style={{width: "8rem",fontSize:'1rem'}}
               onClick={() => setIsModalOpen(false)}
             >
               Cancel
-            </Button>
+            </button>
           </div>
         </div>
       </Dialog>

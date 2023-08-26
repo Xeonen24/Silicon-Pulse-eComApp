@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const validator = require('validator');
 const auth = require('../midddleware/auth');
 const USER = require('../model/user');
+const mailSender = require('../midddleware/mailSender');
 
 const router = express.Router();
 
@@ -129,6 +130,28 @@ router.post("/signup", asyncHandler(async (req, res) => {
     }
   });
 
+  router.post("/send-mail", asyncHandler(async (req, res) => {
+    try {
+      const { msg } = req.body;
+  
+      // Construct the email template
+      const emailTemplate = `
+        <p><strong>Name:</strong> ${msg.name}</p>
+        <p><strong>Email:</strong> ${msg.email}</p>
+        <p><strong>Message:</strong> ${msg.message}</p>
+      `;
+  
+      // Send the email
+      const mailres = await mailSender("captainsparkelz32@gmail.com", "Customer Email", emailTemplate);
+  
+      if (mailres) {
+        return res.status(200).json({ message: "Email sent successfully!" });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Internal server error in mail send" });
+    }
+  }));
+
   module.exports = router;
 
-  
