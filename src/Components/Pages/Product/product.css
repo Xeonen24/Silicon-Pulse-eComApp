@@ -64,12 +64,6 @@
     color: black;
 }
 
-.categories {
-    display: flex;
-    align-items: center;
-    padding: 1rem 2rem;
-  }
-  
   .category {
     cursor: pointer;
     padding: 0.5rem 1rem;
@@ -127,3 +121,111 @@
     box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.208);  
   }
   
+  @media (max-width: 768px) {
+  .grid {
+    padding:1rem;
+    margin: 0;
+    margin-top: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Adjust item width for very small screens */
+@media (max-width: 480px) {
+  .item-add-to-cart, .item-out-of-stock {
+    width: 100%;
+  }
+}
+
+/* Adjust font size for small screens */
+@media (max-width: 576px) {
+  .item-title {
+    font-size: 1.1rem;
+  }
+  .grid{
+    padding: 1.2rem;
+    grid-template-columns: repeat(1,1fr);
+  }
+}
+
+
+/* Adjust category spacing for small screens */
+@media (max-width: 768px) {
+  .category-dropdown {
+    padding: 0.5rem 1rem;
+  }
+  .ascdscbut {
+    width: auto;
+  }
+}
+
+/* Adjust pagination margin for small screens */
+@media (max-width: 768px) {
+  .pagination {
+    margin: 1rem;
+  }
+}
+
+.category-dropdown {
+  position: relative;
+  margin-left: 1rem;
+  padding: 0.5rem;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.selected-category {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--aplared);
+  color: var(--aplared);
+  border-radius: 7px;
+  transition: all 0.3s ease-in-out;
+}
+
+.category-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid var(--aplared);
+  border-top: none;
+  border-radius:5px;
+  display: none;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.category-option {
+  padding: 0.5rem 1rem;
+  color: var(--aplared);
+  transition: all 0.35s ease-in-out;
+  cursor: pointer;
+}
+
+.category-option:hover {
+  background-color: var(--aplared);
+  color: white;
+}
+
+.category-option.active {
+  background-color: var(--aplared);
+  color: white;
+}
+
+.category-dropdown:hover .category-options {
+  display: flex;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

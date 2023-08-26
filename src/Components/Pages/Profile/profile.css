@@ -1,103 +1,127 @@
- .sidenav {
-     background-color: #fff;
-     color: #333;
-     width: 10%;
- }
+.sidenav {
+  background-color: #fff;
+  color: #333;
+  width: 10%;
+}
 
- .sidenavborder {
-     border: 1px solid black;
-     border-bottom-right-radius: 25px;
-     border-top-right-radius: 25px;
-     padding: 2rem 2rem 2rem 2rem;
-     box-shadow: #0000003a 5px 5px 10px 0px;
- }
+.sidenavborder {
+  border: 1px solid black;
+  border-bottom-right-radius: 25px;
+  border-top-right-radius: 25px;
+  padding: 2rem 2rem 2rem 2rem;
+  box-shadow: #0000003a 5px 5px 10px 0px;
+}
 
- .profile {
-     display: flex;
-     transition: all 0.3s ease-in-out;
-     top: -100px;
-     position: relative;
-     padding-top: 2rem;
- }
+.profile {
+  display: flex;
+  transition: all 0.3s ease-in-out;
+  top: -100px;
+  position: relative;
+  padding-top: 2rem;
+}
 
- .alpesNoob-img {
-     border-radius: 50%;
-     box-shadow: 0px 0px 5px 1px grey;
-     left:0px;
-     top:25px;
-     position: absolute;
- }
+.alpesNoob-img {
+  border-radius: 50%;
+  box-shadow: 0px 0px 5px 1px grey;
+  left: 0px;
+  top: 25px;
+  position: absolute;
+}
 
- .name {
-     font-size: 23px;
-     font-weight: bold;
-     margin-left: 6px;
- }
+.name {
+  font-size: 23px;
+  font-weight: bold;
+  margin-left: 6px;
+}
 
- .url,
- hr {
-     text-align: center;
- }
+.url,
+hr {
+  text-align: center;
+}
 
- .url a {
-     color: black;
-     display: block;
-     font-size: 20px;
-     padding: 6px 8px;
-     text-decoration: none;
-     width: 100%;
-     margin-top: 2rem;
- }
+.url a {
+  color: black;
+  display: block;
+  font-size: 20px;
+  padding: 6px 8px;
+  text-decoration: none;
+  width: 100%;
+  margin-top: 2rem;
+}
 
- .url a:hover,
- .url .active {
-     background-color: var(--aplared);
-     border-radius: 28px;
-     transform: scale(1.1);
-     color: #000;
- }
+.url a:hover,
+.url .active {
+  background-color: var(--aplared);
+  border-radius: 28px;
+  transform: scale(1.1);
+  color: #000;
+}
 
- .main {
-     width: 100%;
-     display: flex;
-     justify-content: center;
- }
+.main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
- .mainh2 {
-     color: #333;
-     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-     font-size: 25px;
-     text-align: center;
-     padding-top: 1rem;
- }
+.mainh2 {
+  color: #333;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 25px;
+  text-align: center;
+  padding-top: 1rem;
+}
 
- .main .card {
-     background-color: #fff;
-     border-radius: 18px;
-     box-shadow: 1px 1px 8px 0 grey;
-     height: 520px;
- }
+.main .card {
+  background-color: #fff;
+  border-radius: 18px;
+  box-shadow: 1px 1px 8px 0 grey;
+  height: 520px;
+}
 
- .submitprofilebut {
-     background-color: gray;
-     color: #fff;
-     font-size: 20px;
-     border: none;
-     border-radius: 4px;
-     pointer-events: none;
-     transition: all 0.2s ease-in-out;
-     box-shadow: #0049976e 6px 6px 10px 0px;
- }
+.submitprofilebut {
+  background-color: gray;
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  border-radius: 4px;
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
+  box-shadow: #0049976e 6px 6px 10px 0px;
+}
 
- .listofform{
-    transition: all 0.2s ease-in-out;
-    color: black;
-    text-decoration: none;
-    font-size: 18px;
-    z-index: 1;
-    pointer-events: all;
+.listofform {
+  transition: all 0.2s ease-in-out;
+  color: black;
+  text-decoration: none;
+  font-size: 18px;
+  pointer-events: all;
+}
+
+.listofform:hover {
+  color: var(--aplared);
+}
+
+@media (max-width: 768px) {
+  .sidenav {
+    width: auto;
+  }
+  .alpesNoob-img {
+    top: 40px;
+  }
+  .sidenavborder {
+    padding: 1rem;
+  }
+  .profile {
+    top: -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainh2 {
+    font-size: 20px;
   }
 
-  .listofform:hover{
-    color: var(--aplared);
+  .main .card {
+    height: auto;
   }
+}

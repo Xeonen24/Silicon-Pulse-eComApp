@@ -1,10 +1,11 @@
 /* OrderPage.css */
 
-  .order-page {
-        padding: 20px;
-        width: 1280px;
-    }
-  
+.order-page {
+  padding: 20px;
+  width: 100%; /* Use full width for smaller screens */
+  max-width: 1280px; /* Add a max-width to avoid excessive stretching */
+  margin: 0 auto; /* Center the content horizontally */
+}
   .order-heading {
     font-size: 40px;
     font-weight: bold;
@@ -247,4 +248,48 @@ details.learn-more:active {
 
 details.learn-more:active::before {
   transform: translate3d(0, 0, -1em);
+}
+
+
+@media (max-width: 768px) {
+
+  .order-heading {
+      font-size: 30px;
+      margin-bottom: 20px;
+  }
+
+  .order-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 10px;
+  }
+
+  .order-card {
+      padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .order-heading {
+      font-size: 25px;
+      margin-bottom: 15px;
+  }
+
+  .order-card {
+      padding: 10px;
+  }
+
+  .order_date,
+  .total-price,
+  .view-items,
+  .prod_title,
+  .prod_price,
+  .prod_quantity,
+  .total-price-drop {
+      font-size: 1rem;
+      margin-left: 0;
+      margin-top: 0; 
+  }
+
 }

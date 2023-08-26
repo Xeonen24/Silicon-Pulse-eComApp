@@ -35,7 +35,11 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-white bg-transparent nav-bar-all d-flex">
       <div className="container">
-        <Link className="navbar-brand" to="/">
+        <Link
+          className="navbar-brand"
+          onClick={() => setActiveRoute("/")}
+          to="/"
+        >
           Silicon Pulse
         </Link>
         <button
@@ -86,6 +90,7 @@ function Navbar() {
           <ul className="navbar-nav ms-auto">
             {isLoggedIn ? (
               <Link
+                style={{ cursor: "pointer" }}
                 to="/profile"
                 className={`nav-link ${
                   activeRoute === "/profile" ? "active" : ""
@@ -107,6 +112,7 @@ function Navbar() {
             ) : (
               <>
                 <li
+                  style={{ cursor: "pointer" }}
                   className={`nav-link ${
                     activeRoute === "/login" ? "active" : ""
                   }`}

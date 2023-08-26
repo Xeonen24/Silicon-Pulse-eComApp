@@ -76,14 +76,21 @@ const Product = () => {
     setSelectedCategory(category || "");
   }, [location.search]);
 
-  const handleCategoryChange = (event) => {
+  const handleCategoryChange = (categoryId) => {
     setLoading(true);
 
     setTimeout(() => {
-      setSelectedCategory(event.target.value);
+      setSelectedCategory(categoryId);
       setCurrentPage(1);
       setLoading(false);
     }, 150);
+  };
+
+  const getSelectedCategoryTitle = (categoryId) => {
+    const selectedCategoryObject = categories.find(
+      (category) => category._id === categoryId
+    );
+    return selectedCategoryObject ? selectedCategoryObject.title : "";
   };
 
   const handleCloseModal = () => {
@@ -191,26 +198,41 @@ const Product = () => {
         </div>
       ) : (
         <>
-          <div className="categories">
-            <div
-              className={`category ${selectedCategory === "" ? "active" : ""}`}
-              onClick={() => handleCategoryChange({ target: { value: "" } })}
-            >
-              All Categories
+          <div class="category-dropdown">
+            <div class="selected-category">
+              {selectedCategory === ""
+                ? "All Categories"
+                : getSelectedCategoryTitle(selectedCategory)}
             </div>
-            {categories.map((category) => (
+            <div class="category-options">
               <div
-                key={category._id}
-                className={`category ${selectedCategory === category._id ? "active" : ""
-                  }`}
-                onClick={() =>
-                  handleCategoryChange({ target: { value: category._id } })
-                }
+                class={`category-option ${
+                  selectedCategory === "" ? "active" : ""
+                }`}
+                onClick={() => {
+                  if (selectedCategory !== "") {
+                    handleCategoryChange("");
+                  }
+                }}
               >
-                {category.title}
+                All Categories
               </div>
-            ))}
+              <div>
+                {categories.map((category) => (
+                  <div
+                    key={category._id}
+                    class={`category-option ${
+                      selectedCategory === category._id ? "active" : ""
+                    }`}
+                    onClick={() => handleCategoryChange(category._id)}
+                  >
+                    {category.title}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
+
           <div className="sort-buttons">
             <button
               className={`ascdscbut ${sortOrder === "asc" ? "active" : ""}`}
@@ -227,7 +249,6 @@ const Product = () => {
               Price High to Low
             </button>
           </div>
-
 
           {productLoading ? (
             <div className="grid">
