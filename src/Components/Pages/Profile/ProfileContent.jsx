@@ -28,7 +28,7 @@ const ProfileContent = () => {
   const logoutUser = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/auth/logout",
+        process.URL + "/auth/logout",
         {},
         {
           withCredentials: true,
@@ -61,7 +61,7 @@ const ProfileContent = () => {
   const fetchRoleDetails = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/admin/user-role",
+        process.URL + "/admin/user-role",
         {
           withCredentials: true,
           headers: {

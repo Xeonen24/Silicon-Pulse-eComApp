@@ -44,7 +44,7 @@ const Home = () => {
   const checkLogin = async () => {
     setTimeout(async () => {
       try {
-        const response = await axios.get("http://localhost:5000/auth/user", {
+        const response = await axios.get( process.URL + "/auth/user", {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const Home = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/products/discounted-product",
+        process.URL + "products/discounted-product",
         {
           withCredentials: true,
           headers: {

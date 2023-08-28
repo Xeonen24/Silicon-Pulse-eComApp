@@ -18,7 +18,7 @@ const ProductReviews = ({ product , setReviewModal , setMode , setEditData }) =>
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/auth/user", {
+        const res = await axios.get(process.URL + "/auth/user", {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",

@@ -34,7 +34,7 @@ const MainProfile = (props) => {
     };
     try {
       await axios.post(
-        "http://localhost:5000/auth/update-profile",
+        process.URL + "/auth/update-profile",
         updatedProfile,
         {
           withCredentials: true,

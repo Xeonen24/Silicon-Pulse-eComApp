@@ -41,7 +41,7 @@ const ProductPage = () => {
   const getRatingofProduct = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/products/getSpecRating/${id}`
+        process.URL + `/products/getSpecRating/${id}`
       );
       setProductRating(res.data);
     } catch (error) {
@@ -53,7 +53,7 @@ const ProductPage = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:5000/products/product-with-ratings/${id}`
+        process.URL + `/products/product-with-ratings/${id}`
       );
       setProduct(response.data);
       setLoading(false);
@@ -64,7 +64,7 @@ const ProductPage = () => {
 
   const checkLogin = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/auth/user", {
+      const response = await axios.get(process.URL + "/auth/user", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -91,7 +91,7 @@ const ProductPage = () => {
     } else {
       axios
         .post(
-          "http://localhost:5000/cart/cart/add",
+          process.URL + "/cart/cart/add",
           {
             productId: productId,
             quantity: 1,

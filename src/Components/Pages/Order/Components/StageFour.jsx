@@ -7,7 +7,7 @@ const StageFour = ({address,handleBackStage,cartItems,totalPrice,paymentMethod})
 
   const clearCart = async () => {
     try {
-      await axios.delete(`http://localhost:5000/cart/cart/remove-all`, {
+      await axios.delete(process.URL + `/cart/cart/remove-all`, {
         withCredentials: true,
       });
     } catch (error) {
@@ -37,7 +37,7 @@ const StageFour = ({address,handleBackStage,cartItems,totalPrice,paymentMethod})
         handler: async function (response) {
           try {
             const addressResponse = await axios.post(
-              "http://localhost:5000/order/saveaddress",
+              process.URL + "/order/saveaddress",
               addressData,
               {
                 withCredentials: true,
@@ -56,7 +56,7 @@ const StageFour = ({address,handleBackStage,cartItems,totalPrice,paymentMethod})
             };
 
             const res = await axios.post(
-              "http://localhost:5000/order/makeorder",
+              process.URL + "/order/makeorder",
               orderData,
               {
                 withCredentials: true,

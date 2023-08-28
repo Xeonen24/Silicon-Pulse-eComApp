@@ -12,7 +12,7 @@ const ManageOrders = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/admin/get-orders', {
+      const res = await axios.get(process.URL + "/admin/get-orders", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -20,7 +20,7 @@ const ManageOrders = () => {
       });
       setOrders(res.data);
 
-      const usersRes = await axios.get('http://localhost:5000/admin/get-users', {
+      const usersRes = await axios.get(process.URL + "admin/get-users", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +40,7 @@ const ManageOrders = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:5000/admin/update-shipping/${orderId}`,
+        process.URL + `/admin/update-shipping/${orderId}`,
         { shipped: newStatus },
         {
           withCredentials: true,

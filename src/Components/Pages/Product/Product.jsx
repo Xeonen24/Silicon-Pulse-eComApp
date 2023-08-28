@@ -35,7 +35,7 @@ const Product = () => {
 
   const checkLogin = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/auth/user", {
+      const response = await axios.get(process.URL + "/auth/user", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -51,8 +51,8 @@ const Product = () => {
   useEffect(() => {
     axios
       .all([
-        axios.get("http://localhost:5000/products/categories"),
-        axios.get("http://localhost:5000/products/products"),
+        axios.get(process.URL + "/products/categories"),
+        axios.get(process.URL + "/products/products"),
       ])
       .then(
         axios.spread((categoriesResponse, productsResponse) => {
@@ -107,7 +107,7 @@ const Product = () => {
     } else {
       axios
         .post(
-          "http://localhost:5000/cart/cart/add",
+          process.URL + "/cart/cart/add",
           {
             productId: productId,
             quantity: 1,
