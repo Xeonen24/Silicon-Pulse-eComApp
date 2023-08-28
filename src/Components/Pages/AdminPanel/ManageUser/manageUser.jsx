@@ -17,7 +17,7 @@ const ManageUser = () => {
   const fetchRoleDetails = async () => {
     try {
       const response = await axios.get(
-        process.URL + "/admin/user-role",
+        process.env.REACT_APP_URL + "/admin/user-role",
         {
           withCredentials: true,
           headers: {
@@ -45,7 +45,7 @@ const ManageUser = () => {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
-        process.URL + "/admin/get-users",
+        process.env.REACT_APP_URL + "/admin/get-users",
         {
           withCredentials: true,
           headers: {
@@ -75,7 +75,7 @@ const ManageUser = () => {
   const deleteUser = async (user) => {
     try {
       const response = await axios.delete(
-        process.URL + `/admin/delete-user/${user._id}`,
+        process.env.REACT_APP_URL + `/admin/delete-user/${user._id}`,
         user,
         {
           withCredentials: true,
@@ -100,7 +100,7 @@ const ManageUser = () => {
   const updateUser = async (updatedUser) => {
     try {
       const response = await axios.put(
-        process.URL + `/admin/update-user/${updatedUser._id}`,
+        process.env.REACT_APP_URL + `/admin/update-user/${updatedUser._id}`,
         updatedUser,
         {
           withCredentials: true,

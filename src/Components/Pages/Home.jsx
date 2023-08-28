@@ -41,10 +41,12 @@ const Home = () => {
     getDiscountedProducts();
   }, []);
 
+  console.log(process.env.REACT_APP_URL)
+
   const checkLogin = async () => {
     setTimeout(async () => {
       try {
-        const response = await axios.get( process.URL + "/auth/user", {
+        const response = await axios.get( process.env.REACT_APP_URL + "/auth/user", {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +67,7 @@ const Home = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        process.URL + "products/discounted-product",
+        process.env.REACT_APP_URL + "/products/discounted-product",
         {
           withCredentials: true,
           headers: {

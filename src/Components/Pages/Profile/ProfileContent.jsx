@@ -28,7 +28,7 @@ const ProfileContent = () => {
   const logoutUser = async () => {
     try {
       await axios.post(
-        process.URL + "/auth/logout",
+        process.env.REACT_APP_URL + "/auth/logout",
         {},
         {
           withCredentials: true,
@@ -61,7 +61,7 @@ const ProfileContent = () => {
   const fetchRoleDetails = async () => {
     try {
       const response = await axios.get(
-        process.URL + "/admin/user-role",
+        process.env.REACT_APP_URL + "/admin/user-role",
         {
           withCredentials: true,
           headers: {

@@ -42,7 +42,7 @@ const AddProduct = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get(process.URL + "/products/categories");
+      const response = await axios.get(URL + "/products/categories");
       console.log(response.data);
       setCategories(response.data);
     } catch (error) {
@@ -69,7 +69,7 @@ const AddProduct = () => {
       formData.append("image", imageFile); // Append the selected image to the formData
   
       const response = await axios.post(
-        "http://localhost:5000/admin/add-product",
+        URL + "/admin/add-product",
         formData,
         {
           withCredentials: true,
@@ -101,7 +101,7 @@ const AddProduct = () => {
 
   const fetchRoleDetails = async () => {
     try {
-      const response = await axios.get(process.URL + "/admin/user-role", {
+      const response = await axios.get(URL + "/admin/user-role", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

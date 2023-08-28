@@ -23,7 +23,7 @@ const About = () => {
 
     try {
       const response = await axios.post(
-        process.URL + "/auth/send-mail",
+        process.env.REACT_APP_URL + "/auth/send-mail",
         {
           msg: formData,
         },

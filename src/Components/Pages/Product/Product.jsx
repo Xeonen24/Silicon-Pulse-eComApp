@@ -35,7 +35,7 @@ const Product = () => {
 
   const checkLogin = async () => {
     try {
-      const response = await axios.get(process.URL + "/auth/user", {
+      const response = await axios.get(process.env.REACT_APP_URL + "/auth/user", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -51,8 +51,8 @@ const Product = () => {
   useEffect(() => {
     axios
       .all([
-        axios.get(process.URL + "/products/categories"),
-        axios.get(process.URL + "/products/products"),
+        axios.get(process.env.REACT_APP_URL + "/products/categories"),
+        axios.get(process.env.REACT_APP_URL + "/products/products"),
       ])
       .then(
         axios.spread((categoriesResponse, productsResponse) => {
@@ -107,7 +107,7 @@ const Product = () => {
     } else {
       axios
         .post(
-          process.URL + "/cart/cart/add",
+          process.env.REACT_APP_URL + "/cart/cart/add",
           {
             productId: productId,
             quantity: 1,
@@ -198,15 +198,15 @@ const Product = () => {
         </div>
       ) : (
         <>
-          <div class="category-dropdown">
-            <div class="selected-category">
+          <div className="category-dropdown">
+            <div className="selected-category">
               {selectedCategory === ""
                 ? "All Categories"
                 : getSelectedCategoryTitle(selectedCategory)}
             </div>
-            <div class="category-options">
+            <div className="category-options">
               <div
-                class={`category-option ${
+                className={`category-option ${
                   selectedCategory === "" ? "active" : ""
                 }`}
                 onClick={() => {
@@ -221,7 +221,7 @@ const Product = () => {
                 {categories.map((category) => (
                   <div
                     key={category._id}
-                    class={`category-option ${
+                    className={`category-option ${
                       selectedCategory === category._id ? "active" : ""
                     }`}
                     onClick={() => handleCategoryChange(category._id)}

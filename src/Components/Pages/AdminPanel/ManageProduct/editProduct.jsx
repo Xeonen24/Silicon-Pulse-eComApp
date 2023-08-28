@@ -23,7 +23,7 @@ const EditProduct = ({productId}) => {
   const getProduct = async () => {
     try {
       const response = await axios.get(
-        process.URL + `/products/products/${productId}`
+        process.env.REACT_APP_URL + `/products/products/${productId}`
       );
       setData(response.data);
     } catch (error) {
@@ -37,7 +37,7 @@ const EditProduct = ({productId}) => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get(process.URL + "products/categories");
+      const response = await axios.get(process.env.REACT_APP_URL + "/products/categories");
       setCategories(response.data);
     } catch (error) {
       toast.error("Failed to fetch categories", {
@@ -51,7 +51,7 @@ const EditProduct = ({productId}) => {
   const updateProduct = async () => {
     try {
       await axios.put(
-        process.URL + `/admin/update-product/${productId}`,
+        process.env.REACT_APP_URL + `/admin/update-product/${productId}`,
         data
       );
       toast.success("Product updated successfully", {
@@ -69,7 +69,7 @@ const EditProduct = ({productId}) => {
 
   const fetchRoleDetails = async () => {
     try {
-      const response = await axios.get(process.URL + "/admin/user-role", {
+      const response = await axios.get(process.env.REACT_APP_URL + "/admin/user-role", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

@@ -36,7 +36,7 @@ const Signup = () => {
         },
       };
       const response = await axios.post(
-        process.URL + "/auth/signup",
+        URL + "/auth/signup",
         {
           username,
           email,
