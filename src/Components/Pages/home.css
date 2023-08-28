@@ -119,3 +119,103 @@
     font-weight: 600;
 }
 
+.Footer-div{
+    margin-top: 100px;
+}
+
+
+/* Add this to your existing home.css or create a new CSS file */
+
+/* Benefits Section */
+.benefits-section {
+    padding: 50px 0;
+    background-color: #f8f8f8;
+    text-align: center;
+  }
+  
+  .benefit-card {
+    display: inline-block;
+    width: 30%;
+    margin: 0 2%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .benefit-icon {
+    font-size: 30px;
+    color: #4285f4;
+    margin-bottom: 15px;
+  }
+  
+  .benefit-text h3 {
+    margin-top: 0;
+    font-size: 18px;
+  }
+  
+  .benefit-text p {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  /* Adjust these styles as needed for responsiveness */
+  @media (max-width: 768px) {
+    .benefit-card {
+      width: 100%;
+      margin: 0 0 20px;
+    }
+  }
+
+/* Category Section */
+.category-section {
+    padding: 50px 0;
+    text-align: center;
+    width: 80%;
+    margin: auto;
+  }
+  
+  .section-heading {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+    height: 100%;
+  }
+  
+  .category-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .category-image {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto 15px;
+    border-radius: 5px;
+  }
+  
+  .category-title {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+    font-weight: 900;
+  }
+  
