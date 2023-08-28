@@ -20,7 +20,7 @@ const ManageOrders = () => {
       });
       setOrders(res.data);
 
-      const usersRes = await axios.get(process.env.REACT_APP_URL + "admin/get-users", {
+      const usersRes = await axios.get(process.env.REACT_APP_URL + "/admin/get-users", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
