@@ -83,6 +83,7 @@ const router = express.Router();
     res.status(200).json({ message: "User signed out" });
   });
 
+  
   router.get("/user", auth, async (req, res) => {
     try {
       const user = await USER.findById(req.userID).select('-password -password2');
