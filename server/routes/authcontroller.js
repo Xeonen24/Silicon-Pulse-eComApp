@@ -56,7 +56,6 @@ const router = express.Router();
           token = await userSignin.generateAuthToken();
           userSignin.tokens.push({ token });
           await userSignin.save();
-          res.header("Access-Control-Allow-Credentials", true);
           res.cookie("jwtoken", token, {
             maxAge: 2 * 24 * 60 * 60 * 1000,
             httpOnly: false,
