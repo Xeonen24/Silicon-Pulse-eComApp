@@ -120,16 +120,6 @@ const router = express.Router();
     }
   }));
   
-  router.get("/user", auth, async (req, res) => {
-    try {
-      const user = await USER.findById(req.userID).select('-password -password2');
-      res.json(user);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  });
-
   router.post("/send-mail", asyncHandler(async (req, res) => {
     try {
       const { msg } = req.body;
