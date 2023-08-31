@@ -77,7 +77,7 @@ const router = express.Router();
   router.post('/logout', async (req, res) => {
     res.clearCookie("jwtoken", {
       path: '/',
-      domain: 'localhost'
+      domain: 'silicon-pulse-e-com-app.vercel.app'
     });
     res.status(200).json({ message: "User signed out" });
   });
