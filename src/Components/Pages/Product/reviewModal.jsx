@@ -29,7 +29,7 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId, mode , editData }
     setLoading(true);
     try {
       await axios.post(
-        `http://localhost:5000/products/post-rating/${productId}`,
+        process.env.REACT_APP_URL + `/products/post-rating/${productId}`,
         {
           rating: newRating,
           review: newReview,
@@ -75,7 +75,7 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId, mode , editData }
     setLoading(true);
     try {
       await axios.put(
-        `http://localhost:5000/products/update-rating/${productId}`,
+        process.env.REACT_APP_URL + `/products/update-rating/${productId}`,
         {
           rating: newRating,
           review: newReview,

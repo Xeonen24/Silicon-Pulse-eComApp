@@ -8,30 +8,30 @@ const StageThree = ({paymentMethod,handlePaymentChange,handleNextStage,handleBac
       >
         Select Payment Method
       </h2>
-      <div class="payment-options">
-        <label className="form-label" class="pure-material-radio">
+      <div className="payment-options">
+        <label className="form-label pure-material-radio">
           <input
             type="radio"
             name="group"
             value="RazorPay"
-            class="payment-option-input"
+            className="payment-option-input"
             checked={paymentMethod === "RazorPay"}
             onChange={handlePaymentChange}
           />
-          <span class="payment-option-label">RazorPay</span>
+          <span className="payment-option-label">RazorPay</span>
         </label>
         <br />
         <br />
-        <label className="form-label" class="pure-material-radio">
+        <label className="form-label pure-material-radio">
           <input
             type="radio"
             name="group"
             value="Cash on Delivery"
-            class="payment-option-input"
+            className="payment-option-input"
             checked={paymentMethod === "Cash on Delivery"}
             onChange={handlePaymentChange}
           />
-          <span class="payment-option-label">Cash on Delivery</span>
+          <span className="payment-option-label">Cash on Delivery</span>
         </label>
       </div>
 

@@ -3,13 +3,13 @@ import "./nav.css";
 
 const Navbar = () => {
   return (
-    <nav class="menu--right" role="navigation">
-      <div class="menuToggle">
+    <nav className="menu--right" role="navigation">
+      <div className="menuToggle">
         <input type="checkbox" />
         <span></span>
         <span></span>
         <span></span>
-        <ul class="menuItem">
+        <ul className="menuItem">
           <li>
             <a href="#">Home</a>
           </li>

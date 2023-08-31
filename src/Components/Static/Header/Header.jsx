@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./Navbar";
 import "./header.css";
 
@@ -34,8 +33,10 @@ const Header = () => {
   };
 
   return (
+    <div className="wrapper">
+
     <div className="container">
-        <Link className="" onClick={() => setActiveRoute("/")} to="/">
+        <Link className="Silicon-heading" onClick={() => setActiveRoute("/")} to="/">
           Silicon Pulse
         </Link>
       <div className="headers">
@@ -88,7 +89,7 @@ const Header = () => {
               style={{
                 color: "black",
                 fontSize: "24px",
-                paddingTop: "5px",
+                paddingTop: "25px",
                 paddingLeft: "1px",
               }}
             />
@@ -104,7 +105,7 @@ const Header = () => {
               style={{
                 color: "black",
                 fontSize: "24px",
-                paddingTop: "5px",
+                paddingTop: "25px",
                 marginLeft: "1px",
               }}
             />
@@ -112,6 +113,7 @@ const Header = () => {
           <Navbar />
         </div>
       </div>
+    </div>
     </div>
   );
 };

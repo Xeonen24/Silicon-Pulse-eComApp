@@ -12,7 +12,7 @@ const OrderPage = () => {
     const getOrders = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/order/getorders",
+          process.env.REACT_APP_URL + "/order/getorders",
           {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
@@ -25,7 +25,7 @@ const OrderPage = () => {
     };
     getOrders();
   }, []);
-  console.log(orders);
+
   return (
     <div className="order-page">
       <h1 className="order-heading">Your Orders</h1>
