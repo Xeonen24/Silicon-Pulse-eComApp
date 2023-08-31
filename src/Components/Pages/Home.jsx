@@ -5,15 +5,20 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Footer from "../Static/Footer/Footer";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar, A11y , Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
-import {Rating} from '@mui/material';
-import 'swiper/css/effect-fade';
-import 'swiper/css/autoplay';
-
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Autoplay,
+} from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { Rating } from "@mui/material";
+import "swiper/css/effect-fade";
+import "swiper/css/autoplay";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -77,58 +82,55 @@ const Home = () => {
       ) : (
         <>
           <div className="carousal-div">
-          
             <h1 className="disc-head">Featured Discounts ...</h1>
-            
-            <Swiper
-              modules={[Autoplay ,Navigation, Pagination, Scrollbar, A11y]}
-              spaceBetween={50}
-              slidesPerView={1}
-              loop={true}
-              autoplay={{
-                delay: 800,
-                disableOnInteraction: false,
-            }}
-              navigation
-              watchSlidesProgress
-              speed={1000}
-              pagination={{
-                clickable: true,
-              }}
-            >
-              {discountedProducts.map((product, index) => (
-                <SwiperSlide
-                  key={index}
-                >
-                  <div className="eachDiv">
+            <div style={{padding:'2rem'}}>
+              <Swiper
+                modules={[Autoplay, Navigation, Pagination, Scrollbar, A11y]}
+                spaceBetween={50}
+                slidesPerView={1}
+                loop={true}
+                // autoplay={{
+                //   delay: 1500,
+                //   disableOnInteraction: false,
+                // }}
+                navigation
+                watchSlidesProgress
+                speed={1000}
+                pagination={{
+                  clickable: true,
+                }}
+              >
+                {discountedProducts.map((product, index) => (
+                  <SwiperSlide key={index}>
+                    <div className="eachDiv">
+                      <div className="imageparent">
+                        <img
+                          src={`${product.imagePath}`}
+                          className="carosalImg"
+                        />
+                      </div>
 
-                    <div className="imageparent">
-                      <img src={`${product.imagePath}`} className="carosalImg" />
+                      <div className="carosalText">
+                        <p className="p-Title">{product.title}</p>
+                        <Rating
+                          readOnly
+                          name="half-rating-read"
+                          value={`${product.ratingAndReviews[0]?.rating}`}
+                          precision={0.5}
+                          className="review-rating"
+                        />
+                        <p className="p-Desc">{product.description}</p>
+                        <p className="p-Price">{product.price}₹</p>
+                        <p className="p-Disc">{product.discountprice}₹</p>
+                        <Link to={`/product/${product._id}`}>
+                          <div className="custom-btn btn-15">Shop</div>
+                        </Link>
+                      </div>
                     </div>
-
-                    <div className="carosalText">
-                      <p className="p-Title">{product.title}</p>
-                      <Rating 
-                        readOnly
-                        name="half-rating-read"
-                        value={`${product.ratingAndReviews[0]?.rating}`}
-                        precision={0.5}
-                        className="review-rating"
-                      />
-                      <p className="p-Desc">{product.description}</p>
-                      <p className="p-Price">{product.price}₹</p>
-                      <p className="p-Disc">{product.discountprice}₹</p>
-                      <Link to={`/product/${product._id}`}>
-                       <div className="custom-btn btn-15">Shop</div>
-                      </Link>
-                    </div>
-
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-    
-
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
           </div>
         </>
       )}

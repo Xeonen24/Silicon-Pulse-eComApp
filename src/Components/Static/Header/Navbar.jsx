@@ -1,29 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import "./nav.css";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxToggle = () => {
+    setIsChecked(!isChecked);
+  };
+
   return (
-    <nav class="menu--right" role="navigation">
-      <div class="menuToggle">
-        <input type="checkbox" />
+    <nav className="menu--right" role="navigation">
+      <div className="menuToggle">
+        <input type="checkbox" checked={isChecked} onChange={handleCheckboxToggle} />
         <span></span>
         <span></span>
         <span></span>
-        <ul class="menuItem">
+        <ul className="menuItem">
           <li>
-            <a href="#">Home</a>
+            <Link to="/" onClick={handleCheckboxToggle}>
+              Home
+            </Link>
           </li>
           <li>
-            <a href="#">About</a>
+            <Link to="/product" onClick={handleCheckboxToggle}>
+              Products
+            </Link>
           </li>
           <li>
-            <a href="#">Info</a>
-          </li>
-          <li>
-            <a href="#">Contact</a>
-          </li>
-          <li>
-            <a href="#">Show me more</a>
+            <Link to="/about" onClick={handleCheckboxToggle}>
+              About
+            </Link>
           </li>
         </ul>
       </div>
