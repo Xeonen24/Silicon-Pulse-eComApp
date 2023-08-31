@@ -1,6 +1,10 @@
 import React from 'react';
 import './Footer.css';
 
+import fb from '../../../Images/fb.webp';
+import x from '../../../Images/x.png';
+import insta from '../../../Images/insta.avif';
+
 const Footer = () => {
   return (
     <footer className="footer">
@@ -14,13 +18,13 @@ const Footer = () => {
         </div>
         <div className="footer-social-icons">
           <a href="#" target="_blank" rel="noopener noreferrer">
-            <img src="/images/facebook-icon.png" alt="Facebook" />
+            <img src={fb}  />
           </a>
           <a href="#" target="_blank" rel="noopener noreferrer">
-            <img src="/images/twitter-icon.png" alt="Twitter" />
+            <img src={x} />
           </a>
           <a href="#" target="_blank" rel="noopener noreferrer">
-            <img src="/images/instagram-icon.png" alt="Instagram" />
+            <img src={insta} />
           </a>
         </div>
       </div>

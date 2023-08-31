@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <nav className="menu--right" role="navigation">
       <div className="menuToggle">
-        <input type="checkbox" checked={isChecked} onChange={handleCheckboxToggle} />
+        <input type="checkbox" />
         <span></span>
         <span></span>
         <span></span>
