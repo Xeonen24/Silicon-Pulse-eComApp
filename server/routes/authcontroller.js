@@ -41,10 +41,10 @@ const router = express.Router();
       console.log(errors);
       res.status(422).json({ errors });
     }
-  }));
+    }
+  ));
   
-  router.post("/login",
-    asyncHandler(async (req, res) => {
+  router.post("/login",asyncHandler(async (req, res) => {
       try {
         let token;
         const { username, password } = req.body;
@@ -57,8 +57,9 @@ const router = express.Router();
           userSignin.tokens.push({ token });
           await userSignin.save();
           res.cookie("jwtoken", token, {
-            maxAge: 2 * 24 * 60 * 60 * 1000,
+            maxAge: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
             httpOnly: false,
+            domain: 'silicon-pulse-e-com-app.vercel.app',
           });
           res.status(200).json({ message: "User signed in" });
           console.log("User signed in");
@@ -69,8 +70,8 @@ const router = express.Router();
         console.log(err);
         res.status(500).json({ error: "Failed to sign in" });
       }
-    })
-  );
+    }
+  ));
   
   router.post('/logout', async (req, res) => {
     res.clearCookie("jwtoken", {
@@ -79,7 +80,6 @@ const router = express.Router();
     });
     res.status(200).json({ message: "User signed out" });
   });
-
   
   router.get("/user", auth, async (req, res) => {
     try {
@@ -116,7 +116,8 @@ const router = express.Router();
       console.log(err);
       res.status(500).json({ error: "Failed to update profile" });
     }
-  }));
+    }
+  ));
   
   router.post("/send-mail", asyncHandler(async (req, res) => {
     try {
@@ -139,7 +140,8 @@ const router = express.Router();
       console.log(error);
       return res.status(500).json({ error: "Internal server error in mail send" });
     }
-  }));
+    }
+  ));
 
   module.exports = router;
 
