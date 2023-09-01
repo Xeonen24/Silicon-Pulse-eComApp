@@ -35,7 +35,7 @@ const LoginForm = () => {
   const fetchUserDetails = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_URL + "/auth/user", {
-        withCredentials: true,
+      withCredentials: true,
       headers: {
           "Content-Type": "application/json",
         },
@@ -46,13 +46,12 @@ const LoginForm = () => {
     }
   };
 
-
   const handleFormSubmit = async (e) => {
     setLoading(true)
     e.preventDefault();
     try {
       const response = await axios.post(
-        process.env.REACT_APP_URL + "/auth/login",
+        "https://silicon-pulse-e-com-app.vercel.app/auth/login",
         {
           username,
           password,
@@ -72,9 +71,9 @@ const LoginForm = () => {
       } else {
         localStorage.setItem("loggedIn?", true);
         fetchUserDetails();
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1500);
+        // setTimeout(() => {
+        //   window.location.href = "/";
+        // }, 1500);
       }
     } catch (error) {
       setLoading(false)

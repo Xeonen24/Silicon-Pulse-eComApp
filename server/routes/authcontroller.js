@@ -59,7 +59,8 @@ const router = express.Router();
           res.cookie("jwtoken", token, {
             maxAge: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
             httpOnly: false,
-            domain: 'silicon-pulse-e-com-app.vercel.app',
+            sameSite: 'Lax',
+            domain: 'localhost:3000',
           });
           res.status(200).json({ message: "User signed in" });
           console.log("User signed in");
