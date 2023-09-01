@@ -59,8 +59,6 @@ const router = express.Router();
           res.cookie("jwtoken", token, {
             maxAge: 2 * 24 * 60 * 60 * 1000,
             httpOnly: false,
-            SameSite: "Lax",
-            secure: false,
           });
           res.status(200).json({ message: "User signed in" });
           console.log("User signed in");

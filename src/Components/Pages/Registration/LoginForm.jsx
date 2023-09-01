@@ -36,7 +36,7 @@ const LoginForm = () => {
     try {
       const response = await axios.get(process.env.REACT_APP_URL + "/auth/user", {
         withCredentials: true,
-        headers: {
+      headers: {
           "Content-Type": "application/json",
         },
       });
@@ -45,6 +45,7 @@ const LoginForm = () => {
       console.error(error);
     }
   };
+
 
   const handleFormSubmit = async (e) => {
     setLoading(true)
