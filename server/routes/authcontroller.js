@@ -59,8 +59,6 @@ const router = express.Router();
           res.cookie("jwtoken", token, {
             maxAge: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
             httpOnly: false,
-            sameSite: 'Lax',
-            domain: '.localhost',
           });
           res.status(200).json({ message: "User signed in" , token });
           console.log("User signed in");
