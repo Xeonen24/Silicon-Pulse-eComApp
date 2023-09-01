@@ -4,8 +4,11 @@ const validator = require('validator');
 const auth = require('../midddleware/auth');
 const USER = require('../model/user');
 const mailSender = require('../midddleware/mailSender');
-
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
+
 
   router.post("/signup", asyncHandler(async (req, res) => {
     const { username, email, password, password2 } = req.body;
@@ -53,14 +56,17 @@ const router = express.Router();
           if (password !== userSignin.password) {
             return res.status(400).json({ msg: "Invalid credentials" });
           }
-          token = await userSignin.generateAuthToken();
-          userSignin.tokens.push({ token });
-          await userSignin.save();
+          
+          token = jwt.sign( { userSignin }, process.env.JWT_SECRET, { expiresIn: '2d' } );
+          
           res.cookie("jwtoken", token, {
             maxAge: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
             httpOnly: false,
+          }).status(200).json({
+            success : true ,
+            message: "User logged in successfully",
+            token
           });
-          res.status(200).json({ message: "User signed in" , token });
           console.log("User signed in");
         } else {
           res.status(400).json({ message: "Invalid credentials" });

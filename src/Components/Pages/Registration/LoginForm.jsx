@@ -50,6 +50,8 @@ const LoginForm = () => {
           },
         }
       );
+      response = await response.json();
+      console.log(response);
       localStorage("jwtoken", response.data.token)
       if (response.status === 400) {
         toast.error("Invalid credentials, please try again.", {
