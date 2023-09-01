@@ -32,26 +32,13 @@ const LoginForm = () => {
     }
   };
 
-  const fetchUserDetails = async () => {
-    try {
-      const response = await axios.get(process.env.REACT_APP_URL + "/auth/user", {
-      withCredentials: true,
-      headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setUserDetails(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleFormSubmit = async (e) => {
     setLoading(true)
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://silicon-pulse-e-com-app.vercel.app/auth/login",
+        process.env.REACT_APP_URL + "/auth/login",
         {
           username,
           password,
@@ -63,6 +50,7 @@ const LoginForm = () => {
           },
         }
       );
+      localStorage("jwtoken", response.data.token)
       if (response.status === 400) {
         toast.error("Invalid credentials, please try again.", {
           autoClose: 1500,
@@ -81,6 +69,21 @@ const LoginForm = () => {
         autoClose: 1500,
         position: "top-right",
       });
+    }
+  };
+
+  const fetchUserDetails = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_URL + "/auth/user", {
+      withCredentials: true,
+      headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
+        },
+      });
+      setUserDetails(response.data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
