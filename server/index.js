@@ -46,6 +46,13 @@ mongoose
 
   app.use(express.json());
 
+  app.use(
+    cors({
+      origin: ["http://localhost:3000","https://silicon-pulse-e-com-app-sxp4.vercel.app", "http://localhost:5000" , "https://silicon-pulse-e-com-app-mu.vercel.app"],
+      credentials: true,
+    })
+  );
+
   app.use(fileUpload({
     useTempFiles: true,
     tempFileDir: "/tmp",
@@ -61,12 +68,7 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: ["http://localhost:3000","https://silicon-pulse-e-com-app-sxp4.vercel.app", "http://localhost:5000" , "https://silicon-pulse-e-com-app-mu.vercel.app"],
-    credentials: true,
-  })
-);
+
 
 app.use('/auth', authController);
 app.use('/products', productController);
