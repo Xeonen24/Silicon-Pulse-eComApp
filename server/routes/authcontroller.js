@@ -63,7 +63,6 @@ router.post("/login", async (req, res) => {
 router.post('/logout', async (req, res) => {
   req.session.destroy();
   res.json({ message: 'Logout successful' });
-  res.status(200).json({ message: "User signed out" });
 });
 
 router.post("/update-profile", auth, asyncHandler(async (req, res) => {

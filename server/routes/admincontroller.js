@@ -109,7 +109,7 @@ router.put("/update-user/:id", async (req, res) => {
   
   router.get('/user-role', auth, (req, res) => {
     try {
-      const userRole = req.rootUser.role;
+      const userRole = req.session.user.role;
       res.status(200).json({ role: userRole });
     } catch (err) {
       res.status(500).json({ error: 'Unable to fetch user role' });

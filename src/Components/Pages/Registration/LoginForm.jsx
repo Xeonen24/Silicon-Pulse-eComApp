@@ -35,6 +35,7 @@ const LoginForm = () => {
   const fetchUserDetails = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_URL + "/auth/user", {
+        withCredentials: true,
         headers: {
           "Content-Type": "application/json",
         },
@@ -70,10 +71,10 @@ const LoginForm = () => {
         });
       } else {
         localStorage.setItem("loggedIn?", true);
-        // fetchUserDetails();
-        // setTimeout(() => {
-        //   window.location.href = "/";
-        // }, 1500);
+        fetchUserDetails();
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1500);
       }
     } catch (error) {
       setLoading(false)
