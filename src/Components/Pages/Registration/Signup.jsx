@@ -35,8 +35,7 @@ const Signup = () => {
           "Content-Type": "application/json",
         },
       };
-      const response = await axios.post(
-        URL + "/auth/signup",
+      const response = await axios.post(process.env.REACT_APP_URL + "/auth/signup",
         {
           username,
           email,
@@ -45,7 +44,6 @@ const Signup = () => {
         },
         config
       );
-      console.log(response.data);
       setUsername("");
       setEmail("");
       setPassword("");

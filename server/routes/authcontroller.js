@@ -4,6 +4,8 @@ const validator = require('validator');
 const auth = require('../midddleware/auth');
 const USER = require('../model/user');
 const mailSender = require('../midddleware/mailSender');
+const jwt = require('jsonwebtoken');
+
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
@@ -11,6 +13,12 @@ const bcrypt = require('bcrypt');
 
 dotenv.config();
 
+
+function generateToken(user) {
+  return jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: '24h',
+  });
+}
 
   router.post("/signup", asyncHandler(async (req, res) => {
     const { username, email, password, password2 } = req.body;
@@ -49,56 +57,40 @@ dotenv.config();
     }
   ));
   
-  router.post("/login", async (req, res) => {
-    try {
-      const { username, password } = req.body;
-      
-      const user = await USER.findOne({ username });
-
-        if (!user) {
-        return res.status(400).json({ message: "Invalid credentials" });
-      }
-      const passwordMatch = await bcrypt.compare(password, user.password);
-
-      if (!passwordMatch) {
-        return res.status(400).json({ message: "Invalid credentials" });
-      }
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
-        res.cookie("jwtoken", token, {
-        maxAge: 2 * 24 * 60 * 60 * 1000,
-        httpOnly: false,
-        sameSite: "Lax",
-        secure: false, 
-      });
-        user.tokens = user.tokens.concat({ token });
-      await user.save();
+  router.post('/login', asyncHandler(async (req, res) => {
+    const { username, password } = req.body;
+    const user = await USER.findOne({ username });
   
-      res.status(200).json({ message: "User signed in" });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Failed to sign in" });
+    if (!user || user.password !== password) {
+      return res.status(401).json({ message: 'Authentication failed' });
     }
-  });
   
+    const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET);
+  
+    res.header('Authorization', `Bearer ${token}`).json({ message: 'Authentication successful' });
+  }));  
+
   router.post('/logout', async (req, res) => {
     res.clearCookie("jwtoken", {
       path: '/',
-      domain: 'silicon-pulse-e-com-app.vercel.app'
+      domain: 'vercel.app',
     });
     res.status(200).json({ message: "User signed out" });
   });
-  
-  router.get("/user", auth, async (req, res) => {
-    try {
-      const user = await USER.findById(req.userID).select('-password -password2');
-      res.json(user);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal Server Error' });
+
+  router.get('/user', auth, asyncHandler(async (req, res) => {
+  const { id } = req.user;
+  try {
+    const user = await USER.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
-  });
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}));
 
   router.post("/update-profile", auth, asyncHandler(async (req, res) => {
     try {
@@ -118,7 +110,6 @@ dotenv.config();
           finduser.password = newPassword;
           await finduser.save();
           res.status(201).send("Profile updated successfully");
-          console.log("User profile updated");
         }
       }
     } catch (err) {

@@ -32,13 +32,38 @@ const LoginForm = () => {
     }
   };
 
+  const fetchUserDetails = async () => {
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.get(
+        process.env.REACT_APP_URL + "/auth/user",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        setUserDetails(response.data);
+        localStorage.setItem("loggedIn?", true);
+      } else {
+        console.error(response.status);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleFormSubmit = async (e) => {
-    setLoading(true)
     e.preventDefault();
+    setLoading(true);
+
     try {
       const response = await axios.post(
-        process.env.REACT_APP_URL + "/auth/login",
+        `${process.env.REACT_APP_URL}/auth/login`,
         {
           username,
           password,
@@ -50,44 +75,33 @@ const LoginForm = () => {
           },
         }
       );
-      response = await response.json();
-      console.log(response);
-      localStorage("jwtoken", response.data.token)
-      if (response.status === 400) {
+      if (response.status === 200) {
+        const jwtToken = response.headers["authorization"].replace('Bearer ', '');
+        console.log("Authorization Header:", jwtToken);
+
+        localStorage.setItem("jwtToken", jwtToken);
+
+        await fetchUserDetails();
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 500);
+      } else {
         toast.error("Invalid credentials, please try again.", {
           autoClose: 1500,
           position: "top-right",
         });
-      } else {
-        localStorage.setItem("loggedIn?", true);
-        fetchUserDetails();
-        // setTimeout(() => {
-        //   window.location.href = "/";
-        // }, 1500);
       }
     } catch (error) {
-      setLoading(false)
-      toast.error("Invalid credentials", {
+      console.error("Login failed:", error);
+      toast.error("Login failed. Please try again later.", {
         autoClose: 1500,
         position: "top-right",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const fetchUserDetails = async () => {
-    try {
-      const response = await axios.get(process.env.REACT_APP_URL + "/auth/user", {
-      withCredentials: true,
-      headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
-        },
-      });
-      setUserDetails(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <>
@@ -109,38 +123,39 @@ const LoginForm = () => {
         </div>
       ) : (
         <>
-        <div className="wrapperL">
-          <div className="fbLoginForm">
-            <div className="fbLoginFormContainer">
-              <h2 className="fbLoginFormTitle">Login</h2>
-              <form className="fbLoginForm" onSubmit={handleFormSubmit}>
-                <label className="fbLoginFormLabel">Username</label>
-                <input
-                  className="fbLoginFormInput"
-                  type="text"
-                  name="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-                <label className="fbLoginFormLabel">Password</label>
-                <input
-                  className="fbLoginFormInput"
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <button className="fbLoginBtn" type="submit">
-                  Login
-                </button>
-              </form>
-              <hr className="fbLoginDivider" />
-              <Link to="/signup" className="fbLoginLink">
-                Don't have an account? <span style={{color:'blue'}}>Click here.</span>
-              </Link>
+          <div className="wrapperL">
+            <div className="fbLoginForm">
+              <div className="fbLoginFormContainer">
+                <h2 className="fbLoginFormTitle">Login</h2>
+                <form className="fbLoginForm" onSubmit={handleFormSubmit}>
+                  <label className="fbLoginFormLabel">Username</label>
+                  <input
+                    className="fbLoginFormInput"
+                    type="text"
+                    name="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  <label className="fbLoginFormLabel">Password</label>
+                  <input
+                    className="fbLoginFormInput"
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <button className="fbLoginBtn" type="submit">
+                    Login
+                  </button>
+                </form>
+                <hr className="fbLoginDivider" />
+                <Link to="/signup" className="fbLoginLink">
+                  Don't have an account?{" "}
+                  <span style={{ color: "blue" }}>Click here.</span>
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
         </>
       )}
     </>

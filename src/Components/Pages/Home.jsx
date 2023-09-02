@@ -19,7 +19,6 @@ import "swiper/css/scrollbar";
 import { Rating } from "@mui/material";
 import "swiper/css/effect-fade";
 import "swiper/css/autoplay";
-
 import cabinet from "../../Images/cabinet.jpg";
 import cpu from "../../Images/cpu.jpg";
 import gpu from "../../Images/gpu.jpg";
@@ -41,18 +40,21 @@ const Home = () => {
     getDiscountedProducts();
   }, []);
 
-  console.log(process.env.REACT_APP_URL)
-
   const checkLogin = async () => {
+    setLoggedIn(true);
     setTimeout(async () => {
       try {
-        const response = await axios.get( process.env.REACT_APP_URL + "/auth/user", {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        setLoggedIn(true);
+        const token = localStorage.getItem("jwtToken");
+        const response = await axios.get(
+          process.env.REACT_APP_URL + "/auth/user",
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -82,8 +84,6 @@ const Home = () => {
       console.error(error);
     }
   };
-
-  console.log(discountedProducts);
 
   return (
     <div className="main_div">
@@ -205,7 +205,9 @@ const Home = () => {
           <Link to="/product" className="category-card-link">
             <div className="category-card">
               <img src={explore} alt="Explore" className="category-image" />
-              <h3 className="category-title" style={{fontSize: "2rem"}}>Explore more..</h3>
+              <h3 className="category-title" style={{ fontSize: "2rem" }}>
+                Explore more..
+              </h3>
             </div>
           </Link>
         </div>

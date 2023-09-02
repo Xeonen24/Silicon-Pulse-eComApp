@@ -16,15 +16,17 @@ const ManageUser = () => {
 
   const fetchRoleDetails = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_URL + "/admin/user-role",
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const token = localStorage.getItem("jwtToken");
+        const response = await axios.get(
+          process.env.REACT_APP_URL + "/auth/user",
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
       setRoleDetails(response.data);
     } catch (error) {
       console.error(error);
@@ -32,7 +34,6 @@ const ManageUser = () => {
   };
 
   useEffect(() => {
-    console.log(roleDetails);
     if (roleDetails.role === "admin") {
       toast.info("Authorization check complete.", {
         autoClose: 1000,
@@ -44,17 +45,18 @@ const ManageUser = () => {
 
   const fetchUsers = async () => {
     try {
+      const token = localStorage.getItem("jwtToken");
       const response = await axios.get(
         process.env.REACT_APP_URL + "/admin/get-users",
         {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
       setUsers(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -84,7 +86,6 @@ const ManageUser = () => {
           },
         }
       );
-      console.log(response.data);
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user._id === response.data._id ? response.data : user
@@ -109,7 +110,6 @@ const ManageUser = () => {
           },
         }
       );
-      console.log(response.data);
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user._id === response.data._id ? response.data : user

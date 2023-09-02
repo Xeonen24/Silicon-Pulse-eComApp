@@ -22,26 +22,24 @@ mongoose
   .then(() => console.log("DB connected"))
   .catch((err) => console.log(err));
 
-  
-  const cloudinaryConnect = () => {
-    try {
-      cloudinary.config({
-        cloud_name: process.env.CLOUD_NAME,
-        api_key: process.env.API_KEY,
-        api_secret: process.env.API_SECRET,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const cloudinaryConnect = () => {
+  try {
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-  cloudinaryConnect();
+cloudinaryConnect();
 
-
-  app.use(fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp",
-  }));
+app.use(fileUpload({
+  useTempFiles: true,
+  tempFileDir: "/tmp",
+}));
 
 app.use(cookieParser());
 app.use(morgan("dev"));
@@ -55,8 +53,9 @@ app.use(
 
 app.use(
   cors({
-    origin: ["http://localhost:3000","https://silicon-pulse.netlify.app", "http://localhost:5000" , "https://silicon-pulse-e-com-app.vercel.app"],
+    origin: ["https://silicon-pulse-e-com-app-sxp4.vercel.app","http://localhost:3000"],
     credentials: true,
+    exposedHeaders: ['Authorization'],
   })
 );
 

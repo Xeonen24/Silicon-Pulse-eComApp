@@ -24,29 +24,10 @@ const Product = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(15);
   const location = useLocation();
-  const [loginChek, setLoginChek] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [productLoading, setProductLoading] = useState(true);
-
-  useEffect(() => {
-    checkLogin();
-  }, []);
-
-  const checkLogin = async () => {
-    try {
-      const response = await axios.get(process.env.REACT_APP_URL + "/auth/user", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setLoginChek(true);
-    } catch (error) {
-      setLoginChek(false);
-      console.error(error);
-    }
-  };
+  const chckLogin = localStorage.getItem("loggedIn?");
 
   useEffect(() => {
     axios
@@ -102,7 +83,7 @@ const Product = () => {
   };
 
   const addToCart = (productId) => {
-    if (loginChek === false) {
+    if (!chckLogin) {
       setShowLoginModal(true);
     } else {
       axios
@@ -116,11 +97,11 @@ const Product = () => {
             withCredentials: true,
             headers: {
               "Content-Type": "application/json",
+              "Authorization" : `Bearer ${localStorage.getItem("jwtToken")}`,
             },
           }
         )
         .then((response) => {
-          console.log(response.data);
           toast.success("Item Added to cart", {
             autoClose: 2000,
             position: "bottom-right",

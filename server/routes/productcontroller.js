@@ -132,7 +132,7 @@ const router = express.Router();
       const { rating, review } = req.body;
       const { productId } = req.params;
   
-      const user = await USER.findById(req.userID);
+      const user = await USER.findById(req.user.id);
   
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
@@ -178,7 +178,7 @@ const router = express.Router();
       const { rating, review } = req.body;
       const { productId } = req.params;
 
-      const user = await USER.findById(req.userID);
+      const user = await USER.findById(req.user.id);
 
       if(!user){
         return res.status(404).json({ error: 'User not found' });

@@ -11,11 +11,15 @@ const OrderPage = () => {
   useEffect(() => {
     const getOrders = async () => {
       try {
+        const token = localStorage.getItem("jwtToken");
         const response = await axios.get(
           process.env.REACT_APP_URL + "/order/getorders",
           {
             withCredentials: true,
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         setOrders(response.data);

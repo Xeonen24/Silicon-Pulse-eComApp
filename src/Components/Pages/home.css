@@ -1,7 +1,7 @@
 .custom-btn {
     width: 130px;
     height: 40px;
-    padding: 10px 25px;
+    padding: 6px;
     border: 2px solid #000;
     font-weight: 500;
     background: transparent;
@@ -42,8 +42,6 @@
     color: black;
   }
   
-
-/* home.css */
 .page-loading {
     position: fixed;
     top: 0;
@@ -76,8 +74,8 @@
     margin: auto;
 }
 .eachDiv {
-    width: 80%;
-    height: full;
+    width: 100%;
+    height: 500px;
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -219,70 +217,3 @@
     font-weight: 900;
   }
   
-
-  .loading-animation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 300px;
-    font-size: 24px;
-    color: #555;
-}
-
-/* home.css /
-
-
-.loading-text {
-    font-size: 24px;
-    color: #555;
-}
-
-/ home.css */
-.page-loading {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.7);
-    z-index: 9999;
-}
-
-.spinner {
-    width: 157px;
-    height: 10px;
-    border: 1px solid rgba(56, 56, 56, 0.14);
-    border-radius: 5px;
-    overflow: hidden;
-    transform: scale(1.5);
-  }
-
-  .spinner::before {
-    content: "";
-    display: block;
-    width: 0%;
-    height: 100%;
-    background-color: var(--aplared);
-    animation: fill 1s linear;
-  }
-
-  @keyframes fill {
-    0% {
-      width: 0%;
-    }
-
-    50% {
-      width: 25%;
-    }
-
-    75%{
-        width: 30%;
-    }
-
-    100% {
-      width: 100%;
-    }
-  }
