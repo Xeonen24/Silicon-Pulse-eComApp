@@ -43,39 +43,59 @@ const router = express.Router();
     }
   }));
   
-    router.post("/login", async (req, res) => {
-      try {
-        const { username, password } = req.body;
+    // router.post("/login", async (req, res) => {
+    //   try {
+    //     const { username, password } = req.body;
         
-        const user = await USER.findOne({ username });
+    //     const user = await USER.findOne({ username });
 
-          if (!user) {
-          return res.status(400).json({ message: "Invalid credentials" });
-        }
-        const passwordMatch = await bcrypt.compare(password, user.password);
+    //       if (!user) {
+    //       return res.status(400).json({ message: "Invalid credentials" });
+    //     }
+    //     const passwordMatch = await bcrypt.compare(password, user.password);
 
-        if (!passwordMatch) {
-          return res.status(400).json({ message: "Invalid credentials" });
-        }
-          const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-          expiresIn: "1h",
-        });
-          res.cookie("jwtoken", token, {
-          maxAge: 2 * 24 * 60 * 60 * 1000,
-          httpOnly: false,
-          sameSite: "Lax",
-          secure: false, 
-        });
-          user.tokens = user.tokens.concat({ token });
-        await user.save();
+    //     if (!passwordMatch) {
+    //       return res.status(400).json({ message: "Invalid credentials" });
+    //     }
+    //       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+    //       expiresIn: "1h",
+    //     });
+    //       res.cookie("jwtoken", token, {
+    //       maxAge: 2 * 24 * 60 * 60 * 1000,
+    //       httpOnly: false,
+    //       sameSite: "Lax",
+    //       secure: false, 
+    //     });
+    //       user.tokens = user.tokens.concat({ token });
+    //     await user.save();
     
-        res.status(200).json({ message: "User signed in" });
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to sign in" });
+    //     res.status(200).json({ message: "User signed in" });
+    //   } catch (err) {
+    //     console.error(err);
+    //     res.status(500).json({ error: "Failed to sign in" });
+    //   }
+    // });
+    
+    router.post('/login', async (req, res) => {
+      try {
+        const {username,password} = req.body;
+        const user = await USER.findOne({ username: username });
+    
+        if (!user || !user.validPassword(password)) {
+          return res.status(401).json({ message: 'Invalid credentials' });
+        }
+    
+        const token = generateToken(user);
+    
+        res.cookie('jwtoken', token, { httpOnly: true, domain: 'vercel.app', secure: true });
+        res.status(200).json({ message: 'Login successful' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
       }
     });
     
+
   router.post('/logout', async (req, res) => {
     res.clearCookie("jwtoken", {
       path: '/',
