@@ -15,11 +15,6 @@ const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
 const session = require('express-session');
 
-const allowedOrigins = [
-  'https://silicon-pulse-e-com-app-sxp4.vercel.app',
-  'https://silicon-pulse-e-com-app-mu.vercel.app'
-];
-
 mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,
@@ -28,33 +23,33 @@ mongoose
   .then(() => console.log("DB connected"))
   .catch((err) => console.log(err));
 
+  
+  const cloudinaryConnect = () => {
+    try {
+      cloudinary.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.API_KEY,
+        api_secret: process.env.API_SECRET,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-const cloudinaryConnect = () => {
-  try {
-    cloudinary.config({
-      cloud_name: process.env.CLOUD_NAME,
-      api_key: process.env.API_KEY,
-      api_secret: process.env.API_SECRET,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
+  cloudinaryConnect();
 
-cloudinaryConnect();
+  app.use(session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  }));
 
-app.use(session({
-  secret: process.env.JWT_SECRET,
-  resave: false,
-  saveUninitialized: false,
-}));
+  app.use(express.json());
 
-app.use(express.json());
-
-app.use(fileUpload({
-  useTempFiles: true,
-  tempFileDir: "/tmp",
-}));
+  app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp",
+  }));
 
 app.use(cookieParser());
 app.use(morgan("dev"));
@@ -66,16 +61,12 @@ app.use(
   })
 );
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:3000","https://silicon-pulse-e-com-app-sxp4.vercel.app", "http://localhost:5000" , "https://silicon-pulse-e-com-app-mu.vercel.app"],
+    credentials: true,
+  })
+);
 
 app.use('/auth', authController);
 app.use('/products', productController);
