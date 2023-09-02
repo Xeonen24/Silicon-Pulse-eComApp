@@ -13,8 +13,6 @@ const adminController = require('./routes/admincontroller');
 const orderController = require('./routes/ordercontroller');
 const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -24,47 +22,26 @@ mongoose
   .then(() => console.log("DB connected"))
   .catch((err) => console.log(err));
 
-const cloudinaryConnect = () => {
-  try {
-    cloudinary.config({
-      cloud_name: process.env.CLOUD_NAME,
-      api_key: process.env.API_KEY,
-      api_secret: process.env.API_SECRET,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
+  
+  const cloudinaryConnect = () => {
+    try {
+      cloudinary.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.API_KEY,
+        api_secret: process.env.API_SECRET,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-cloudinaryConnect();
+  cloudinaryConnect();
 
-const store = MongoStore.create({
-  mongoUrl: process.env.DATABASE,
-  secret: process.env.JWT_SECRET,
-  touchAfter: 24 * 60 * 60
-})
 
-const sessionConfig = {
-  store,
-  name: 'sessions',
-  secret: process.env.JWT_SECRET,
-  resave: false, 
-  saveUninitialized: true,
-  cookie:{
-      // httpOnly: true,
-      secure: true,
-      expires: Date.now() + 1000 * 60 * 60  * 24 * 7,
-      maxAge: 1000 * 60 * 60  * 24 * 7
-  }
-}
-app.use(session(sessionConfig))
-
-app.use(express.json());
-
-app.use(fileUpload({
-  useTempFiles: true,
-  tempFileDir: "/tmp",
-}));
+  app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp",
+  }));
 
 app.use(cookieParser());
 app.use(morgan("dev"));
@@ -78,12 +55,7 @@ app.use(
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://silicon-pulse-e-com-app-sxp4.vercel.app",
-      "https://silicon-pulse-e-com-app-mu.vercel.app",
-      "http://localhost:5000",
-    ],
+    origin: ["http://localhost:3000","https://silicon-pulse-e-com-app-sxp4.vercel.app", "http://localhost:5000" , "https://silicon-pulse-e-com-app-mu.vercel.app"],
     credentials: true,
   })
 );
