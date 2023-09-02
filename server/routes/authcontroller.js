@@ -43,14 +43,14 @@ router.post("/signup", asyncHandler(async (req, res) => {
   }
 }));
 
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await USER.findOne({ username });
     if (!user || user.password !== password) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    req.session.user = user;
+    req.session.user = user; 
     res.json({ message: 'Login successful', user });
   } catch (error) {
     console.error(error);
@@ -90,14 +90,8 @@ router.post("/update-profile", auth, asyncHandler(async (req, res) => {
   }
 }));
 
-router.get("/user", async (req, res) => {
+router.get("/user", auth, async (req, res) => {
   try {
-    const userId = req.session.user;
-
-    if (!userId) {
-      return res.status(401).json({ error: 'User not authenticated' });
-    }
-
     const user = await USER.findById(userId).select('-password -password2');
 
     if (!user) {
