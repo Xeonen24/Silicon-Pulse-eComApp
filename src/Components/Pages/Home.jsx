@@ -31,9 +31,7 @@ import explore from "../../Images/explore.png";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(true);
   const [discountedProducts, setDiscountedProducts] = useState();
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   useEffect(() => {
     checkLogin();
@@ -41,7 +39,6 @@ const Home = () => {
   }, []);
 
   const checkLogin = async () => {
-    setLoggedIn(true);
     setTimeout(async () => {
       try {
         const token = localStorage.getItem("jwtToken");
@@ -55,9 +52,7 @@ const Home = () => {
             },
           }
         );
-        setLoading(false);
       } catch (error) {
-        setLoading(false);
         console.error(error);
         localStorage.setItem("userDetails", null);
         localStorage.setItem("loggedIn?", false);

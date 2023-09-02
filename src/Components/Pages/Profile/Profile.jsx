@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useState} from "react";
 import ProfileContent from "./ProfileContent";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
+  const [loading, setLoading] = useState(true);
   const chckLogin = localStorage.getItem("loggedIn?");
   
   useEffect(() => {
@@ -14,6 +15,7 @@ const Profile = () => {
         position: "top-right",
       });
     }
+    setLoading(false);
   }, []);
 
   const IsLoggedIn = () => {
@@ -47,7 +49,15 @@ const Profile = () => {
     }
   };
 
-  return <div style={{ marginTop: "10rem" }}>{IsLoggedIn()}</div>;
+  return <div style={{ marginTop: "10rem" }}>
+     {loading ? (
+        <div className="page-loading">
+          <div className="spinner"></div>
+        </div>
+      ):(
+        IsLoggedIn()
+      )}
+    </div>;
 };
 
 export default Profile;
