@@ -24,6 +24,21 @@ mongoose
   .then(() => console.log("DB connected"))
   .catch((err) => console.log(err));
 
+  
+app.use(morgan("dev"));
+
+app.use(
+  cors({
+    origin: [
+      "https://silicon-pulse-e-com-app-sxp4.vercel.app",
+      "https://silicon-pulse-e-com-app-mu.vercel.app",
+      "http://localhost:3000",
+      "http://localhost:5000",
+    ],
+    credentials: true,
+  })
+);
+
 const cloudinaryConnect = () => {
   try {
     cloudinary.config({
@@ -60,24 +75,11 @@ app.use(fileUpload({
 }));
 
 app.use(cookieParser());
-app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(
   bodyParser.urlencoded({
     limit: "100mb",
     extended: true,
-  })
-);
-
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "https://silicon-pulse-e-com-app-sxp4.vercel.app",
-      "https://silicon-pulse-e-com-app-mu.vercel.app",
-      "http://localhost:5000",
-    ],
-    credentials: true,
   })
 );
 
