@@ -4,6 +4,7 @@ const validator = require('validator');
 const auth = require('../midddleware/auth');
 const USER = require('../model/user');
 const mailSender = require('../midddleware/mailSender');
+const userAddress = require('../model/userAddress');
 
 const router = express.Router();
 
@@ -81,7 +82,7 @@ const router = express.Router();
         const {username,password} = req.body;
         const user = await USER.findOne({ username: username });
     
-        if (!user || !user.validPassword(password)) {
+        if (user.password != password || !user) {
           return res.status(401).json({ message: 'Invalid credentials' });
         }
     
