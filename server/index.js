@@ -15,7 +15,10 @@ const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
 const session = require('express-session');
 
-const allowedOrigins = ['https://silicon-pulse-e-com-app-sxp4.vercel.app,https://silicon-pulse-e-com-app-mu.vercel.app'];
+const allowedOrigins = [
+  'https://silicon-pulse-e-com-app-sxp4.vercel.app',
+  'https://silicon-pulse-e-com-app-mu.vercel.app'
+];
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -25,33 +28,33 @@ mongoose
   .then(() => console.log("DB connected"))
   .catch((err) => console.log(err));
 
-  
-  const cloudinaryConnect = () => {
-    try {
-      cloudinary.config({
-        cloud_name: process.env.CLOUD_NAME,
-        api_key: process.env.API_KEY,
-        api_secret: process.env.API_SECRET,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  cloudinaryConnect();
+const cloudinaryConnect = () => {
+  try {
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-  app.use(session({
-    secret: process.env.JWT_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  }));
+cloudinaryConnect();
 
-  app.use(express.json());
+app.use(session({
+  secret: process.env.JWT_SECRET,
+  resave: false,
+  saveUninitialized: false,
+}));
 
-  app.use(fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp",
-  }));
+app.use(express.json());
+
+app.use(fileUpload({
+  useTempFiles: true,
+  tempFileDir: "/tmp",
+}));
 
 app.use(cookieParser());
 app.use(morgan("dev"));
