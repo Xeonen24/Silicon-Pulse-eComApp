@@ -43,7 +43,7 @@ app.use(
     secret: process.env.JWT_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: MongoStore.create({ mongooseConnection: mongoose.connection }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // Session expires after 24 hours
     },
