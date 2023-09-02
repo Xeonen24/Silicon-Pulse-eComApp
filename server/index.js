@@ -43,10 +43,8 @@ app.use(
     secret: process.env.JWT_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.DATBASE }),
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // Session expires after 24 hours
-    },
+    store: MongoStore.create({ mongoUrl: process.env.DATABASE }),
+      maxAge: 1000 * 60 * 60 * 24,
   })
 );
 
