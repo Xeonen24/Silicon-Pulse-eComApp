@@ -8,6 +8,7 @@ const userAddress = require('../model/userAddress');
 
 const router = express.Router();
 
+
   router.post("/signup", asyncHandler(async (req, res) => {
     const { username, email, password, password2 } = req.body;
     if (!username || !email || !password || !password2) {
@@ -85,8 +86,16 @@ const router = express.Router();
         if (user.password != password || !user) {
           return res.status(401).json({ message: 'Invalid credentials' });
         }
-    
+        function generateToken(user) {
+          return jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: '24h',
+          });
+        }
+
         const token = generateToken(user);
+ 
+        user.tokens = user.tokens.concat({ token });
+        await user.save();
     
         res.cookie('jwtoken', token, { httpOnly: true, domain: 'vercel.app', secure: true });
         res.status(200).json({ message: 'Login successful' });
