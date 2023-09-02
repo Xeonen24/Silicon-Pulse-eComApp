@@ -92,7 +92,7 @@ router.post("/update-profile", auth, asyncHandler(async (req, res) => {
 
 router.get("/user", auth, async (req, res) => {
   try {
-    const user = await USER.findById(userId).select('-password -password2');
+    const user = await USER.findById(req.session.user).select('-password -password2');
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
