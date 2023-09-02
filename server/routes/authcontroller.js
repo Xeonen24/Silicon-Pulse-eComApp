@@ -90,15 +90,27 @@ router.post("/update-profile", auth, asyncHandler(async (req, res) => {
   }
 }));
 
-router.get("/user", auth, async (req, res) => {
+router.get("/user", async (req, res) => {
   try {
-    const user = await USER.findById(req.session.user).select('-password -password2');
+    const userId = req.session.user;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+
+    const user = await USER.findById(userId).select('-password -password2');
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
     res.json(user);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 router.post("/send-mail", asyncHandler(async (req, res) => {
   try {

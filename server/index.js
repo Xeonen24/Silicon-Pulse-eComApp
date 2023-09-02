@@ -65,8 +65,8 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://silicon-pulse-e-com-app-sxp4.vercel.app",
-      "http://localhost:5000",
       "https://silicon-pulse-e-com-app-mu.vercel.app",
+      "http://localhost:5000",
     ],
     credentials: true,
   })

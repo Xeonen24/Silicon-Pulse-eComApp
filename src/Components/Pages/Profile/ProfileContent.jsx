@@ -29,7 +29,6 @@ const ProfileContent = () => {
     try {
       await axios.post(
         process.env.REACT_APP_URL + "/auth/logout",
-        {},
         {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
