@@ -1,30 +1,24 @@
 const jwt = require('jsonwebtoken');
-const USER = require('../model/user');
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const app = express();
+const secretKey = process.env.JWT_SECRET; 
 
-app.use(cookieParser());
+function auth(req, res, next) {
+  const token = req.header('Authorization');
 
-const auth = async (req, res, next) => {
-  try {
-    const token = req.cookies.token ||  req.header('Authorization')?.replace('Bearer ', '');    
-    const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
-    const rootUser = await USER.findOne({
-      _id: verifyToken._id,
-      'tokens.token': token
-    });
-    if (!rootUser) {
-      throw new Error('User does not exist');
-    }
-    req.token = token;
-    req.rootUser = rootUser;
-    req.userID = rootUser._id;
-    next();
-  } catch (err) {
-    res.status(401).send('Not authorized: No token available');
-    console.log(err);
+  if (!token || !token.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Authentication failed' });
   }
-};
+
+  const jwtToken = token.split(' ')[1];
+
+  try {
+    const decoded = jwt.verify(jwtToken, secretKey);
+
+    req.user = decoded;
+
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Authentication failed' });
+  }
+}
 
 module.exports = auth;

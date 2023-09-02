@@ -50,69 +50,19 @@ function generateToken(user) {
     }
   }));
   
-    // router.post("/login", async (req, res) => {
-    //   try {
-    //     const { username, password } = req.body;
-        
-    //     const user = await USER.findOne({ username });
-
-    //       if (!user) {
-    //       return res.status(400).json({ message: "Invalid credentials" });
-    //     }
-    //     const passwordMatch = await bcrypt.compare(password, user.password);
-
-    //     if (!passwordMatch) {
-    //       return res.status(400).json({ message: "Invalid credentials" });
-    //     }
-    //       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-    //       expiresIn: "1h",
-    //     });
-    //       res.cookie("jwtoken", token, {
-    //       maxAge: 2 * 24 * 60 * 60 * 1000,
-    //       httpOnly: false,
-    //       sameSite: "Lax",
-    //       secure: false, 
-    //     });
-    //       user.tokens = user.tokens.concat({ token });
-    //     await user.save();
-    
-    //     res.status(200).json({ message: "User signed in" });
-    //   } catch (err) {
-    //     console.error(err);
-    //     res.status(500).json({ error: "Failed to sign in" });
-    //   }
-    // });
-    
-    router.post('/login', async (req, res) => {
-      try {
-        const { username, password } = req.body;
-    
-        const user = await USER.findOne({ username: username });
-    
-        if (!user || user.password !== password) {
-          return res.status(401).json({ message: 'Invalid credentials' });
-        }
-    
-        const token = generateToken(user);
+  app.post('/login', (req, res) => {
+    const { username, password } = req.body;
   
-        res.cookie('jwtoken', token, {
-          domain: 'vercel.app',
-          path: '/',
-          secure: true,  // Cookie will only be sent over HTTPS
-          httpOnly: true,  // Cookie is not accessible via JavaScript
-          sameSite: 'lax',  // Adjust the SameSite attribute as needed
-        });
-
-        user.tokens = user.tokens.concat({ token:token });
-        await user.save();
-
-        res.status(200).json({ message: 'Login successful' });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server Error' });
-      }
-    });
-    
+    const user = USER.findOne({ username:username });
+  
+    if (!user || user.password !== password) {
+      return res.status(401).json({ message: 'Authentication failed' });
+    }
+  
+    const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET);
+  
+    res.header('Authorization', `Bearer ${token}`).json({ message: 'Authentication successful' });
+  });
 
   router.post('/logout', async (req, res) => {
     res.clearCookie("jwtoken", {
@@ -124,7 +74,7 @@ function generateToken(user) {
 
   router.get("/user", auth, async (req, res) => {
     try {
-      const user = await USER.findById(req.userID).select('-password -password2');
+      const user = await USER.findById(req.user.id).select('-password -password2');
       res.json(user);
     } catch (err) {
       console.error(err);

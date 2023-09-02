@@ -48,7 +48,7 @@ const LoginForm = () => {
   };
 
   const handleFormSubmit = async (e) => {
-    setLoading(true)
+    setLoading(true);
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -64,27 +64,37 @@ const LoginForm = () => {
           },
         }
       );
-      if (response.status === 400) {
+  
+      if (response.status === 401) {
         toast.error("Invalid credentials, please try again.", {
           autoClose: 1500,
           position: "top-right",
         });
-      } else {
-        localStorage.setItem("loggedIn?", true);
-        fetchUserDetails();
+      } else if (response.status === 200) {
+        const jwtToken = response.headers.authorization;
+  
+        localStorage.setItem("jwtToken", jwtToken);
+  
+        await fetchUserDetails();
+  
         setTimeout(() => {
           window.location.href = "/";
         }, 1500);
+      } else {
+        toast.error("Login failed. Please try again later.", {
+          autoClose: 1500,
+          position: "top-right",
+        });
       }
     } catch (error) {
-      setLoading(false)
-      toast.error("Invalid credentials", {
+      setLoading(false);
+      toast.error("Login failed. Please try again later.", {
         autoClose: 1500,
         position: "top-right",
       });
     }
   };
-
+  
   return (
     <>
       {isLoggedIn ? (
