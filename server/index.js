@@ -38,13 +38,17 @@ const cloudinaryConnect = () => {
 
 cloudinaryConnect();
 
+const sessionStore = MongoStore.create({
+  mongooseConnection: mongoose.connection,
+  maxAge: 1000 * 60 * 60 * 24,
+});
+
 app.use(
   session({
     secret: process.env.JWT_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.DATABASE }),
-      maxAge: 1000 * 60 * 60 * 24,
+    store: sessionStore,
   })
 );
 
