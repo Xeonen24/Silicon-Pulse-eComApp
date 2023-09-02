@@ -99,9 +99,10 @@ function generateToken(user) {
         // await user.save();
     
         res.cookie('jwtoken', token, { 
-          domain: 'https://silicon-pulse-e-com-app-mu.vercel.app', 
+          domain: 'silicon-pulse-e-com-app-mu.vercel.app',
           secure: true, 
-          path: '/' });
+          httpOnly: false, 
+          path: '/'  });
     
         res.status(200).json({ message: 'Login successful' });
       } catch (error) {
