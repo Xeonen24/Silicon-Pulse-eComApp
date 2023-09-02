@@ -6,25 +6,31 @@ const app = express();
 
 app.use(cookieParser());
 
-const auth = async (req, res, next) => {
-  try {
-    const token = req.cookies.token ||  req.header('Authorization')?.replace('Bearer ', '');    
-    const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
-    const rootUser = await USER.findOne({
-      _id: verifyToken._id,
-      'tokens.token': token
-    });
-    if (!rootUser) {
-      throw new Error('User does not exist');
-    }
-    req.token = token;
-    req.rootUser = rootUser;
-    req.userID = rootUser._id;
-    next();
-  } catch (err) {
-    res.status(401).send('Not authorized: No token available');
-    console.log(err);
+// const auth = async (req, res, next) => {
+//   try {
+//     const token = req.cookies.token ||  req.header('Authorization')?.replace('Bearer ', '');    
+//     const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
+//     const rootUser = await USER.findOne({
+//       _id: verifyToken._id,
+//       'tokens.token': token
+//     });
+//     if (!rootUser) {
+//       throw new Error('User does not exist');
+//     }
+//     req.token = token;
+//     req.rootUser = rootUser;
+//     req.userID = rootUser._id;
+//     next();
+//   } catch (err) {
+//     res.status(401).send('Not authorized: No token available');
+//     console.log(err);
+//   }
+// };
+
+const auth = (req, res, next) => {
+  if (req.session.user) {
+    return next();
   }
-};
+}
 
 module.exports = auth;

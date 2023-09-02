@@ -13,6 +13,7 @@ const adminController = require('./routes/admincontroller');
 const orderController = require('./routes/ordercontroller');
 const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
+const session = require('express-session');
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -37,6 +38,13 @@ mongoose
 
   cloudinaryConnect();
 
+  app.use(session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  }));
+
+  app.use(express.json());
 
   app.use(fileUpload({
     useTempFiles: true,
