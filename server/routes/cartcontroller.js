@@ -123,6 +123,7 @@ router.post('/cart/add', auth, asyncHandler(async (req, res) => {
   
   
   router.get('/cart', auth, asyncHandler(async (req, res) => {
+    console.log('Request received:', req.url);
     try {
       const user = await USER.findById(req.userID).populate('cart.product');
   
