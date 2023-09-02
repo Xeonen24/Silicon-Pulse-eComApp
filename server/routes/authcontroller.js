@@ -43,14 +43,14 @@ router.post("/signup", asyncHandler(async (req, res) => {
   }
 }));
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await USER.findOne({ username });
     if (!user || user.password !== password) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    req.session.user = user; 
+    req.session.user = user;
     res.json({ message: 'Login successful', user });
   } catch (error) {
     console.error(error);

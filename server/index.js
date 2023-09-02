@@ -14,6 +14,7 @@ const orderController = require('./routes/ordercontroller');
 const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -37,11 +38,19 @@ const cloudinaryConnect = () => {
 
 cloudinaryConnect();
 
-app.use(session({
-  secret: process.env.JWT_SECRET,
-  resave: false,
-  saveUninitialized: false,
-}));
+app.use(
+  session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+      sameSite: 'lax',
+      // secure: true,
+    },
+  })
+);
 
 app.use(express.json());
 
