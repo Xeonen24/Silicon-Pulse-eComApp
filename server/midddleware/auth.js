@@ -8,7 +8,7 @@ app.use(cookieParser());
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.cookies.jwtoken || req.headers.jwtoken;
+    const token = req.cookies.token ||  req.header('Authorization')?.replace('Bearer ', '');    
     const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
     const rootUser = await USER.findOne({
       _id: verifyToken._id,

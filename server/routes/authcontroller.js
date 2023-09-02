@@ -43,38 +43,39 @@ const router = express.Router();
     }
   }));
   
-  router.post("/login",
-    asyncHandler(async (req, res) => {
+    router.post("/login", async (req, res) => {
       try {
-        let token;
         const { username, password } = req.body;
-        let userSignin = await USER.findOne({ username });
-        if (userSignin) {
-          if (password !== userSignin.password) {
-            return res.status(400).json({ msg: "Invalid credentials" });
-          }
-          token = await userSignin.generateAuthToken();
-          userSignin.tokens.push({ token });
-          await userSignin.save();
-          res.header("Access-Control-Allow-Credentials", true);
-          res.cookie("jwtoken", token, {
-            maxAge: 2 * 24 * 60 * 60 * 1000,
-            httpOnly: false,
-            SameSite: "Lax",
-            secure: false,
-          });
-          res.status(200).json({ message: "User signed in" });
-          console.log("User signed in");
-        } else {
-          res.status(400).json({ message: "Invalid credentials" });
+        
+        const user = await USER.findOne({ username });
+
+          if (!user) {
+          return res.status(400).json({ message: "Invalid credentials" });
         }
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+          return res.status(400).json({ message: "Invalid credentials" });
+        }
+          const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+          expiresIn: "1h",
+        });
+          res.cookie("jwtoken", token, {
+          maxAge: 2 * 24 * 60 * 60 * 1000,
+          httpOnly: false,
+          sameSite: "Lax",
+          secure: false, 
+        });
+          user.tokens = user.tokens.concat({ token });
+        await user.save();
+    
+        res.status(200).json({ message: "User signed in" });
       } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(500).json({ error: "Failed to sign in" });
       }
-    })
-  );
-  
+    });
+    
   router.post('/logout', async (req, res) => {
     res.clearCookie("jwtoken", {
       path: '/',

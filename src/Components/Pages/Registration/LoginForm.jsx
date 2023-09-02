@@ -40,9 +40,10 @@ const LoginForm = () => {
           "Content-Type": "application/json",
         },
       });
+      console.log(response.data)
       setUserDetails(response.data);
     } catch (error) {
-      console.error(error);
+      console.error(error.response);
     }
   };
 
@@ -71,9 +72,9 @@ const LoginForm = () => {
       } else {
         localStorage.setItem("loggedIn?", true);
         fetchUserDetails();
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1500);
+        // setTimeout(() => {
+        //   window.location.href = "/";
+        // }, 1500);
       }
     } catch (error) {
       setLoading(false)
