@@ -14,7 +14,7 @@ const orderController = require('./routes/ordercontroller');
 const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo');
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -43,7 +43,7 @@ app.use(
     secret: process.env.JWT_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongooseConnection: mongoose.connection }),
+    store: MongoStore.create({ mongoUrl: process.env.DATBASE }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // Session expires after 24 hours
     },
