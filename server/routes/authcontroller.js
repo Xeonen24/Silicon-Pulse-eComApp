@@ -66,10 +66,6 @@ router.post('/logout', async (req, res) => {
   res.status(200).json({ message: "User signed out" });
 });
 
-router.get("/user", auth, async (req, res) => {
-  res.json({ message: 'User is signed in', user: req.session.user });
-});
-
 router.post("/update-profile", auth, asyncHandler(async (req, res) => {
   try {
     const finduser = await USER.findById(req.userID);
@@ -99,7 +95,7 @@ router.post("/update-profile", auth, asyncHandler(async (req, res) => {
 
 router.get("/user", auth, async (req, res) => {
   try {
-    const user = await USER.findById(req.userID).select('-password -password2');
+    const user = await USER.findById(req.session.user).select('-password -password2');
     res.json(user);
   } catch (err) {
     console.error(err);
