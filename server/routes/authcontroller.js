@@ -50,7 +50,7 @@ function generateToken(user) {
     }
   }));
   
-  app.post('/login', (req, res) => {
+  router.post('/login', (req, res) => {
     const { username, password } = req.body;
   
     const user = USER.findOne({ username:username });
