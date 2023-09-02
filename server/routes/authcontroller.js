@@ -4,7 +4,7 @@ const validator = require('validator');
 const auth = require('../midddleware/auth');
 const USER = require('../model/user');
 const mailSender = require('../midddleware/mailSender');
-const userAddress = require('../model/userAddress');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
