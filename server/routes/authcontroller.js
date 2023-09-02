@@ -8,6 +8,11 @@ const userAddress = require('../model/userAddress');
 
 const router = express.Router();
 
+function generateToken(user) {
+  return jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: '24h',
+  });
+}
 
   router.post("/signup", asyncHandler(async (req, res) => {
     const { username, email, password, password2 } = req.body;
@@ -80,24 +85,21 @@ const router = express.Router();
     
     router.post('/login', async (req, res) => {
       try {
-        const {username,password} = req.body;
+        const { username, password } = req.body;
+    
         const user = await USER.findOne({ username: username });
     
-        if (user.password != password || !user) {
+        if (!user || user.password !== password) {
           return res.status(401).json({ message: 'Invalid credentials' });
         }
-        function generateToken(user) {
-          return jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-            expiresIn: '24h',
-          });
-        }
-
+    
         const token = generateToken(user);
- 
-        user.tokens = user.tokens.concat({ token });
-        await user.save();
+    
+        // user.tokens = user.tokens.concat({ token });
+        // await user.save();
     
         res.cookie('jwtoken', token, { httpOnly: true, domain: 'vercel.app', secure: true });
+    
         res.status(200).json({ message: 'Login successful' });
       } catch (error) {
         console.error(error);
