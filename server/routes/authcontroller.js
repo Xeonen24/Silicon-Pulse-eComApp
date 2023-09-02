@@ -4,7 +4,6 @@ const validator = require('validator');
 const auth = require('../midddleware/auth');
 const USER = require('../model/user');
 const mailSender = require('../midddleware/mailSender');
-const session = require('express-session');
 
 const router = express.Router();
 
@@ -29,8 +28,7 @@ router.post("/signup", asyncHandler(async (req, res) => {
         password,
       });
       await user.save();
-      req.session.user = newUser;
-      res.json({ message: 'Registration successful', user: newUser });
+      req.session.user = user;
       res.status(201).json({ message: "User registered" });
     }
   } catch (err) {
@@ -52,7 +50,7 @@ router.post("/login", async (req, res) => {
     if (!user || user.password !== password) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    req.session.user = user;
+    req.session.user = user; 
     res.json({ message: 'Login successful', user });
   } catch (error) {
     console.error(error);
