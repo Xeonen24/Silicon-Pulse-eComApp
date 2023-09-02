@@ -1,22 +1,30 @@
+const jwt = require('jsonwebtoken');
+const USER = require('../model/user');
 const express = require('express');
-const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const app = express();
 
-app.use(session({
-  secret: process.env.JWT_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24, // Session expires after 24 hours
-  },
-}));
+app.use(cookieParser());
 
-function auth(req, res, next) {
-  if (req.session.user) {
+const auth = async (req, res, next) => {
+  try {
+    const token = req.cookies.token ||  req.header('Authorization')?.replace('Bearer ', '');    
+    const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
+    const rootUser = await USER.findOne({
+      _id: verifyToken._id,
+      'tokens.token': token
+    });
+    if (!rootUser) {
+      throw new Error('User does not exist');
+    }
+    req.token = token;
+    req.rootUser = rootUser;
+    req.userID = rootUser._id;
     next();
-  } else {
-    res.status(401).json({ message: 'Unauthorized' });
+  } catch (err) {
+    res.status(401).send('Not authorized: No token available');
+    console.log(err);
   }
-}
+};
 
 module.exports = auth;
