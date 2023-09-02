@@ -16,7 +16,6 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId, mode , editData }
   const [newRating, setNewRating] = useState(1);
   const [newReview, setNewReview] = useState("");
 
-
   useEffect(() => {
     if(mode === "edit"){
       setNewRating(editData.rating)
@@ -38,6 +37,7 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId, mode , editData }
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
+            "Authorization" : `Bearer ${localStorage.getItem("jwtToken")}`
           },
         }
       );
@@ -84,6 +84,7 @@ function ReviewModal({ isModalOpen, setIsModalOpen, productId, mode , editData }
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
+            "Authorization" : `Bearer ${localStorage.getItem("jwtToken")}`
           },
         }
       );

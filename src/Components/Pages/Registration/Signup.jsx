@@ -44,7 +44,6 @@ const Signup = () => {
         },
         config
       );
-      console.log(response.data);
       setUsername("");
       setEmail("");
       setPassword("");

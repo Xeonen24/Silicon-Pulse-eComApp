@@ -34,9 +34,6 @@ const About = () => {
           },
         }
       );
-
-      console.log(response);
-
       if (response.statusText == "OK") {
         alert("Email sent successfully!");
         setFormData({

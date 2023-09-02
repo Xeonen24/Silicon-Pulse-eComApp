@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faPenToSquare,faTrash,} from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,12 +21,15 @@ const ManageProduct = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_URL + "/products/products", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.get(
+        process.env.REACT_APP_URL + "/products/products",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setProducts(response.data);
     } catch (error) {
       console.error(error);
@@ -36,12 +39,17 @@ const ManageProduct = () => {
   const fetchRoleDetails = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(process.env.REACT_APP_URL + "/admin/user-role", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.get(
+        process.env.REACT_APP_URL + "/auth/user",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setRoleDetails(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -150,51 +158,53 @@ const ManageProduct = () => {
         </p>
       ) : roleDetails.role === "admin" ? (
         <div>
-          {showProducts&&(
+          {showProducts && (
             <>
-            <div>
-            <Link onClick={showAddProduct}>
-              <button>Add a Product</button>
-            </Link>
-          </div>
-          <div className="product-List">
-            <table className="table-List">
-              <thead>
-                <tr>
-                  <th>PID</th>
-                  <th>Created At</th>
-                  <th>Product Code</th>
-                  <th>Title</th>
-                  <th>Edit Product</th>
-                  <th>Delete Product</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentProducts.map((product) => renderProductRow(product))}
-              </tbody>
-            </table>
-          </div>
-          <div className="pagination">
-            {Array.from({
-              length: Math.ceil(products.length / productsPerPage),
-            }).map((_, index) => (
-              <button key={index} onClick={() => paginate(index + 1)}>
-                {index + 1}
-              </button>
-            ))}
-          </div>
+              <div>
+                <Link onClick={showAddProduct}>
+                  <button>Add a Product</button>
+                </Link>
+              </div>
+              <div className="product-List">
+                <table className="table-List">
+                  <thead>
+                    <tr>
+                      <th>PID</th>
+                      <th>Created At</th>
+                      <th>Product Code</th>
+                      <th>Title</th>
+                      <th>Edit Product</th>
+                      <th>Delete Product</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentProducts.map((product) =>
+                      renderProductRow(product)
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <div className="pagination">
+                {Array.from({
+                  length: Math.ceil(products.length / productsPerPage),
+                }).map((_, index) => (
+                  <button key={index} onClick={() => paginate(index + 1)}>
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
             </>
           )}
           {editProduct && (
             <>
               <button onClick={showOnlyProducts}>Go back</button>
-            <EditProduct productId={selectedProductId}/>
+              <EditProduct productId={selectedProductId} />
             </>
           )}
           {addProduct && (
             <>
-            <button onClick={showOnlyProducts}>Go back</button>
-            <AddProduct productId={selectedProductId}/>
+              <button onClick={showOnlyProducts}>Go back</button>
+              <AddProduct productId={selectedProductId} />
             </>
           )}
         </div>

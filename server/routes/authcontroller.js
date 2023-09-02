@@ -50,10 +50,9 @@ function generateToken(user) {
     }
   }));
   
-  router.post('/login', (req, res) => {
+  router.post('/login', asyncHandler(async (req, res) => {
     const { username, password } = req.body;
-  
-    const user = USER.findOne({ username:username });
+    const user = await USER.findOne({ username });
   
     if (!user || user.password !== password) {
       return res.status(401).json({ message: 'Authentication failed' });
@@ -62,7 +61,7 @@ function generateToken(user) {
     const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET);
   
     res.header('Authorization', `Bearer ${token}`).json({ message: 'Authentication successful' });
-  });
+  }));  
 
   router.post('/logout', async (req, res) => {
     res.clearCookie("jwtoken", {
@@ -72,15 +71,19 @@ function generateToken(user) {
     res.status(200).json({ message: "User signed out" });
   });
 
-  router.get("/user", auth, async (req, res) => {
-    try {
-      const user = await USER.findById(req.user.id).select('-password -password2');
-      res.json(user);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal Server Error' });
+  router.get('/user', auth, asyncHandler(async (req, res) => {
+  const { id } = req.user;
+  try {
+    const user = await USER.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
-  });
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}));
 
   router.post("/update-profile", auth, asyncHandler(async (req, res) => {
     try {
@@ -100,7 +103,6 @@ function generateToken(user) {
           finduser.password = newPassword;
           await finduser.save();
           res.status(201).send("Profile updated successfully");
-          console.log("User profile updated");
         }
       }
     } catch (err) {

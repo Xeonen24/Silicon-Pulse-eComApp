@@ -27,14 +27,16 @@ const ProfileContent = () => {
 
   const logoutUser = async () => {
     try {
-      await axios.post(
-        process.env.REACT_APP_URL + "/auth/logout",
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const token = localStorage.getItem("jwtToken");
+      await axios.post(process.env.REACT_APP_URL + "/auth/logout", {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       localStorage.removeItem("userDetails");
+      localStorage.removeItem("jwtToken");
       localStorage.setItem("loggedIn?", false);
       setLoading(true);
       setTimeout(() => {
@@ -59,12 +61,14 @@ const ProfileContent = () => {
 
   const fetchRoleDetails = async () => {
     try {
+      const token = localStorage.getItem("jwtToken");
       const response = await axios.get(
-        process.env.REACT_APP_URL + "/admin/user-role",
+        process.env.REACT_APP_URL + "/auth/user",
         {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

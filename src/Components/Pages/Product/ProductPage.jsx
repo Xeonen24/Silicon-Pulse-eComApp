@@ -21,17 +21,13 @@ import ProductReviews from "./ProductReviews";
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [loginChek, setLoginChek] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [reviewModal, setReviewModal] = useState(false);
   const [mode, setMode] = useState("rating");
   const [ProductRating, setProductRating] = useState(null);
   const [editData, setEditData] = useState(null);
-
-  useEffect(() => {
-    checkLogin();
-  }, []);
+  const chckLogin = localStorage.getItem("loggedIn?");
 
   useEffect(() => {
     fetchProduct();
@@ -62,21 +58,6 @@ const ProductPage = () => {
     }
   };
 
-  const checkLogin = async () => {
-    try {
-      const response = await axios.get(process.env.REACT_APP_URL + "/auth/user", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setLoginChek(true);
-    } catch (error) {
-      setLoginChek(false);
-      console.error(error);
-    }
-  };
-
   const handleCloseModal = () => {
     setShowLoginModal(false);
   };
@@ -86,7 +67,7 @@ const ProductPage = () => {
   };
 
   const addToCart = (productId) => {
-    if (loginChek === false) {
+    if (!chckLogin) {
       setShowLoginModal(true);
     } else {
       axios
@@ -100,6 +81,7 @@ const ProductPage = () => {
             withCredentials: true,
             headers: {
               "Content-Type": "application/json",
+              "Authorization" : `Bearer ${localStorage.getItem("jwtToken")}`,
             },
           }
         )

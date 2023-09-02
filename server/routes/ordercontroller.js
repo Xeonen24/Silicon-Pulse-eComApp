@@ -8,7 +8,7 @@ const Order = require("../model/orders");
 const router = express.Router();
 
   router.post("/saveaddress", auth, asyncHandler(async (req, res) => {
-    const user = await USER.findById(req.userID);
+    const user = await USER.findById(req.user.id);
     
     try {
       if (!user) {
@@ -39,7 +39,7 @@ const router = express.Router();
   
 
   router.post("/makeorder", auth, asyncHandler(async (req, res) => {
-    const user = await USER.findById(req.userID);
+    const user = await USER.findById(req.user.id);
     if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
@@ -68,13 +68,9 @@ const router = express.Router();
 
   router.get("/getorders", auth, asyncHandler(async (req, res) => {
     try{
-      console.log(req.userID)
-
-      const orders = await Order.find({ user: req.userID }).populate({
+      const orders = await Order.find({ user: req.user.id }).populate({
         path: 'products.product',
       });
-
-
       res.status(200).json(orders);
     }
     catch(error) {

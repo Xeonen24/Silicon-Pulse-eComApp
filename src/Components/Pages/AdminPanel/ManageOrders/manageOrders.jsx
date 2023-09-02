@@ -12,10 +12,12 @@ const ManageOrders = () => {
 
   const fetchOrders = async () => {
     try {
+      const token = localStorage.getItem("jwtToken");
       const res = await axios.get(process.env.REACT_APP_URL + "/admin/get-orders", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       setOrders(res.data);
@@ -24,6 +26,7 @@ const ManageOrders = () => {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       })
       const usersById = usersRes.data.reduce((acc, user) => {

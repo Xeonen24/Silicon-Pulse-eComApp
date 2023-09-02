@@ -22,6 +22,7 @@ const ProductReviews = ({ product , setReviewModal , setMode , setEditData }) =>
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
+            "Authorization" : `Bearer ${localStorage.getItem("jwtToken")}`
           },
         });
 

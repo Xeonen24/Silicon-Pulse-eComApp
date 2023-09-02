@@ -41,6 +41,10 @@ const StageFour = ({address,handleBackStage,cartItems,totalPrice,paymentMethod})
               addressData,
               {
                 withCredentials: true,
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization" : `Bearer ${localStorage.getItem("jwtToken")}`,
+                }
               }
             );
 
@@ -60,6 +64,10 @@ const StageFour = ({address,handleBackStage,cartItems,totalPrice,paymentMethod})
               orderData,
               {
                 withCredentials: true,
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization" : `Bearer ${localStorage.getItem("jwtToken")}`,
+                }
               }
             );
             if (res.status === 201) {

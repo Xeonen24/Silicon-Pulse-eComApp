@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 
-const EditProduct = ({productId}) => {
+const EditProduct = ({ productId }) => {
   const [categories, setCategories] = useState([]);
   const [data, setData] = useState({
     productCode: "",
@@ -37,7 +37,9 @@ const EditProduct = ({productId}) => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_URL + "/products/categories");
+      const response = await axios.get(
+        process.env.REACT_APP_URL + "/products/categories"
+      );
       setCategories(response.data);
     } catch (error) {
       toast.error("Failed to fetch categories", {
@@ -69,12 +71,17 @@ const EditProduct = ({productId}) => {
 
   const fetchRoleDetails = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_URL + "/admin/user-role", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.get(
+        process.env.REACT_APP_URL + "/auth/user",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setRoleDetails(response.data);
     } catch (error) {
       console.error(error);

@@ -18,7 +18,7 @@ const Cart = () => {
         const response = await axios.get(process.env.REACT_APP_URL + "/cart/cart", {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
           },
         });
         setCartItems(response.data);
@@ -62,7 +62,7 @@ const Cart = () => {
         {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
           },
         }
       );
@@ -87,7 +87,7 @@ const Cart = () => {
       await axios.delete(process.env.REACT_APP_URL + `/cart/cart/remove-all`, {
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
       });
       setCartItems([]);
@@ -114,7 +114,7 @@ const Cart = () => {
         {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
           },
         }
       );
@@ -158,7 +158,7 @@ const Cart = () => {
         {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwtoken")}`,
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
           },
         }
       );

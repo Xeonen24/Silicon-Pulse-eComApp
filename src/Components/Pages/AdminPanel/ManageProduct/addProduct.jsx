@@ -11,7 +11,6 @@ const AddProduct = () => {
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState(null);
 
-
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -43,7 +42,6 @@ const AddProduct = () => {
   const getCategories = async () => {
     try {
       const response = await axios.get(URL + "/products/categories");
-      console.log(response.data);
       setCategories(response.data);
     } catch (error) {
       toast.error("Failed to fetch categories", {
@@ -67,22 +65,18 @@ const AddProduct = () => {
       formData.append("discountprice", data.discountprice);
       formData.append("price", data.price);
       formData.append("image", imageFile); // Append the selected image to the formData
-  
-      const response = await axios.post(
-        URL + "/admin/add-product",
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-  
+
+      const response = await axios.post(URL + "/admin/add-product", formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       setData({});
       setImageFile(null);
       setPreviewSource(null);
-  
+
       toast.success("Product Added Successfully", {
         autoClose: 2000,
         position: "top-right",
@@ -97,16 +91,20 @@ const AddProduct = () => {
       console.error("Error adding product:", error);
     }
   };
-  
 
   const fetchRoleDetails = async () => {
     try {
-      const response = await axios.get(URL + "/admin/user-role", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.get(
+        process.env.REACT_APP_URL + "/auth/user",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setRoleDetails(response.data);
     } catch (error) {
       console.error(error);
@@ -121,7 +119,7 @@ const AddProduct = () => {
         toastId: "admin-toast",
       });
     }
-    setLoading(false)
+    setLoading(false);
   }, [roleDetails.role]);
 
   useEffect(() => {
@@ -203,14 +201,9 @@ const AddProduct = () => {
                   }
                 />
                 <label>Image</label>
-                {
-                    previewSource && 
-                  <img
-                  src={previewSource}
-                  alt="Add Image"
-                  className='w-100'
-                  />
-                }
+                {previewSource && (
+                  <img src={previewSource} alt="Add Image" className="w-100" />
+                )}
                 <input
                   type="file"
                   onChange={handleFileChange}
