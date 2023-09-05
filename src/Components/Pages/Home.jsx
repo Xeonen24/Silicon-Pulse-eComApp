@@ -165,11 +165,7 @@ const Home = () => {
         <h2 className="section-heading">Popular Product Categories</h2>
         <div className="category-grid">
           {categories.map((category) => (
-            <Link
-              to={`/category/${category._id}`}
-              className="category-card-link"
-              key={category._id}
-            >
+           <Link to={`/category/${encodeURIComponent(category._id)}`} className="category-card-link" key={category._id}>
               <div className="category-card">
                 <img
                   src={getImageForCategory(category.title)}
