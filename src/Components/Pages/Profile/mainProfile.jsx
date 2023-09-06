@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import axios from "axios";
 import {
   faEdit,
@@ -24,6 +24,9 @@ const MainProfile = (props) => {
     logoutUser
   } = props.data;
 
+  useEffect(() => {
+    document.title = "Silicon Pulse | Profile";
+  },[])
 
   const handleSaveProfile = async () => {
     setLoading(true);
