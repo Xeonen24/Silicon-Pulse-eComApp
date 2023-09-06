@@ -77,7 +77,6 @@ const LoginForm = () => {
       );
       if (response.status === 200) {
         const jwtToken = response.headers["authorization"].replace('Bearer ', '');
-        console.log("Authorization Header:", jwtToken);
 
         localStorage.setItem("jwtToken", jwtToken);
 

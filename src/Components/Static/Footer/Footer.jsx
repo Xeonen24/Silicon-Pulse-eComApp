@@ -12,7 +12,7 @@ const Footer = () => {
         <div className="footer-logo">Silicon Pulse</div>
         <div className="footer-links">
           <a href="/">Home</a>
-          <a href="/products">Products</a>
+          <a href="/product">Products</a>
           <a href="/about">About Us</a>
           <a href="/contact">Contact Us</a>
         </div>
