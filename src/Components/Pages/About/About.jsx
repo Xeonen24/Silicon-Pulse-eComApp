@@ -16,6 +16,7 @@ const About = () => {
     setTimeout(() => {
       setLoading(false);
     },1100)
+    localStorage.removeItem("category");
   }, [])
   
 

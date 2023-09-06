@@ -12,6 +12,22 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const fetchCartItems = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_URL + "/cart/cart", {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      });
+      setCartItems(response.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+  
   useEffect(() => {
     document.title = "Silicon Pulse | Cart";
     const fetchCartItems = async () => {

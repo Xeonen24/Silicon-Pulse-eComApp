@@ -39,6 +39,7 @@ const Home = () => {
     checkLogin();
     getDiscountedProducts();
     getCategories();
+    localStorage.removeItem("category");
   }, []);
 
   const getCategories = async () => {
@@ -166,7 +167,7 @@ const Home = () => {
         <h2 className="section-heading">Popular Product Categories</h2>
         <div className="category-grid">
           {categories.map((category) => (
-           <Link className="category-card-link" key={category._id}>
+           <Link to="/product" onClick={() => localStorage.setItem("category" , category._id)} className="category-card-link" key={category._id}>
               <div className="category-card">
                 <img
                   src={getImageForCategory(category.title)}

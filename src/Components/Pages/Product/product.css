@@ -180,6 +180,11 @@
   color: var(--aplared);
   border-radius: 7px;
   transition: all 0.3s ease-in-out;
+  min-width: 150px;
+  text-align: center;
+  font-size: 1.3rem;
+  padding: 1rem;
+  margin-top: 1rem;
 }
 
 .category-options {
@@ -228,4 +233,13 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.sort-buttons{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 2rem;
 }

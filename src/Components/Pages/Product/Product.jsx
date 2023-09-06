@@ -58,10 +58,9 @@ const Product = () => {
   useEffect(() => {
     document.title = "Silicon Pulse | Product";
     const searchParams = new URLSearchParams(location.search);
-    const category = searchParams.get("category");
-    setSelectedCategory(category || "");
+    setSelectedCategory(localStorage.getItem("category")  || "");
   }, [location.search]);
-
+  
   const handleCategoryChange = (categoryId) => {
     setLoading(true);
 
@@ -184,56 +183,61 @@ const Product = () => {
         </div>
       ) : (
         <>
-          <div className="category-dropdown">
-            <div className="selected-category">
-              {selectedCategory === ""
-                ? "All Categories"
-                : getSelectedCategoryTitle(selectedCategory)}
-            </div>
-            <div className="category-options">
-              <div
-                className={`category-option ${
-                  selectedCategory === "" ? "active" : ""
-                }`}
-                onClick={() => {
-                  if (selectedCategory !== "") {
-                    handleCategoryChange("");
-                  }
-                }}
-              >
-                All Categories
-              </div>
-              <div>
-                {categories.map((category) => (
-                  <div
-                    key={category._id}
-                    className={`category-option ${
-                      selectedCategory === category._id ? "active" : ""
-                    }`}
-                    onClick={() => handleCategoryChange(category._id)}
-                  >
-                    {category.title}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
 
           <div className="sort-buttons">
-            <button
-              className={`ascdscbut ${sortOrder === "asc" ? "active" : ""}`}
-              onClick={() => setSortOrder("asc")}
-              disabled={sortOrder === "asc"}
-            >
-              Price Low to High
-            </button>
-            <button
-              className={`ascdscbut ${sortOrder === "desc" ? "active" : ""}`}
-              onClick={() => setSortOrder("desc")}
-              disabled={sortOrder === "desc"}
-            >
-              Price High to Low
-            </button>
+            
+            <div className="category-dropdown">
+              <div className="selected-category">
+                {selectedCategory === ""
+                  ? "All Categories"
+                  : getSelectedCategoryTitle(selectedCategory)}
+              </div>
+              <div className="category-options">
+                <div
+                  className={`category-option ${
+                    selectedCategory === "" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    if (selectedCategory !== "") {
+                      handleCategoryChange("");
+                    }
+                  }}
+                >
+                  All Categories
+                </div>
+                <div>
+                  {categories.map((category) => (
+                    <div
+                      key={category._id}
+                      className={`category-option ${
+                        selectedCategory === category._id ? "active" : ""
+                      }`}
+                      onClick={() => handleCategoryChange(category._id)}
+                    >
+                      {category.title}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div style={{marginRight : "2rem"}}>
+              <button
+                className={`ascdscbut ${sortOrder === "asc" ? "active" : ""}`}
+                style={{ minWidth: "200px" }}
+                onClick={() => setSortOrder("asc")}
+                disabled={sortOrder === "asc"}
+              >
+                Price Low to High
+              </button>
+              <button
+                className={`ascdscbut ${sortOrder === "desc" ? "active" : ""}`}
+                style={{ minWidth: "200px" }}
+                onClick={() => setSortOrder("desc")}
+                disabled={sortOrder === "desc"}
+              >
+                Price High to Low
+              </button>
+            </div>
           </div>
 
           {productLoading ? (
