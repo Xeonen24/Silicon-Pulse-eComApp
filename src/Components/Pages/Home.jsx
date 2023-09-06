@@ -35,6 +35,7 @@ const Home = () => {
   const [discountedProducts, setDiscountedProducts] = useState();
 
   useEffect(() => {
+    document.title = "Silicon Pulse | Home";
     checkLogin();
     getDiscountedProducts();
     getCategories();

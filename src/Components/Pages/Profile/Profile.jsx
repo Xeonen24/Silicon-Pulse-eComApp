@@ -8,6 +8,7 @@ const Profile = () => {
   const chckLogin = localStorage.getItem("loggedIn?");
   
   useEffect(() => {
+    document.title = "Silicon Pulse | Profile";
     IsLoggedIn();
     if (chckLogin === "false") {
       toast.error("Login required, redirecting...", {

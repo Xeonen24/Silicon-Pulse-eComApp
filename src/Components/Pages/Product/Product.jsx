@@ -56,6 +56,7 @@ const Product = () => {
   }, []);
 
   useEffect(() => {
+    document.title = "Silicon Pulse | Product";
     const searchParams = new URLSearchParams(location.search);
     const category = searchParams.get("category");
     setSelectedCategory(category || "");

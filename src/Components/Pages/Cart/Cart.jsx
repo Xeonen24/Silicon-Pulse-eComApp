@@ -13,6 +13,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = "Silicon Pulse | Cart";
     const fetchCartItems = async () => {
       try {
         const response = await axios.get(process.env.REACT_APP_URL + "/cart/cart", {

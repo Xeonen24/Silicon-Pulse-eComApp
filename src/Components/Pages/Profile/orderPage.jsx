@@ -9,6 +9,7 @@ const OrderPage = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
+    document.title = "Silicon Pulse | Orders";
     const getOrders = async () => {
       try {
         const token = localStorage.getItem("jwtToken");

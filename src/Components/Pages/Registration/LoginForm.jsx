@@ -12,6 +12,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.title = "Silicon Pulse | Login";
     IsLoggedIn();
     setLoading(false);
   }, []);

@@ -12,6 +12,7 @@ const About = () => {
   });
   
   useEffect(() => {
+    document.title = "Silicon Pulse | About";
     setTimeout(() => {
       setLoading(false);
     },1100)

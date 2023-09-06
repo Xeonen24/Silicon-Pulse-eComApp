@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./order.css";
 import ProgressLine from "./Components/ProgressLine";
@@ -19,6 +19,11 @@ const Order = () => {
     zip: "",
     country: "",
   });
+
+  useEffect(() => {
+    document.title = "Silicon Pulse | Order";
+  }, [])
+  
 
   const [paymentMethod, setPaymentMethod] = useState("RazorPay");
  

@@ -14,6 +14,7 @@ const Signup = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    document.title = "Silicon Pulse | Signup";
     IsLoggedIn();
   }, []);
 
