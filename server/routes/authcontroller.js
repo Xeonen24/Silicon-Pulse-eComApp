@@ -7,6 +7,12 @@ const mailSender = require('../midddleware/mailSender');
 const jwt = require('jsonwebtoken');
 
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+const bcrypt = require('bcrypt');
+
+dotenv.config();
+
 
 function generateToken(user) {
   return jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
@@ -48,7 +54,8 @@ function generateToken(user) {
       console.log(errors);
       res.status(422).json({ errors });
     }
-  }));
+    }
+  ));
   
   router.post('/login', asyncHandler(async (req, res) => {
     const { username, password } = req.body;
@@ -109,18 +116,9 @@ function generateToken(user) {
       console.log(err);
       res.status(500).json({ error: "Failed to update profile" });
     }
-  }));
-  
-  router.get("/user", auth, async (req, res) => {
-    try {
-      const user = await USER.findById(req.userID).select('-password -password2');
-      res.json(user);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
-
+  ));
+  
   router.post("/send-mail", asyncHandler(async (req, res) => {
     try {
       const { msg } = req.body;
@@ -142,7 +140,8 @@ function generateToken(user) {
       console.log(error);
       return res.status(500).json({ error: "Internal server error in mail send" });
     }
-  }));
+    }
+  ));
 
   module.exports = router;
 
