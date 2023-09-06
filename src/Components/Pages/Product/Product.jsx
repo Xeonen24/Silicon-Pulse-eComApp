@@ -27,7 +27,7 @@ const Product = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [productLoading, setProductLoading] = useState(true);
-  const chckLogin = localStorage.getItem("loggedIn?");
+  const [chckLogin, setChckLogin] = useState(false);
 
   useEffect(() => {
     axios
@@ -49,6 +49,10 @@ const Product = () => {
     setTimeout(() => {
       setProductLoading(false);
     }, 1000);
+    const chckLogin = localStorage.getItem("loggedIn?");
+    if (chckLogin === "true") {
+      setChckLogin(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -83,7 +87,7 @@ const Product = () => {
   };
 
   const addToCart = (productId) => {
-    if (!chckLogin) {
+    if (chckLogin === false) {
       setShowLoginModal(true);
     } else {
       axios
