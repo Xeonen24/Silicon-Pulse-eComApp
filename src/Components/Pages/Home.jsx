@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import image from "../../Images/hs.png";
 import "./home.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -19,29 +18,47 @@ import "swiper/css/scrollbar";
 import { Rating } from "@mui/material";
 import "swiper/css/effect-fade";
 import "swiper/css/autoplay";
-import cabinet from "../../Images/cabinet.jpg";
-import cpu from "../../Images/cpu.jpg";
-import gpu from "../../Images/gpu.jpg";
-import keymouse from "../../Images/keymouse.jpg";
-import power from "../../Images/power.jpg";
-import ram from "../../Images/ram.jpg";
-import cooling from "../../Images/cooling.jpg";
-import storage from "../../Images/storage.jpg";
-import explore from "../../Images/explore.png";
+import cabinetImage from "../../Images/cabinet.jpg";
+import motherboardImage from "../../Images/motherboard.webp"
+import cpuImage from "../../Images/cpu.jpg";
+import gpuImage from "../../Images/gpu.jpg";
+import keymouseImage from "../../Images/keymouse.jpg";
+import powerImage from "../../Images/power.jpg";
+import ramImage from "../../Images/ram.jpg";
+import coolingImage from "../../Images/cooling.jpg";
+import storageImage from "../../Images/storage.jpg";
+import exploreImage from "../../Images/explore.png";
 
 const Home = () => {
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(true);
   const [discountedProducts, setDiscountedProducts] = useState();
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   useEffect(() => {
     checkLogin();
     getDiscountedProducts();
+    getCategories();
   }, []);
 
+  const getCategories = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_URL + "/products/categories",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response);
+      setCategories(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const checkLogin = async () => {
-    setLoggedIn(true);
     setTimeout(async () => {
       try {
         const token = localStorage.getItem("jwtToken");
@@ -55,9 +72,7 @@ const Home = () => {
             },
           }
         );
-        setLoading(false);
       } catch (error) {
-        setLoading(false);
         console.error(error);
         localStorage.setItem("userDetails", null);
         localStorage.setItem("loggedIn?", false);
@@ -102,7 +117,7 @@ const Home = () => {
               slidesPerView={1}
               loop={true}
               autoplay={{
-                delay: 800,
+                delay: 1500,
                 disableOnInteraction: false,
               }}
               navigation
@@ -146,74 +161,24 @@ const Home = () => {
         </>
       )}
 
-      {/* ADD HERE */}
       <div className="category-section">
         <h2 className="section-heading">Popular Product Categories</h2>
         <div className="category-grid">
-          <Link to="/product" className="category-card-link">
-            <div className="category-card">
-              <img src={cabinet} alt="Cabinet" className="category-image" />
-              <h3 className="category-title">Cabinets</h3>
-            </div>
-          </Link>
-          <Link to="/product" className="category-card-link">
-            <div className="category-card">
-              <img src={cpu} alt="CPU" className="category-image" />
-              <h3 className="category-title">CPU</h3>
-            </div>
-          </Link>
-          <Link to="/product" className="category-card-link">
-            <div className="category-card">
-              <img src={gpu} alt="GPU" className="category-image" />
-              <h3 className="category-title">GPU</h3>
-            </div>
-          </Link>
-          <Link to="/product" className="category-card-link">
-            <div className="category-card">
-              <img
-                src={keymouse}
-                alt="Keyboard and Mouse"
-                className="category-image"
-              />
-              <h3 className="category-title">Keyboard & Mouse</h3>
-            </div>
-          </Link>
-          <Link to="/product" className="category-card-link">
-            <div className="category-card">
-              <img src={power} alt="Power Supply" className="category-image" />
-              <h3 className="category-title">Power Supply</h3>
-            </div>
-          </Link>
-          <Link to="/product" className="category-card-link">
-            <div className="category-card">
-              <img src={ram} alt="RAM" className="category-image" />
-              <h3 className="category-title">RAM</h3>
-            </div>
-          </Link>
-          <Link to="/product" className="category-card-link">
-            <div className="category-card">
-              <img src={cooling} alt="Cooling" className="category-image" />
-              <h3 className="category-title">Cooling</h3>
-            </div>
-          </Link>
-          <Link to="/product" className="category-card-link">
-            <div className="category-card">
-              <img src={storage} alt="Storage" className="category-image" />
-              <h3 className="category-title">Storage</h3>
-            </div>
-          </Link>
-          <Link to="/product" className="category-card-link">
-            <div className="category-card">
-              <img src={explore} alt="Explore" className="category-image" />
-              <h3 className="category-title" style={{ fontSize: "2rem" }}>
-                Explore more..
-              </h3>
-            </div>
-          </Link>
+          {categories.map((category) => (
+           <Link to={`/category/${encodeURIComponent(category._id)}`} className="category-card-link" key={category._id}>
+              <div className="category-card">
+                <img
+                  src={getImageForCategory(category.title)}
+                  alt={category.name}
+                  className="category-image"
+                />
+                <h3 className="category-title">{category.title}</h3>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
 
-      {/* ADD HERE */}
       <div className="benefits-section">
         <h2>Why Choose Our Computer Products?</h2>
         <div className="benefit-card">
@@ -252,13 +217,37 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {/* END OF ADD HERE */}
 
       <div className="Footer-div">
         <Footer />
       </div>
     </div>
   );
+};
+
+const getImageForCategory = (categoryTitle) => {
+  switch (categoryTitle) {
+    case "Cases/Cabinets":
+      return cabinetImage;
+    case "Processors":
+      return cpuImage;
+    case "Graphics Cards":
+      return gpuImage;
+    case "Peripherals":
+      return keymouseImage;
+    case "Power Supplies":
+      return powerImage;
+    case "RAMs":
+      return ramImage;
+    case "Cooling Solutions":
+      return coolingImage;
+    case "Storage Devices":
+      return storageImage;
+    case "Motherboards":
+      return motherboardImage;
+    default:
+      return exploreImage;
+  }
 };
 
 export default Home;

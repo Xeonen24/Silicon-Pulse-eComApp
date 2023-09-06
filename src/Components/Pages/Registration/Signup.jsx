@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
+  const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +18,7 @@ const Signup = () => {
   }, []);
 
   const IsLoggedIn = () => {
+    setLoading(false);
     const chckLogin = localStorage.getItem("loggedIn?");
     if (chckLogin === "true") {
       setIsLoggedIn(true);
@@ -27,6 +29,7 @@ const Signup = () => {
   };
 
   const handleFormSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     try {
@@ -35,7 +38,8 @@ const Signup = () => {
           "Content-Type": "application/json",
         },
       };
-      const response = await axios.post(process.env.REACT_APP_URL + "/auth/signup",
+      const response = await axios.post(
+        process.env.REACT_APP_URL + "/auth/signup",
         {
           username,
           email,
@@ -52,7 +56,9 @@ const Signup = () => {
         autoClose: 1500,
         position: "top-right",
       });
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       if (error.response && error.response.data && error.response.data.error) {
         toast.error(
           error.response.data.error ||
@@ -72,63 +78,66 @@ const Signup = () => {
 
   return (
     <>
-      {isLoggedIn ? (
-        <>
-          <p
-            style={{
-              textAlign: "center",
-              marginTop: "16rem",
-              fontSize: "2rem",
-            }}
-          >
-            Already logged in, redirecting....
-          </p>
-        </>
+      {loading ? (
+        <div className="page-loading">
+          <div className="spinner"></div>
+        </div>
+      ) : isLoggedIn ? (
+        <p
+          style={{
+            textAlign: "center",
+            marginTop: "16rem",
+            fontSize: "2rem",
+          }}
+        >
+          Already logged in, redirecting....
+        </p>
       ) : (
         <div className="wrapperL">
           <div className="signup-box">
-          <form className="signup-form" onSubmit={handleFormSubmit}>
-            <h2 className="fbLoginFormTitle">Register</h2>
-            <label>Username</label>
-            <input
-              className="signup-input"
-              type="text"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <label>Email</label>
-            <input
-              className="signup-input"
-              type="text"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <label>Password</label>
-            <input
-              className="signup-input"
-              type="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <label>Re-enter Password</label>
-            <input
-              className="signup-input"
-              type="password"
-              name="password2"
-              value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
-            />
-            <button className="signup-button" type="submit">
-              Register
-            </button>
-            <hr className="fbLoginDivider" />
-            <Link to="/login" className="fbLoginLink">
-              Already have an account? <span style={{color:'blue'}}>Click here.</span>
-            </Link>
-          </form>
+            <form className="signup-form" onSubmit={handleFormSubmit}>
+              <h2 className="fbLoginFormTitle">Register</h2>
+              <label>Username</label>
+              <input
+                className="signup-input"
+                type="text"
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <label>Email</label>
+              <input
+                className="signup-input"
+                type="text"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <label>Password</label>
+              <input
+                className="signup-input"
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <label>Re-enter Password</label>
+              <input
+                className="signup-input"
+                type="password"
+                name="password2"
+                value={password2}
+                onChange={(e) => setPassword2(e.target.value)}
+              />
+              <button className="signup-button" type="submit">
+                Register
+              </button>
+              <hr className="fbLoginDivider" />
+              <Link to="/login" className="fbLoginLink">
+                Already have an account?{" "}
+                <span style={{ color: "blue" }}>Click here.</span>
+              </Link>
+            </form>
           </div>
         </div>
       )}
