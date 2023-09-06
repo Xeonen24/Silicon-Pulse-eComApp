@@ -117,7 +117,7 @@ const Home = () => {
               slidesPerView={1}
               loop={true}
               autoplay={{
-                delay: 1500,
+                delay: 2000,
                 disableOnInteraction: false,
               }}
               navigation
@@ -165,7 +165,7 @@ const Home = () => {
         <h2 className="section-heading">Popular Product Categories</h2>
         <div className="category-grid">
           {categories.map((category) => (
-           <Link to={`/category/${encodeURIComponent(category._id)}`} className="category-card-link" key={category._id}>
+           <Link className="category-card-link" key={category._id}>
               <div className="category-card">
                 <img
                   src={getImageForCategory(category.title)}

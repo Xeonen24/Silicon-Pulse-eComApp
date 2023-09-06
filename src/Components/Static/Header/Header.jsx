@@ -33,14 +33,15 @@ const Header = () => {
   };
 
   return (
-    <div className="wrapper">
-
     <div className="container">
-        <Link className="Silicon-heading" onClick={() => setActiveRoute("/")} to="/">
-          Silicon Pulse
-        </Link>
+      <Link
+        className="Silicon-heading"
+        onClick={() => setActiveRoute("/")}
+        to="/"
+      >
+        Silicon Pulse
+      </Link>
       <div className="headers">
-      
         <ul className="navbar-nav">
           <li className={`nav-item nav-comp`}>
             <Link
@@ -113,7 +114,6 @@ const Header = () => {
           <Navbar />
         </div>
       </div>
-    </div>
     </div>
   );
 };

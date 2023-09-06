@@ -19,25 +19,6 @@ router.get("/categories", (req, res) => {
     });
 });
 
-router.get("/category/:categoryId", async (req, res) => {
-  try {
-    const categoryId = req.params.categoryId;
-    console.log("Received categoryId:", categoryId);
-
-    const products = await Product.find({ category: categoryId });
-
-    if (products.length === 0) {
-      return res.status(404).json({ error: "No products found in this category" });
-    }
-
-    res.json(products);
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    res.status(500).json({ error: "Error fetching products" });
-  }
-});
-
-
 router.get('/products', async (req, res) => {
   try {
     const products = await Product.find().populate('ratingAndReviews');
