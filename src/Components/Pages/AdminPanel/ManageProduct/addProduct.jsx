@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./addProduct.css";
 import { toast } from "react-toastify";
@@ -64,7 +64,7 @@ const AddProduct = () => {
       formData.append("manufacturer", data.manufacturer);
       formData.append("discountprice", data.discountprice);
       formData.append("price", data.price);
-      formData.append("image", imageFile); // Append the selected image to the formData
+      formData.append("image", imageFile);
 
       const response = await axios.post(URL + "/admin/add-product", formData, {
         withCredentials: true,

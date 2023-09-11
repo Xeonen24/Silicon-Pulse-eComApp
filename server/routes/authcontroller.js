@@ -4,12 +4,9 @@ const validator = require('validator');
 const auth = require('../midddleware/auth');
 const USER = require('../model/user');
 const mailSender = require('../midddleware/mailSender');
-const jwt = require('jsonwebtoken');
-
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const bcrypt = require('bcrypt');
 
 dotenv.config();
 

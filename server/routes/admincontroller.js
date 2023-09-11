@@ -64,8 +64,7 @@ router.put("/update-user/:id", async (req, res) => {
         || !discountprice || !productCode || !image) {
         return res.status(422).json({ error: 'Please add all the fields' });
       }
-  
-  
+
       const imageUpload = await UploadToCloudinary(image, 'SiliconPulse');
   
       const newproduct = new Product({
@@ -88,11 +87,15 @@ router.put("/update-user/:id", async (req, res) => {
   router.put('/update-product/:productId', async (req, res) => {
     const { productId } = req.params;
     const updates = req.body;
-  
+    const image = req.files.image;
+    console.log(image);
+
     try {
+      const imageUpload = await UploadToCloudinary(image, 'SiliconPulse');
+  
       const updatedProduct = await Product.findByIdAndUpdate(
         productId,
-        { $set: updates },
+        { $set: updates,imagePath: imageUpload.secure_url },
         { new: true }
       );
   

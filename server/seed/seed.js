@@ -1,9 +1,6 @@
-const Chance = require('chance');
 const mongoose = require('mongoose');
 const Category = require('../model/category');
 const Product = require('../model/product');
-
-
 
 // Connect to MongoDB
 mongoose.connect("mongodb+srv://CSD:csd@cluster0.pqiynzk.mongodb.net/", {
@@ -11,76 +8,165 @@ mongoose.connect("mongodb+srv://CSD:csd@cluster0.pqiynzk.mongodb.net/", {
     useUnifiedTopology: true,
 });
 
-// Create a new instance of Chance
-const chance = new Chance();
+// Define PC parts data
+const products = [
+    {
+        title: "Intel Core i9-9900K",
+        price: 25000,
+        discountedprice: 24000,
+        category: "Processors",
+    },
+    {
+        title: "AMD Ryzen 7 5800X",
+        price: 28000,
+        discountedprice: 27000,
+        category: "Processors",
+    },
+    {
+        title: "Corsair Vengeance LPX 16GB DDR4 RAM",
+        price: 5000,
+        discountedprice: 4800,
+        category: "RAMs",
+    },
+    {
+        title: "G.Skill Trident Z RGB 32GB DDR4 RAM",
+        price: 8000,
+        discountedprice: 7700,
+        category: "RAMs",
+    },
+    {
+        title: "ASUS ROG Strix B450-F Gaming Motherboard",
+        price: 9000,
+        discountedprice: 8700,
+        category: "Motherboards",
+    },
+    {
+        title: "Samsung 970 EVO 1TB NVMe SSD",
+        price: 12000,
+        discountedprice: 11500,
+        category: "Storage Devices",
+    },
+    {
+        title: "NVIDIA GeForce RTX 3080",
+        price: 75000,
+        discountedprice: 72000,
+        category: "Graphics Cards",
+    },
+    {
+        title: "EVGA SuperNOVA 750W 80+ Gold PSU",
+        price: 8000,
+        discountedprice: 7800,
+        category: "Power Supplies",
+    },
+    {
+        title: "Cooler Master Hyper 212 RGB Cooler",
+        price: 2500,
+        discountedprice: 2400,
+        category: "Cooling Solutions",
+    },
+    {
+        title: "NZXT H510i ATX Mid-Tower Case",
+        price: 6000,
+        discountedprice: 5800,
+        category: "Cases/Cabinets",
+    },
+    {
+        title: "Logitech G Pro Mechanical Gaming Keyboard",
+        price: 6000,
+        discountedprice: 5800,
+        category: "Peripherals",
+    },
+    {
+        title: "Logitech G Pro Wireless Gaming Mouse",
+        price: 5000,
+        discountedprice: 4800,
+        category: "Peripherals",
+    },
+    {
+        title: "Samsung 24-inch Curved Gaming Monitor",
+        price: 15000,
+        discountedprice: 14500,
+        category: "Peripherals",
+    },
+    {
+        title: "Seagate Barracuda 2TB HDD",
+        price: 5000,
+        discountedprice: 4800,
+        category: "Storage Devices",
+    },
+    {
+        title: "ASUS TUF Gaming X570-Plus Motherboard",
+        price: 12000,
+        discountedprice: 11500,
+        category: "Motherboards",
+    },
+    {
+        title: "MSI GeForce GTX 1660 Ti GPU",
+        price: 22000,
+        discountedprice: 21200,
+        category: "Graphics Cards",
+    },
+    {
+        title: "Corsair RM850x 80+ Gold PSU",
+        price: 9000,
+        discountedprice: 8700,
+        category: "Power Supplies",
+    },
+    {
+        title: "HyperX Cloud II Gaming Headset",
+        price: 4500,
+        discountedprice: 4300,
+        category: "Peripherals",
+    },
+    {
+        title: "Crucial MX500 500GB SATA SSD",
+        price: 5500,
+        discountedprice: 5300,
+        category: "Storage Devices",
+    },
+    {
+        title: "Noctua NH-D15 CPU Cooler",
+        price: 8000,
+        discountedprice: 7700,
+        category: "Cooling Solutions",
+    },
+];
+
 
 async function seedDB() {
-    const chanceInstance = new Chance();
+    try {
+        // Seed categories
+        const categories = ["Processors", "RAMs", "Motherboards", "Storage Devices", "Graphics Cards", "Power Supplies", "Cooling Solutions", "Cases/Cabinets", "Peripherals"];
 
-    async function seedCateg(titleStr) {
-        try {
-            const categ = await new Category({ title: titleStr });
-            await categ.save();
-        } catch (error) {
-            console.log(error);
-            return error;
+        for (const categoryTitle of categories) {
+            const category = new Category({ title: categoryTitle });
+            await category.save();
         }
-    }
 
-    async function seedProducts(titlesArr, categStr) {
-        try {
-            const categ = await Category.findOne({ title: categStr });
-            for (let i = 0; i < titlesArr.length; i++) {
-                let prod = new Product({
-                    productCode: chanceInstance.string({ length: 2, alpha: true, numeric: true }) + "-" + chanceInstance.string({ length: 4, alpha: true, numeric: true }),
-                    title: titlesArr[i],
-                    description: chanceInstance.paragraph(),
-                    price: chanceInstance.integer({ min: 50, max: 250 }),
-                    manufacturer: chanceInstance.company(),
-                    imagePath: 'example_image_path', // Provide a valid image path here
-                    discountprice: chanceInstance.integer({ min: 0, max: 250 }), // Provide a valid discount price
-                    quantity: chanceInstance.integer({ min: 0, max:1}),
-                    category: categ._id,
-                    createdAt: Date.now(),
-                });
-                await prod.save();
-            }
-        } catch (error) {
-            console.log(error);
-            return error;
+        // Seed products
+        for (const productData of products) {
+            const category = await Category.findOne({ title: productData.category });
+            const product = new Product({
+                title: productData.title,
+                description: "Product description goes here",
+                price: productData.price,
+                manufacturer: "Product manufacturer goes here",
+                imagePath: "example_image_path",
+                discountprice: productData.discountedprice,
+                quantity: 10, // Set the initial quantity
+                category: category._id,
+                createdAt: Date.now(),
+            });
+            await product.save();
         }
+
+        console.log("Database seeded successfully!");
+    } catch (error) {
+        console.error("Error seeding the database:", error);
+    } finally {
+        // Close the database connection
+        mongoose.disconnect();
     }
-
-    async function closeDB() {
-        console.log("CLOSING CONNECTION");
-        await mongoose.disconnect();
-    }
-
-    await seedCateg("Processors");
-    await seedCateg("RAMs");
-    await seedCateg("Motherboards");
-    await seedCateg("Storage Devices");
-    await seedCateg("Graphics Cards");
-    await seedCateg("Power Supplies");
-    await seedCateg("Cooling Solutions");
-    await seedCateg("Cases/Cabinets");
-    await seedCateg("Peripherals");
-
-    await seedProducts(["Product 1", "Product 2"], "Processors");
-    await seedProducts(["Product 3", "Product 4"], "RAMs");
-    await seedProducts(["Product 5", "Product 6"], "Motherboards");
-    await seedProducts(["Product 7", "Product 8"], "Storage Devices");
-    await seedProducts(["Product 9", "Product 10"], "Graphics Cards");
-    await seedProducts(["Product 11", "Product 12"], "Power Supplies");
-    await seedProducts(["Product 13", "Product 14"], "Cooling Solutions");
-    await seedProducts(["Product 15", "Product 16"], "Cases/Cabinets");
-    await seedProducts(["Product 17", "Product 18"], "Peripherals");
-    await seedProducts(["Product 19", "Product 20"], "Peripherals");
-    await seedProducts(["Product 21", "Product 22"], "Peripherals");
-    await seedProducts(["Product 23", "Product 24"], "Peripherals");
-
-
-    await closeDB();
 }
 
 seedDB();

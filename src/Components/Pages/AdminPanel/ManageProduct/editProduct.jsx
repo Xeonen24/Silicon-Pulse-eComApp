@@ -8,17 +8,17 @@ import { Link } from "react-router-dom";
 const EditProduct = ({ productId }) => {
   const [categories, setCategories] = useState([]);
   const [data, setData] = useState({
-    productCode: "",
     title: "",
     description: "",
     category: "",
     quantity: "",
-    imagePath: "",
     manufacturer: "",
     discountprice: "",
     price: "",
   });
   const [roleDetails, setRoleDetails] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [previewSource, setPreviewSource] = useState(null);
 
   const getProduct = async () => {
     try {
@@ -52,10 +52,22 @@ const EditProduct = ({ productId }) => {
 
   const updateProduct = async () => {
     try {
-      await axios.put(
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("description", data.description);
+      formData.append("category", data.category);
+      formData.append("quantity", data.quantity);
+      formData.append("manufacturer", data.manufacturer);
+      formData.append("discountprice", data.discountprice);
+      formData.append("price", data.price);
+      formData.append("image", imageFile);
+      const res = await axios.put(
         process.env.REACT_APP_URL + `/admin/update-product/${productId}`,
-        data
+        formData
       );
+      setData({});
+      setImageFile(null);
+      setPreviewSource(null);
       toast.success("Product updated successfully", {
         autoClose: 2000,
         position: "top-right",
@@ -99,8 +111,29 @@ const EditProduct = ({ productId }) => {
     updateProduct();
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      previewFile(file);
+    }
+  };
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result?.toString() || null);
+    };
+  };
+
   const handleInputChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    if (e.target.name === "imagePath") {
+      const newImagePath = e.target.value;
+      setData({ ...data, imagePath: newImagePath });
+    } else {
+      setData({ ...data, [e.target.name]: e.target.value });
+    }
   };
 
   return (
@@ -108,13 +141,6 @@ const EditProduct = ({ productId }) => {
       {roleDetails.role === "admin" ? (
         <div className="add-product-box">
           <form className="add-product-form" onSubmit={handleFormSubmit}>
-            <label>Product Code</label>
-            <input
-              type="text"
-              name="productCode"
-              value={data.productCode}
-              onChange={handleInputChange}
-            />
             <label>Title</label>
             <input
               type="text"
@@ -151,6 +177,9 @@ const EditProduct = ({ productId }) => {
                 value={data.category}
                 onChange={handleInputChange}
               >
+                <option>
+                  Select Category
+                </option>
                 {categories.map((category) => (
                   <option key={category._id} value={category._id}>
                     {category.title}
@@ -166,12 +195,15 @@ const EditProduct = ({ productId }) => {
               onChange={handleInputChange}
             />
             <label>Image Path</label>
+            {previewSource && (
+              <img src={previewSource} alt="Product Image" className="w-100" />
+            )}
             <input
-              type="text"
-              name="imagePath"
-              value={data.imagePath}
-              onChange={handleInputChange}
+              type="file"
+              onChange={handleFileChange}
+              accept="image/png, image/gif, image/jpeg"
             />
+
             <label>Manufacturer</label>
             <input
               type="text"
@@ -186,18 +218,7 @@ const EditProduct = ({ productId }) => {
         </div>
       ) : (
         <div>
-          <p
-            style={{
-              textAlign: "center",
-              marginTop: "16rem",
-              fontSize: "2rem",
-            }}
-          >
-            Oh no! Something went wrong! Could not find the page you're looking
-            for.
-            <br />
-            <Link to="/">Click here to return to homepage.</Link>
-          </p>{" "}
+          Loading please wait...
         </div>
       )}
     </div>
