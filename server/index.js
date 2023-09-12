@@ -57,6 +57,7 @@ app.use(
   cors({
     origin: [
       "https://silicon-pulse.vercel.app",
+	  "https://silicon-pulse.netlify.app",
       "http://localhost:3000",
     ],
     credentials: true,
