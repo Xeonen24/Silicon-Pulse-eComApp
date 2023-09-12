@@ -217,12 +217,15 @@ const ProductPage = () => {
                 ) : (
                   <></>
                 )}
-                <button
-                  className="ascdscbut"
-                  onClick={() => gotoEdit(product._id)}
-                >
-                  Edit Product
-                </button>
+                {roleDetails.role === "admin"  && (
+                  <button
+                    style={{ width: "auto" }}
+                    className="ascdscbut"
+                    onClick={() => gotoEdit(product._id)}
+                  >
+                    Edit Product
+                  </button>
+                )}
               </div>
             </div>
           </div>

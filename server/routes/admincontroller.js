@@ -56,12 +56,10 @@ router.put("/update-user/:id", async (req, res) => {
   router.post('/add-product', asyncHandler(async (req, res) => {
     try {
       const { title, description, price, quantity,
-        category, manufacturer, discountprice, productCode } = req.body;
-      const image = req.files.image;
-  
-      let imagePath;
-  
-      if (image) {
+        category, manufacturer, discountprice } = req.body;
+      let imagePath = '';  
+      if (req.files && req.files.image) {
+        const image = req.files.image;
         const imageUpload = await UploadToCloudinary(image, 'SiliconPulse');
         imagePath = imageUpload.secure_url;
       } else {
@@ -69,13 +67,13 @@ router.put("/update-user/:id", async (req, res) => {
       }
 
       if (!title || !description || !price || !quantity || !category || !manufacturer
-        || !discountprice || !productCode) {
+        || !discountprice) {
         return res.status(422).json({ error: 'Please add all the fields' });
       }
   
       const newproduct = new Product({
         title, description, price, quantity,
-        category, manufacturer, discountprice, productCode, imagePath,
+        category, manufacturer, discountprice, imagePath,
       });
       const product = await newproduct.save();
       return res.status(201).json({ message: 'Product added successfully', product });
@@ -86,34 +84,40 @@ router.put("/update-user/:id", async (req, res) => {
     }
   }));
   
-  
   router.put('/update-product/:productId', async (req, res) => {
     const { productId } = req.params;
     const updates = req.body;
-    const image = req.files.image;
-    try {
-      let imagePath;
+    let imagePath = '';
   
-      if (image) {
+    try {
+      if (req.files && req.files.image) {
+        const image = req.files.image;
         const imageUpload = await UploadToCloudinary(image, 'SiliconPulse');
         imagePath = imageUpload.secure_url;
       } else {
-        imagePath = "example_image_path";
+        const existingProduct = await Product.findById(productId);
+        if (existingProduct) {
+          imagePath = existingProduct.imagePath;
+        }
       }
+  
       const updatedProduct = await Product.findByIdAndUpdate(
         productId,
         { $set: { ...updates, imagePath } },
         { new: true }
       );
+  
       if (!updatedProduct) {
         return res.status(404).json({ error: 'Product not found' });
       }
+  
       res.json(updatedProduct);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Server error' });
     }
   });
+  
   
   router.get('/user-role', auth, (req, res) => {
     try {

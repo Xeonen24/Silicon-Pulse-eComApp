@@ -37,9 +37,10 @@ const MainProfile = (props) => {
     };
     try {
       const token = localStorage.getItem("jwtToken");
-      await axios.post(
-        process.env.REACT_APP_URL + "/auth/update-profile",
-        updatedProfile,
+      const response = await axios.post(`${process.env.REACT_APP_URL}/auth/update-profile`,
+        {
+          updatedProfile,
+        },
         {
           withCredentials: true,
           headers: {

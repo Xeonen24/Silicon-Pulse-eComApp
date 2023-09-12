@@ -91,11 +91,10 @@ function generateToken(user) {
 
   router.post("/update-profile", auth, asyncHandler(async (req, res) => {
     try {
-      const finduser = await USER.findById(req.userID);
+      const finduser = await USER.findById(req.user.id);
       if (finduser) {
-        const { username, previousPassword, newPassword } = req.body;
-  
-        const existingUser = await USER.findOne({ username: username });
+        const { username, previousPassword, newPassword } = req.body.updatedProfile;
+        const existingUser = await USER.findOne({ username });
         if (existingUser) {
           return res.status(422).json({ error: "Username already exists" });
         }

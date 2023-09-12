@@ -16,6 +16,7 @@ const EditProduct = ({ productId }) => {
     manufacturer: "",
     discountprice: "",
     price: "",
+    imagePath: "",
   });
   const [roleDetails, setRoleDetails] = useState("");
   const [imageFile, setImageFile] = useState(null);
@@ -23,17 +24,10 @@ const EditProduct = ({ productId }) => {
 
   const getProduct = async () => {
     try {
-      if (id) {
-        const response = await axios.get(
-          process.env.REACT_APP_URL + `/products/products/${id}`
-        );
-        setData(response.data);
-      } else {
-        const response = await axios.get(
-          process.env.REACT_APP_URL + `/products/products/${productId}`
-        );
-        setData(response.data);
-      }
+      const response = await axios.get(
+        `${process.env.REACT_APP_URL}/products/products/${id || productId}`
+      );
+      setData(response.data);
     } catch (error) {
       toast.error("Failed to fetch product", {
         autoClose: 1500,
@@ -46,7 +40,7 @@ const EditProduct = ({ productId }) => {
   const getCategories = async () => {
     try {
       const response = await axios.get(
-        process.env.REACT_APP_URL + "/products/categories"
+        `${process.env.REACT_APP_URL}/products/categories`
       );
       setCategories(response.data);
     } catch (error) {
@@ -60,7 +54,7 @@ const EditProduct = ({ productId }) => {
 
   const updateProduct = async () => {
     try {
-      const token = localStorage.getItem("jwtToken")
+      const token = localStorage.getItem("jwtToken");
       const formData = new FormData();
       formData.append("title", data.title);
       formData.append("description", data.description);
@@ -69,32 +63,22 @@ const EditProduct = ({ productId }) => {
       formData.append("manufacturer", data.manufacturer);
       formData.append("discountprice", data.discountprice);
       formData.append("price", data.price);
-      formData.append("image", imageFile);
-      if (id) {
-        const res = await axios.put(
-          process.env.REACT_APP_URL + `/admin/update-product/${id}`,
-          formData,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            }
-          }
-        );
+      if (imageFile) {
+        formData.append("image", imageFile);
       } else {
-        const res = await axios.put(
-          process.env.REACT_APP_URL + `/admin/update-product/${productId}`,
-          formData,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            }
-          }
-        );
+        formData.append("imagePath", data.imagePath);
       }
+
+      const endpoint = id
+        ? `/admin/update-product/${id}`
+        : `/admin/update-product/${productId}`;
+
+      await axios.put(`${process.env.REACT_APP_URL}${endpoint}`, formData, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setData({});
       setImageFile(null);
       setPreviewSource(null);
@@ -115,7 +99,7 @@ const EditProduct = ({ productId }) => {
     try {
       const token = localStorage.getItem("jwtToken");
       const response = await axios.get(
-        process.env.REACT_APP_URL + "/auth/user",
+        `${process.env.REACT_APP_URL}/auth/user`,
         {
           withCredentials: true,
           headers: {
@@ -224,15 +208,26 @@ const EditProduct = ({ productId }) => {
             />
             <label>Image Path</label>
             {previewSource ? (
-              <img src={previewSource} style={{maxWidth:'200px'}} alt="Product Image" className="w-100" />
-            ):(
-              <img src={data.imagePath} style={{maxWidth:'200px'}} alt="Product Image" className="w-100" />
+              <img
+                src={previewSource}
+                style={{ maxWidth: "200px" }}
+                alt="Product Image"
+                className="w-100"
+              />
+            ) : (
+              <img
+                src={data.imagePath}
+                style={{ maxWidth: "200px" }}
+                alt="Product Image"
+                className="w-100"
+              />
             )}
             {data.imagePath && (
               <input
-              type="text"
-              value={data.imagePath}
-            />
+                type="text"
+                value={data.imagePath}
+                onChange={handleInputChange}
+              />
             )}
             <input
               type="file"

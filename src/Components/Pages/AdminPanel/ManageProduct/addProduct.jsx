@@ -3,7 +3,6 @@ import axios from "axios";
 import "./addProduct.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
 
 const AddProduct = () => {
   const [loading, setLoading] = useState(true);
@@ -36,6 +35,7 @@ const AddProduct = () => {
     manufacturer: "",
     discountprice: "",
     price: "",
+    imagePath:"",
   });
   const [roleDetails, setRoleDetails] = useState("");
 
@@ -58,7 +58,6 @@ const AddProduct = () => {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("productCode", data.productCode);
       formData.append("title", data.title);
       formData.append("description", data.description);
       formData.append("category", data.category);
@@ -66,8 +65,11 @@ const AddProduct = () => {
       formData.append("manufacturer", data.manufacturer);
       formData.append("discountprice", data.discountprice);
       formData.append("price", data.price);
-      formData.append("image", imageFile);
-
+      if (imageFile) {
+        formData.append("image", imageFile);
+      } else {
+        formData.append("imagePath", data.imagePath);
+      }
       const response = await axios.post(
         process.env.REACT_APP_URL + "/admin/add-product",
         formData,
@@ -149,15 +151,6 @@ const AddProduct = () => {
           {roleDetails.role === "admin" ? (
             <div className="add-product-box">
               <form className="add-product-form" onSubmit={handleFormSubmit}>
-                <label>Product Code</label>
-                <input
-                  type="text"
-                  name="productCode"
-                  value={data.productCode}
-                  onChange={(e) =>
-                    setData({ ...data, productCode: e.target.value })
-                  }
-                />
                 <label>Title</label>
                 <input
                   type="text"
