@@ -6,11 +6,11 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-const authController = require('./routes/authcontroller');
-const productController = require('./routes/productcontroller');
-const cartController = require('./routes/cartcontroller');
-const adminController = require('./routes/admincontroller');
-const orderController = require('./routes/ordercontroller');
+const authController = require("./routes/authcontroller");
+const productController = require("./routes/productcontroller");
+const cartController = require("./routes/cartcontroller");
+const adminController = require("./routes/admincontroller");
+const orderController = require("./routes/ordercontroller");
 const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
 
@@ -36,10 +36,12 @@ const cloudinaryConnect = () => {
 
 cloudinaryConnect();
 
-app.use(fileUpload({
-  useTempFiles: true,
-  tempFileDir: "/tmp",
-}));
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp",
+  })
+);
 
 app.use(cookieParser());
 app.use(morgan("dev"));
@@ -53,17 +55,20 @@ app.use(
 
 app.use(
   cors({
-    origin: ["https://silicon-pulse-e-com-app-sxp4.vercel.app","http://localhost:3000"],
+    origin: [
+      "https://silicon-pulse-e-com-app-sxp4.vercel.app",
+      "http://localhost:3000",
+    ],
     credentials: true,
-    exposedHeaders: ['Authorization'],
+    exposedHeaders: ["Authorization"],
   })
 );
 
-app.use('/auth', authController);
-app.use('/products', productController);
-app.use('/cart', cartController);
-app.use('/admin', adminController);
-app.use('/order', orderController);
+app.use("/auth", authController);
+app.use("/products", productController);
+app.use("/cart", cartController);
+app.use("/admin", adminController);
+app.use("/order", orderController);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

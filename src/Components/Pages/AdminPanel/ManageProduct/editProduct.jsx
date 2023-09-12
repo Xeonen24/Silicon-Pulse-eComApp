@@ -60,6 +60,7 @@ const EditProduct = ({ productId }) => {
 
   const updateProduct = async () => {
     try {
+      const token = localStorage.getItem("jwtToken")
       const formData = new FormData();
       formData.append("title", data.title);
       formData.append("description", data.description);
@@ -77,7 +78,8 @@ const EditProduct = ({ productId }) => {
             withCredentials: true,
             headers: {
               "Content-Type": "application/json",
-            },
+              Authorization: `Bearer ${token}`,
+            }
           }
         );
       } else {
@@ -88,7 +90,8 @@ const EditProduct = ({ productId }) => {
             withCredentials: true,
             headers: {
               "Content-Type": "application/json",
-            },
+              Authorization: `Bearer ${token}`,
+            }
           }
         );
       }
@@ -224,6 +227,12 @@ const EditProduct = ({ productId }) => {
               <img src={previewSource} style={{maxWidth:'200px'}} alt="Product Image" className="w-100" />
             ):(
               <img src={data.imagePath} style={{maxWidth:'200px'}} alt="Product Image" className="w-100" />
+            )}
+            {data.imagePath && (
+              <input
+              type="text"
+              value={data.imagePath}
+            />
             )}
             <input
               type="file"

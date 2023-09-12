@@ -57,26 +57,28 @@ router.put("/update-user/:id", async (req, res) => {
     try {
       const { title, description, price, quantity,
         category, manufacturer, discountprice, productCode } = req.body;
-  
       const image = req.files.image;
   
-      if (!title || !description || !price || !quantity || !category || !manufacturer
-        || !discountprice || !productCode || !image) {
-        return res.status(422).json({ error: 'Please add all the fields' });
+      let imagePath;
+  
+      if (image) {
+        const imageUpload = await UploadToCloudinary(image, 'SiliconPulse');
+        imagePath = imageUpload.secure_url;
+      } else {
+        imagePath = "example_image_path";
       }
 
-      const imageUpload = await UploadToCloudinary(image, 'SiliconPulse');
+      if (!title || !description || !price || !quantity || !category || !manufacturer
+        || !discountprice || !productCode) {
+        return res.status(422).json({ error: 'Please add all the fields' });
+      }
   
       const newproduct = new Product({
         title, description, price, quantity,
-        category, manufacturer, discountprice, productCode, imagePath: imageUpload.secure_url,
+        category, manufacturer, discountprice, productCode, imagePath,
       });
-  
       const product = await newproduct.save();
-  
       return res.status(201).json({ message: 'Product added successfully', product });
-  
-  
     }
     catch (error) {
       console.log(error);
@@ -84,25 +86,28 @@ router.put("/update-user/:id", async (req, res) => {
     }
   }));
   
+  
   router.put('/update-product/:productId', async (req, res) => {
     const { productId } = req.params;
     const updates = req.body;
     const image = req.files.image;
-    console.log(image);
-
     try {
-      const imageUpload = await UploadToCloudinary(image, 'SiliconPulse');
+      let imagePath;
   
+      if (image) {
+        const imageUpload = await UploadToCloudinary(image, 'SiliconPulse');
+        imagePath = imageUpload.secure_url;
+      } else {
+        imagePath = "example_image_path";
+      }
       const updatedProduct = await Product.findByIdAndUpdate(
         productId,
-        { $set: updates,imagePath: imageUpload.secure_url },
+        { $set: { ...updates, imagePath } },
         { new: true }
       );
-  
       if (!updatedProduct) {
         return res.status(404).json({ error: 'Product not found' });
       }
-  
       res.json(updatedProduct);
     } catch (error) {
       console.error(error);

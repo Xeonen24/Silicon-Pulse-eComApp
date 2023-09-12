@@ -41,7 +41,7 @@ const AddProduct = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get(URL + "/products/categories");
+      const response = await axios.get(process.env.REACT_APP_URL + "/products/categories");
       setCategories(response.data);
     } catch (error) {
       toast.error("Failed to fetch categories", {
@@ -66,7 +66,7 @@ const AddProduct = () => {
       formData.append("price", data.price);
       formData.append("image", imageFile);
 
-      const response = await axios.post(URL + "/admin/add-product", formData, {
+      const response = await axios.post(process.env.REACT_APP_URL + "/admin/add-product", formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -228,25 +228,12 @@ const AddProduct = () => {
                   }
                 />
                 <button className="signupbutton" type="submit">
-                  Register
+                  Add
                 </button>
               </form>
             </div>
           ) : (
-            <div>
-              <p
-                style={{
-                  textAlign: "center",
-                  marginTop: "16rem",
-                  fontSize: "2rem",
-                }}
-              >
-                Oh no! Something went wrong! Could not find the page you're
-                looking for.
-                <br />
-                <Link to="/">Click here to return to homepage.</Link>
-              </p>{" "}
-            </div>
+            <></>
           )}
         </div>
       )}
