@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import axios from "axios";
 import "./addProduct.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
 
 const EditProduct = ({ productId }) => {
+  const { id } = useParams();
   const [categories, setCategories] = useState([]);
   const [data, setData] = useState({
     title: "",
@@ -22,10 +23,17 @@ const EditProduct = ({ productId }) => {
 
   const getProduct = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_URL + `/products/products/${productId}`
-      );
-      setData(response.data);
+      if (id) {
+        const response = await axios.get(
+          process.env.REACT_APP_URL + `/products/products/${id}`
+        );
+        setData(response.data);
+      } else {
+        const response = await axios.get(
+          process.env.REACT_APP_URL + `/products/products/${productId}`
+        );
+        setData(response.data);
+      }
     } catch (error) {
       toast.error("Failed to fetch product", {
         autoClose: 1500,
@@ -61,10 +69,29 @@ const EditProduct = ({ productId }) => {
       formData.append("discountprice", data.discountprice);
       formData.append("price", data.price);
       formData.append("image", imageFile);
-      const res = await axios.put(
-        process.env.REACT_APP_URL + `/admin/update-product/${productId}`,
-        formData
-      );
+      if (id) {
+        const res = await axios.put(
+          process.env.REACT_APP_URL + `/admin/update-product/${id}`,
+          formData,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        const res = await axios.put(
+          process.env.REACT_APP_URL + `/admin/update-product/${productId}`,
+          formData,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      }
       setData({});
       setImageFile(null);
       setPreviewSource(null);
@@ -177,9 +204,7 @@ const EditProduct = ({ productId }) => {
                 value={data.category}
                 onChange={handleInputChange}
               >
-                <option>
-                  Select Category
-                </option>
+                <option>Select Category</option>
                 {categories.map((category) => (
                   <option key={category._id} value={category._id}>
                     {category.title}
@@ -195,15 +220,16 @@ const EditProduct = ({ productId }) => {
               onChange={handleInputChange}
             />
             <label>Image Path</label>
-            {previewSource && (
-              <img src={previewSource} alt="Product Image" className="w-100" />
+            {previewSource ? (
+              <img src={previewSource} style={{maxWidth:'200px'}} alt="Product Image" className="w-100" />
+            ):(
+              <img src={data.imagePath} style={{maxWidth:'200px'}} alt="Product Image" className="w-100" />
             )}
             <input
               type="file"
               onChange={handleFileChange}
               accept="image/png, image/gif, image/jpeg"
             />
-
             <label>Manufacturer</label>
             <input
               type="text"
@@ -217,9 +243,7 @@ const EditProduct = ({ productId }) => {
           </form>
         </div>
       ) : (
-        <div>
-          Loading please wait...
-        </div>
+        <div>Loading please wait...</div>
       )}
     </div>
   );

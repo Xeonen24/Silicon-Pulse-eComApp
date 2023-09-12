@@ -23,6 +23,7 @@ const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [roleDetails, setRoleDetails] = useState("");
   const [reviewModal, setReviewModal] = useState(false);
   const [mode, setMode] = useState("rating");
   const [ProductRating, setProductRating] = useState(null);
@@ -32,7 +33,27 @@ const ProductPage = () => {
   useEffect(() => {
     fetchProduct();
     getRatingofProduct();
+    fetchRoleDetails();
   }, []);
+
+  const fetchRoleDetails = async () => {
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.get(
+        process.env.REACT_APP_URL + "/auth/user",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setRoleDetails(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getRatingofProduct = async () => {
     try {
@@ -81,7 +102,7 @@ const ProductPage = () => {
             withCredentials: true,
             headers: {
               "Content-Type": "application/json",
-              "Authorization" : `Bearer ${localStorage.getItem("jwtToken")}`,
+              Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
             },
           }
         )
@@ -93,6 +114,10 @@ const ProductPage = () => {
         })
         .catch((error) => console.log(error));
     }
+  };
+
+  const gotoEdit = (productId) => {
+    window.location.href = "/edit-product/" + productId;
   };
 
   return (
@@ -141,12 +166,15 @@ const ProductPage = () => {
                 <h2>{product.title}</h2>
                 <h4>
                   Rating: &nbsp;
-                  <Rating style={{marginTop: "10px"}} value={ProductRating.averageRating} readOnly />
+                  <Rating
+                    style={{ marginTop: "10px" }}
+                    value={ProductRating.averageRating}
+                    readOnly
+                  />
                 </h4>
-                <p>Product ID: {product.productCode}</p>
                 <h4>Manufacturer: {product.manufacturer}</h4>
                 <h4>
-                  Category:{" "}
+                  Category:
                   <Link to={`/category/${product.category}`}>
                     {product.category}
                   </Link>
@@ -164,7 +192,7 @@ const ProductPage = () => {
                 </h2>
                 <h4 style={{ color: product.quantity > 0 ? "green" : "red" }}>
                   {product.quantity > 0 ? "In Stock" : "Out of Stock"}
-                </h4>{" "}
+                </h4>
                 {product.quantity > 0 ? (
                   <>
                     <button
@@ -189,6 +217,12 @@ const ProductPage = () => {
                 ) : (
                   <></>
                 )}
+                <button
+                  className="ascdscbut"
+                  onClick={() => gotoEdit(product._id)}
+                >
+                  Edit Product
+                </button>
               </div>
             </div>
           </div>

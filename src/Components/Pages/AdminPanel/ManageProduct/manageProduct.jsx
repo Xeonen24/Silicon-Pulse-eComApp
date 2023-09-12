@@ -209,14 +209,7 @@ const ManageProduct = () => {
           )}
         </div>
       ) : (
-        <p
-          style={{ textAlign: "center", marginTop: "16rem", fontSize: "2rem" }}
-        >
-          Oh no! Something went wrong! Could not find the page you're looking
-          for.
-          <br />
-          <Link to="/">Click here to return to homepage.</Link>
-        </p>
+       <></>
       )}
     </>
   );
