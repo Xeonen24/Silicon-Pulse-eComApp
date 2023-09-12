@@ -53,7 +53,6 @@ const Home = () => {
           },
         }
       );
-      console.log(response);
       setCategories(response.data);
     } catch (error) {
       console.error(error);

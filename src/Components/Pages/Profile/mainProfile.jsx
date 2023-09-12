@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 import axios from "axios";
 import {
   faEdit,
@@ -7,9 +7,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 const MainProfile = (props) => {
-
   const {
     settingsEditMode,
     setSettingsEditMode,
@@ -21,12 +21,12 @@ const MainProfile = (props) => {
     setNewPassword,
     user,
     setLoading,
-    logoutUser
+    logoutUser,
   } = props.data;
 
   useEffect(() => {
     document.title = "Silicon Pulse | Profile";
-  },[])
+  }, []);
 
   const handleSaveProfile = async () => {
     setLoading(true);
@@ -36,12 +36,16 @@ const MainProfile = (props) => {
       newPassword,
     };
     try {
+      const token = localStorage.getItem("jwtToken");
       await axios.post(
         process.env.REACT_APP_URL + "/auth/update-profile",
         updatedProfile,
         {
           withCredentials: true,
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       setSettingsEditMode(false);
@@ -53,139 +57,133 @@ const MainProfile = (props) => {
       });
       await logoutUser();
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       console.log(error);
     }
   };
 
   return (
     <>
-    <div className="card">
-      <FontAwesomeIcon
-        style={{
-          fontSize: "1.8rem",
-          marginLeft: "25rem",
-          marginTop: "1rem",
-        }}
-        onClick={() => setSettingsEditMode(!settingsEditMode)}
-        icon={settingsEditMode ? faClose : faEdit}
-      />
-      <h2 className="mainh2">IDENTITY</h2>
-      <div className="card-body">
-        <table>
-          <tbody>
-            <tr>
-              <td>Name</td>
-              <td>:</td>
-              <td>
-                {settingsEditMode ? (
-                  <input
-                    type="text"
-                    value={newusername}
-                    onChange={(e) =>
-                      setNewUsername(e.target.value)
-                    }
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    value={user.username}
-                    disabled
-                  />
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td>Email</td>
-              <td>:</td>
-              <td>
-                <input type="text" value={user.email} disabled />
-              </td>
-            </tr>
-            <tr>
-              <td>Country</td>
-              <td>:</td>
-              <td>
-                  <input
-                    type="text"
-                    value={"India"}
-                    disabled
-                  />
-              </td>
-            </tr>
-            <tr>
-              <td>Previous Password</td>
-              <td>:</td>
-              <td>
-                {settingsEditMode ? (
-                  <input
-                    type="password"
-                    value={previousPassword}
-                    onChange={(e) =>
-                      setPreviousPassword(e.target.value)
-                    }
-                  />
-                ) : (
-                  <input
-                    type="password"
-                    value="**********"
-                    disabled
-                  />
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td>New Password</td>
-              <td>:</td>
-              <td>
-                {settingsEditMode ? (
-                  <input
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) =>
-                      setNewPassword(e.target.value)
-                    }
-                  />
-                ) : (
-                  <input
-                    type="password"
-                    value="**********"
-                    disabled
-                  />
-                )}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="card">
+        <div className="mainh2">
+          <h1>My profile</h1>
+          <h3>User Since : {moment(user.createdAt).format("DD MMM YYYY")}</h3>
+        </div>
+        <hr />
+        <FontAwesomeIcon
+          style={{
+            fontSize: "2rem",
+            float: "right",
+            margin: "1rem",
+          }}
+          onClick={() => setSettingsEditMode(!settingsEditMode)}
+          icon={settingsEditMode ? faClose : faEdit}
+        />
+        <div style={{ display: "flex" }} className="card-body">
+          <div style={{ width: "25%", margin: "1rem", fontSize: "1.4rem" }}>
+            <label className="labelprofile">Username :</label>
+            {settingsEditMode ? (
+              <input
+                className="profileinput"
+                type="text"
+                style={{ border: "1px solid rgb(255, 130, 130" }}
+                value={newusername}
+                onChange={(e) => setNewUsername(e.target.value)}
+              />
+            ) : (
+              <input
+                className="profileinput"
+                type="text"
+                style={{ backgroundColor: "white" }}
+                value={user.username}
+                disabled
+              />
+            )}
+            <label className="labelprofile">Email :</label>
+            <input
+              className="profileinput"
+              type="text"
+              style={{ backgroundColor: "white" }}
+              disabled
+              value={user.email}
+            ></input>
+          </div>
+          <div
+            style={{
+              width: "25%",
+              margin: "1rem",
+              marginLeft: "4rem",
+              fontSize: "1.4rem",
+            }}
+          >
+            <label className="labelprofile">Previous assword :</label>
+            {settingsEditMode ? (
+              <input
+                className="profileinput"
+                type="text"
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid rgb(255, 130, 130",
+                }}
+                value={previousPassword}
+                onChange={(e) => setPreviousPassword(e.target.value)}
+              ></input>
+            ) : (
+              <input
+                className="profileinput"
+                type="text"
+                disabled
+                style={{ backgroundColor: "white" }}
+                value="********************"
+              ></input>
+            )}
+            <label className="labelprofile">New password :</label>
+            {settingsEditMode ? (
+              <input
+                className="profileinput"
+                type="text"
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid rgb(255, 130, 130",
+                }}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              ></input>
+            ) : (
+              <input
+                className="profileinput"
+                type="text"
+                disabled
+                style={{ backgroundColor: "white" }}
+                value="********************"
+              ></input>
+            )}
+          </div>
+        </div>
         {settingsEditMode ? (
+          <button
+            style={{ width: "auto", margin: "1rem" }}
+            className="ascdscbut"
+            onClick={handleSaveProfile}
+          >
+            Submit &nbsp;&nbsp;
+            <FontAwesomeIcon icon={faPaperPlane}></FontAwesomeIcon>
+          </button>
+        ) : (
+          <>
             <button
-              style={{ width: "33%", margin: "1rem" }}
+              style={{ width: "auto", margin: "1rem" }}
               className="ascdscbut"
-              onClick={handleSaveProfile}
+              disabled
             >
               Submit &nbsp;&nbsp;
-              <FontAwesomeIcon
-                icon={faPaperPlane}
-              ></FontAwesomeIcon>
+              <FontAwesomeIcon icon={faPaperPlane}></FontAwesomeIcon>
             </button>
-          ) : (
-            <>
-              <button
-                style={{ width: "33%", margin: "1rem" }}
-                className="ascdscbut"
-                disabled
-              >
-                Submit &nbsp;&nbsp;
-                <FontAwesomeIcon
-                  icon={faPaperPlane}
-                ></FontAwesomeIcon>
-              </button>
-            </>
-          )}
+          </>
+        )}
       </div>
-    </div>
-  </>
-  )
-}
+    </>
+  );
+};
 
-export default MainProfile
+export default MainProfile;
