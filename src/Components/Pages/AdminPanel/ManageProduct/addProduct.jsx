@@ -41,7 +41,9 @@ const AddProduct = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_URL + "/products/categories");
+      const response = await axios.get(
+        process.env.REACT_APP_URL + "/products/categories"
+      );
       setCategories(response.data);
     } catch (error) {
       toast.error("Failed to fetch categories", {
@@ -66,12 +68,16 @@ const AddProduct = () => {
       formData.append("price", data.price);
       formData.append("image", imageFile);
 
-      const response = await axios.post(process.env.REACT_APP_URL + "/admin/add-product", formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        process.env.REACT_APP_URL + "/admin/add-product",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       setData({});
       setImageFile(null);
@@ -201,9 +207,22 @@ const AddProduct = () => {
                   }
                 />
                 <label>Image</label>
-                {previewSource && (
-                  <img src={previewSource} alt="Add Image" className="w-100" />
+                {previewSource ? (
+                  <img
+                    src={previewSource}
+                    style={{ maxWidth: "200px" }}
+                    alt="Product Image"
+                    className="w-100"
+                  />
+                ) : (
+                  <img
+                    src={data.imagePath}
+                    style={{ maxWidth: "200px" }}
+                    alt="Product Image"
+                    className="w-100"
+                  />
                 )}
+                {data.imagePath && <input type="text" value={data.imagePath} />}
                 <input
                   type="file"
                   onChange={handleFileChange}

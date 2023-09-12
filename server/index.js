@@ -61,6 +61,7 @@ app.use(
     ],
     credentials: true,
     exposedHeaders: ["Authorization"],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   })
 );
 
