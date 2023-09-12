@@ -112,7 +112,6 @@ const ManageProduct = () => {
           <td className="productCreatedAtx">
             <label type="text">{formatDate(product.createdAt)}</label>
           </td>
-          <td className="productIdx">{product.productCode}</td>
           <td className="productTitlex">{product.title}</td>
           <td className="productEditx">
             <Link onClick={() => showEditProduct(product._id)}>
@@ -171,7 +170,6 @@ const ManageProduct = () => {
                     <tr>
                       <th>PID</th>
                       <th>Created At</th>
-                      <th>Product Code</th>
                       <th>Title</th>
                       <th>Edit Product</th>
                       <th>Delete Product</th>

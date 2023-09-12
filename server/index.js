@@ -56,7 +56,7 @@ app.use(
 app.use(
   cors({
     origin: [
-      "https://silicon-pulse-e-com-app-sxp4.vercel.app",
+      "https://silicon-pulse.vercel.app",
       "http://localhost:3000",
     ],
     credentials: true,
